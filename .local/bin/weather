@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+# change Paris to your default location
+request="wttr.in/${1-Tunis}"
+[ "$(tput cols)" -lt 125 ] && request+='?n'
+curl -s -H "Accept-Language: ${LANG%_*}" --compressed "$request" | head -n -2

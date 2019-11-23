@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+zipfile="$1"
+zipdir=${1%.zip}
+unzip -d "$zipdir" "$zipfile"

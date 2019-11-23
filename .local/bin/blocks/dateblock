@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+date '+ %d-%m-%Y  %H:%M'
+case $BLOCK_BUTTON in
+    1) swaymsg -q  "exec $TERMINAL -e calcurse -C ~/.config/calcurse && savetodownloadsongs.sh" ;;
+    3) swaymsg -q -- exec $TERMINAL -e tty-clock -s -c -b ;;
+esac

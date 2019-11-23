@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+wl-copy "$QUTE_URL" && echo "message-info 'Copied \"$QUTE_URL\" to clipboard'" >> $QUTE_FIFO

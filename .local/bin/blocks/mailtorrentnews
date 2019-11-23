@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+mail=$(mail)
+torrent=$(torrent)
+news=$(news)
+[ ! -z "$mail" ] && echo -n " "$mail;
+[ ! -z "$torrent" ] && echo -n " "$torrent;
+[ ! -z "$news" ] && echo -n " "$news;
+echo ""

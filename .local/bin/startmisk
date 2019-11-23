@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+mpv http://www.misk.art/live &
+while [ ! -z $(pgrep -f "mpv http://www.misk.art/live") ]; do
+	pkill -RTMIN+3 i3blocks
+	sleep 10
+done

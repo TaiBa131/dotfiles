@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+# Podboat sucks. This script replaces it.
+# It reads the newsboat queue, queuing downloads with taskspooler.
+# It also removes the junk from extentions.
+pgrep -f "inotifywait /home/iheb/.local/share/newsboat/queue" > /dev/null && exit
+queuefile="$HOME/.local/share/newsboat/queue"
+cd $HOME/other/podcasts/
+while [ ! -f /tmp/inotifylock ]; do
+echo > "$queuefile"
+inotifywait $queuefile
+while read -r line; do
+	[ -z "$line" ] && continue
+	url="$(echo "$line" | awk '{print $1}')"
+	notify-send "🔽 Podcast started downloading"
+	youtube-dl "$url"
+	filename=$(youtube-dl --get-filename $url)
+	realname=$(exiftool -Title "$filename" | sed 's/\ //g;s/Title\://;s/\//-/g')
+	[ ! -z $realname ] && mv "$filename" "${realname}.mp3"
+	if [ ! -z $realname ]; then
+		notify-send "✅ Podcast finished downloading" "$realname.mp3"
+	else
+		notify-send "✅ Podcast finished downloading" "please name the podcast"
+	fi
+done < "$queuefile"
+done

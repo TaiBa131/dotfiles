@@ -1,0 +1,35 @@
+# Use ranger to switch directories and bind it to ctrl-o
+ranger-cd () {
+    tempfile="$(mktemp -t tmp.XXXXXX)"
+    if [ -z "$RANGER_LEVEL" ]; then
+	ranger --choosedir="$tempfile" "${@:-$(pwd)}"
+    	test -f "$tempfile" &&
+    	if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
+        	cd -- "$(cat "$tempfile")"
+    	fi
+    	rm -f -- "$tempfile"
+    else
+	echo "Already in a ranger instance, exit from this shell to access ranger"
+    	test -f "$tempfile" &&
+    	if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
+        cd -- "$(cat "$tempfile")"
+    	fi
+    	rm -f -- "$tempfile"
+    fi
+}
+
+#search directories and cd into them
+searchdirs () {
+	local directory=$(find ~/ -type d | fzf)
+	[ -z "${directory}" ] && exit
+	cd "${directory}"
+}
+
+#mkdir + cd
+mkcd () {
+	mkdir "$1" && cd "$1"
+}
+
+colorpicker() {
+grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:-
+}

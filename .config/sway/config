@@ -1,0 +1,282 @@
+# _____      ____ _ _   _
+#/ __\ \ /\ / / _` | | | |
+#\__ \\ V  V / (_| | |_| |
+#|___/ \_/\_/ \__,_|\__, |
+#                   |___/
+
+##one of these days...
+#xwayland disable
+
+set $mod Mod4
+set $alt Mod1
+hide_edge_borders smart
+default_border normal 2
+workspace_layout tabbed
+input * xkb_layout "fr"
+input * xkb_options "caps:swapescape"
+input * xkb_numlock enabled
+input * tap enabled
+input * drag enabled
+input * repeat_rate 45
+
+
+##Define Colors
+include "$HOME/.cache/wal/colors-sway"
+set $bg $color0
+set $fg $color5
+exec --no-startup-id wal -R
+output "*" bg $wallpaper fill
+
+# class                 border  backgr. text indicator child_border
+client.focused $color1 $color1 $foreground $color1 $color1
+client.focused_inactive $background $background $foreground $background $background
+client.unfocused #080808 #080808 $foreground #080808 #080808
+
+
+#Auto-start
+exec --no-startup-id transmission-daemon
+exec --no-startup-id mpd
+exec --no-startup-id syncthing -no-browser
+exec --no-startup-id controlmpd
+exec --no-startup-id queueandnotify
+exec --no-startup-id rm /tmp/lockscreen.lock
+exec_always --no-startup-id pkill mpDris2; sleep 1; mpDris2
+exec_always --no-startup-id echo $SWAYSOCK > $HOME/.sway_socket
+
+#######################################
+#######################################
+#Bar
+bar {
+	font pango:monospace 9.25
+	status_command i3blocks
+	position bottom
+	mode dock
+	modifier none
+    colors {
+        background $background
+
+                      #border  backgr. text
+        inactive_workspace #222222 #080808 $foreground
+        active_workspace #222222 #080808 $foreground
+        focused_workspace   $color1 $color1 $foreground
+    }
+}
+
+######################################
+######################################
+
+
+#Colors of borders
+#client.focused          $fg     $bg     $fg  $fg       $fg
+#client.focused_inactive $bg     $bg     $fg  $bg       $bg
+#client.unfocused        $bg     $bg     $fg  $bg       $bg
+#client.urgent           $bg     $bg     $fg  $bg       $bg
+#client.placeholder      $bg     $bg     $fg  $bg       $bg
+
+#client.background       $bg
+
+
+# start app launcher
+bindsym $mod+o exec pgrep "bemenu" || bemenu-run --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b -n --scrollbar always -l 15 -p "run: "
+#bindsym $mod+o exec dmenu_run -nb "$background" -nf "$foreground" -sb "$foreground" -sf "$background"
+
+
+# change volume or toggle mute
+bindsym XF86AudioRaiseVolume exec pulsemixer --change-volume +5 && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioLowerVolume exec pulsemixer --change-volume -5 && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioMute exec pulsemixer --toggle-mute && pkill -RTMIN+10 i3blocks
+
+#Window titles
+font pango:sansserif 9.25
+titlebar_padding 4 2
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec $TERMINAL
+
+# start browser
+bindsym $mod+i exec $BROWSER
+for_window [app_id="org.qutebrowser.qutebrowser"] border pixel 0
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# change borders
+bindsym $mod+t border toggle
+
+# quickstart
+bindsym $mod+F1 exec $TERMINAL -e "ranger"
+bindsym $mod+F2 exec $TERMINAL -e "ncmpcpp"
+bindsym $mod+F3 exec $TERMINAL -e "transmission-remote-cli"
+bindsym $mod+F4 exec $TERMINAL -e "newsboat"
+bindsym $mod+F5 exec $TERMINAL -e "neomutt"
+
+#emoji menu
+bindsym $mod+Shift+u exec pgrep "bemenu" || emojimenu
+
+#Calculator
+bindsym $mod+c exec $TERMINAL -e "qalc"
+
+#Brightness control
+bindsym XF86MonBrightnessUp exec sudo light -A 5
+bindsym XF86MonBrightnessDown exec sudo light -U 5
+
+#Music control
+bindsym XF86AudioNext exec mpc next
+bindsym XF86AudioPrev exec mpc prev
+bindsym XF86AudioStop exec mpc stop
+bindsym XF86AudioPause exec mpc toggle
+bindsym XF86AudioPlay exec mpc toggle
+bindsym $mod+down exec pgrep "bemenu" || changesong
+#exec_always --no-startup-id $HOME/.scripts/i3blocks/updatempd
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+Tab workspace back_and_forth
+
+# alternatively, you can use the cursor keys:
+#bindsym $mod+Left focus left
+#bindsym $mod+Down focus down
+#bindsym $mod+Up focus up
+#bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+#change tiling direction
+bindsym $mod+q split toggle
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+#bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# toogle compton
+bindsym $mod+Shift+n exec pkill compton
+bindsym $mod+n exec compton
+
+# focus the parent container
+#bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# switch to workspace
+bindsym $mod+ampersand workspace $ws1
+bindsym $mod+eacute workspace $ws2
+bindsym $mod+quotedbl workspace $ws3
+bindsym $mod+apostrophe workspace $ws4
+bindsym $mod+parenleft workspace $ws5
+bindsym $mod+minus workspace $ws6
+bindsym $mod+egrave workspace $ws7
+bindsym $mod+underscore workspace $ws8
+bindsym $mod+ccedilla workspace $ws9
+bindsym $mod+agrave workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+ampersand move container to workspace $ws1
+bindsym $mod+Shift+eacute move container to workspace $ws2
+bindsym $mod+Shift+quotedbl move container to workspace $ws3
+bindsym $mod+Shift+apostrophe move container to workspace $ws4
+bindsym $mod+Shift+parenleft move container to workspace $ws5
+bindsym $mod+Shift+minus move container to workspace $ws6
+bindsym $mod+Shift+egrave move container to workspace $ws7
+bindsym $mod+Shift+underscore move container to workspace $ws8
+bindsym $mod+Shift+ccedilla move container to workspace $ws9
+bindsym $mod+Shift+agrave move container to workspace $ws10
+
+# reload the configuration file
+bindsym $mod+Shift+r reload
+
+#exit sway
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+
+#hibernate
+bindsym $mod+shift+F7 exec swaynag -t warning -m 'You pressed the Hibernate shortcut, are you sure you want to put the computer into hibernation' -b 'Yes, hibernate' 'systemctl hibernate; pkill swaynag'
+
+
+#Resizing
+bindsym $alt+shift+h resize shrink width 10 px or 10 ppt
+bindsym $alt+shift+j resize grow height 10 px or 10 ppt
+bindsym $alt+shift+k resize shrink height 10 px or 10 ppt
+bindsym $alt+shift+l resize grow width 10 px or 10 ppt
+
+#GAPS
+gaps inner 0
+bindsym $mod+z gaps inner current plus 5
+bindsym $mod+a gaps inner current minus 5
+bindsym $mod+Shift+z gaps outer current plus 5
+bindsym $mod+Shift+a gaps outer current minus 5
+
+#Meme folder
+bindsym $mod+s exec thumbnailfilepicker
+for_window [instance="thumbnailfilepicker"] floating enable
+for_window [instance="thumbnailfilepicker"] resize set 1010 586
+
+#Mount/Unmount
+bindsym $mod+F9 exec bemount
+bindsym $mod+F10 exec beumount
+
+#Toggle bar
+bindsym $mod+m bar mode toggle
+
+#Take screenshot
+bindsym $mod+shift+F11 exec geom=$(slurp) && grim -g "$geom" "$(date '+%Y-%m-%d-%H:%M:%S')-$(echo $geom | awk '{print $2}')".png
+bindsym $mod+F11 exec grim "$(date '+%Y-%m-%d-%H:%M:%S')".png
+
+#notifications
+#exec_always dbus-daemon --session --address=unix:path=$XDG_RUNTIME_DIR/bus
+exec_always rm /tmp/notificationlock
+exec_always pkill mako; mako --font Inconsolata 11 --background-color "$background"DD --text-color "$foreground" --width 400 --height 100 --border-color "$color5" --anchor bottom-right --ignore-timeout 1
+exec swayidle timeout 1 '' resume 'notificationclear.sh'
+
+#lock screen / suspend
+exec rm /tmp/lockscreen.lock
+bindsym $mod+F12 exec keepscreenawake.sh
+bindsym $mod+shift+F12 exec lock.sh --bypass
+exec swayidle timeout 1200 'lock.sh' before-sleep 'suspend.sh'
+
+#Screen Cast
+bindsym $mod+shift+F8 exec screencast.sh
+
+#Blue light filter
+bindsym $mod+b exec toggleredshift
+
+#mpv border
+for_window [app_id="mpv"] border pixel 0

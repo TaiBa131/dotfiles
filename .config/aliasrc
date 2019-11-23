@@ -1,0 +1,24 @@
+alias ls='ls -F -G'
+alias r='ranger-cd'
+alias c='searchconfigs'
+alias sf='searchfiles'
+alias e='exit'
+alias vi='nvim'
+alias vim='nvim'
+alias prime='DRI_PRIME=1'
+alias test-build="nix-build -E 'with import <nixpkgs> {}; callPackage ./. {}'"
+alias invidon="mv ~/.local/share/qutebrowser/greasemonkey/invidious .local/share/qutebrowser/greasemonkey/invidious.user.js"
+alias invidoff="mv ~/.local/share/qutebrowser/greasemonkey/invidious.user.js .local/share/qutebrowser/greasemonkey/invidious"
+alias deletecookies="rm ~/.local/share/qutebrowser/webengine/Cookies"
+alias xorgqt="QT_QPA_PLATFORM=xcb"
+alias wayqt="QT_QPA_PLATFORM=wayland"
+alias printepson="lp -d EPSON_L386_Series"
+alias activatebluetooth="sudo systemctl start bluetooth.service"
+alias stopbluetooth="sudo systemctl stop bluetooth.service"
+alias podboat="podboat -a"
+alias connect2headphones="sudo systemctl start bluetooth.service; bluetoothctl connect 41:42:88:68:2D:3D"
+alias podcastdownloadrefresh="touch /tmp/inotifylock; pkill inotifywait; rm /tmp/inotifylock; echo 'Restart sway now'"
+#. "${HOME}/.cache/wal/colors.sh"
+#alias bemenu="bemenu --tf $background --fb $background --hf $background --nb $background --sb $background --scb $background --tb $foreground --ff $foreground  --nf $foreground  --hb $foreground  --sf $foreground  --scf $foreground --fn 'monospace 11' -b"
+
+#alias walp="sxiv -oqft pix/wallpapers/* | xargs wal -i && rm ~/.cache/wal/kitty && cat ~/.cache/wal/colors-kitty.conf | sed -n '/color5/p;s/color5/active_border_color/' | sed -n '/color0/p;s/color0/inactive_border_color/' > ~/.cache/wal/kitty"

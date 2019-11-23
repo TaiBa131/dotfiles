@@ -1,0 +1,195 @@
+#!/usr/bin/env bash
+# Script to generate WebM video for 4Chan using ffmpeg
+
+author="anon"
+title="webm"
+resolution="-1"
+slices=4
+lag=16
+cpu=2
+mbLimit=3
+timeLimit=45
+beginTime="00:00:00"
+outFile="out.webm"
+
+usage()
+{
+cat << EOF
+usage: $0 options
+This script will create WebM videos for 4Chan requirements.
+OPTIONS:
+	-h Show this message
+	-i Input media file (required)
+	-o Output media file (defaults to out.webm)
+	-r Output Resolution (240 for 240p, 720 for 720p, etc... Defaults to -1 (original))
+	-m Target output size in megabytes (default is 3)
+	-b Begin time (ex: 00:32.65.342, defaults to 0)
+	-e Time length of video (in seconds, defaults to 45)
+	-s Slices (1-3 lowdef, 5-8 highdef, defaults 4)
+	-l Lag in frames (frames to read ahead, 16 default, max 25)
+	-c Total cpu's to use (default is 2)
+	-u Specify alternate subtitle file (defaults to source filename but with a .ass extension)
+	-f Optional ffmpeg filters you would like apply ex: "crop=100:200:10:20, edgedetect"
+	-p Optional ffmpeg paramaters you would like to apply ex: "-loglevel quiet"
+	-x Speedplay end time - speedup source video to fit within time frame
+	   (truncate 1 hr into 2 mins, etc. Must use end time of source as parameter ex: 01:23:17)
+	-a Author ex: "John Doe"
+	-t Title ex: "My Title"
+	-v View 4ChanWebM history (show previous commands used)
+	For any parameter which is more than one word, use quotes to surround it.
+EOF
+}
+
+getBeginTimeSecs()
+{
+	read hours mins secs <<<$(IFS=":"; echo $beginTime)
+
+	hours=$(($hours*60*60))
+	mins=$(($mins*60))
+	beginTimeSecs=$(($hours+$mins+$secs))
+
+	if [[ $beginTimeSecs -gt 9 ]];
+	then
+		beginTimeSecs=$(($beginTimeSecs-5))
+		beginTimeSecsSlow=5
+	else
+		beginTimeSecsSlow=$beginTimeSecs
+		beginTimeSecs=0
+	fi
+
+	echo Begin Time: $(($beginTimeSecs+5))
+}
+
+getEndSpeedplaySecs()
+{
+	read spHours spMins spSecs <<<$(IFS=":"; echo $spEndTime)
+
+	spHours=$(($spHours*60*60))
+	spMins=$(($spMins*60))
+	spEndTimeSecs=$(($spHours+$spMins+$spSecs))
+
+	echo Speed End Time: $spEndTime
+	echo End Time Secs: $spEndTimeSecs
+}
+
+speedPlay()
+{
+	getBeginTimeSecs
+	getEndSpeedplaySecs
+
+	speedLength=$(($spEndTimeSecs-$beginTimeSecs-5))
+	pts=`echo $speedLength*60/$timeLimit|bc -l`
+
+	speedplay=", setpts=(60/$pts)*PTS"
+	filters=$filters$speedplay
+}
+
+while getopts "hi:o:r:m:b:e:s:l:c:u:f:p:x:a:t:v" OPTION; do
+	case $OPTION in
+		h)
+			usage
+			exit 1
+			;;
+		i)
+			inFile=$OPTARG
+			;;
+		o)
+			outFile=$OPTARG
+			;;
+		r)
+			resolution=$OPTARG
+			;;
+		m)
+			mbLimit=$OPTARG
+			;;
+		b)
+			beginTime=$OPTARG
+			;;
+		e)
+			timeLimit=$OPTARG
+			;;
+		s)
+			slices=$OPTARG
+			;;
+		l)
+			lag=$OPTARG
+			;;
+		c)
+			cpu=$OPTARG
+			;;
+		u)
+			subtitle=$OPTARG
+			;;
+		f)
+			filters=", "$OPTARG
+			;;
+		p)
+			params=" "$OPTARG
+			;;
+		x)
+			spEndTime=$OPTARG
+			;;
+		a)
+			author=$OPTARG
+			;;
+		t)
+			title=$OPTARG
+			;;
+		v)
+			cat ~/.4ChanWebMHistory
+			exit 1
+			;;
+		?)
+			usage
+			exit
+			;;
+	esac
+done
+
+getBeginTimeSecs
+
+if [[ ! -z $spEndTime ]];
+then
+	speedPlay
+fi
+
+if [[ -z $inFile ]] || [[ ! -r $inFile ]];
+then
+	echo You must specify a readable media file to convert. Ex: -i movie.mkv
+	exit 2
+fi
+
+path="${inFile%/*}"
+if [[ $path == $inFile ]];
+then
+	path="";
+else
+	path=$path"/"
+fi
+
+filename=$(basename "$inFile")
+extension="${filename##*.}"
+filename="${filename%.*}"
+
+if [[ -z $subtitle ]];
+then
+	subtitle="$path$filename.ass"
+fi
+
+bitrate=$(($mbLimit*8192/$timeLimit))"K"
+history="4ChanWebM -i \"$inFile\" -o \"$outFile\" -r $resolution -m $mbLimit -b $beginTime -e $timeLimit -s $slices -l $lag -c $cpu -u $subtitle -a \"$author\" -t \"$title\""
+echo $history>>~/.4ChanWebMHistory
+
+if [ -r "$subtitle" ];
+then
+	ffmpeg -ss $beginTimeSecs -i "$inFile" -vf "scale=-1:$resolution, ass=$subtitle$filters" -ss $beginTimeSecsSlow -t $timeLimit$params -an -c:v libvpx -b:v $bitrate -quality best -slices $slices -auto-alt-ref 1 -lag-in-frames $lag -threads $cpu -pass 1 -f webm /dev/null -y
+	ffmpeg -ss $beginTimeSecs -i "$inFile" -vf "scale=-1:$resolution, ass=$subtitle$filters" -ss $beginTimeSecsSlow -t $timeLimit$params -an -c:v libvpx -b:v $bitrate -quality best -slices $slices -auto-alt-ref 1 -lag-in-frames $lag -threads $cpu -pass 2 -metadata title="($author) $title" "$outFile" -y
+else
+	ffmpeg -ss $beginTimeSecs -i "$inFile" -vf "scale=-1:$resolution$filters" -ss $beginTimeSecsSlow -t $timeLimit$params -an -c:v libvpx -b:v $bitrate -quality best -slices $slices -auto-alt-ref 1 -lag-in-frames $lag -threads $cpu -pass 1 -f webm /dev/null -y
+	ffmpeg -ss $beginTimeSecs -i "$inFile" -vf "scale=-1:$resolution$filters" -ss $beginTimeSecsSlow -t $timeLimit$params -an -c:v libvpx -b:v $bitrate -quality best -slices $slices -auto-alt-ref 1 -lag-in-frames $lag -threads $cpu -pass 2 -metadata title="($author) $title" "$outFile" -y
+fi
+
+if [[ -r "ffmpeg2pass-0.log" ]];
+then
+	rm ffmpeg2pass-0.log
+fi

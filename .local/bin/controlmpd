@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# MPD daemon start (if no other user instance exists)
+
+while [ ! -z "$DISPLAY" ]; do
+	mpc idle && pkill -RTMIN+11 i3blocks
+	[ ! -s ~/.config/mpd/pid ] && mpd
+done
+

@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+image="$(realpath ./)/$(sxiv -oqft *)"
+[ "$image" == "$(realpath ./)/" ] && exit
+. "${HOME}/.cache/wal/colors.sh"
+pgrep bemenu && exit
+alias bemenu='bemenu --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b -n --scrollbar always'
+chosencommand="$(bemenu -p "command to apply on marked image with "::" representing the image arguement" < /dev/null)"
+[ -z chosencommand ] && exit
+finalcommand=$(echo $chosencommand | sed "s|\:\:|${image}|")
+eval $finalcommand 2&>/dev/null

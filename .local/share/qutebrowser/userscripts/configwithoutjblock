@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+sed "3,7d" ${HOME}/.config/qutebrowser/config.py > ${HOME}/.config/qutebrowser/configwithoutjblock.py

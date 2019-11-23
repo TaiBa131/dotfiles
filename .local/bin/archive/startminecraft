@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+DRI_PRIME=1 padsp java -jar ~/other/games/minecraft/linux_osx/Shiginima\ Launcher\ SE.v4200.jar

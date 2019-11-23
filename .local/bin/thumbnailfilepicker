@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+image=$(sxiv -N "thumbnailfilepicker" -oqt ~/pix/other)
+[ ! -z $image ] && echo $image | tr -d '\n' | wl-copy

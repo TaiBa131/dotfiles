@@ -1,0 +1,49 @@
+#!/bin/sh
+# A bemenu prompt to unmount drives.
+# Provides you with mounted partitions, select one to unmount.
+# Drives mounted at /, /boot and /home will not be options to unmount.
+
+. "${HOME}/.cache/wal/colors.sh"
+alias bemenu='bemenu --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b -n --scrollbar auto'
+
+unmountusb() {
+	[ -z "$drives" ] && exit
+	chosen=$(echo "$drives" | bemenu -i -p "Unmount which drive?" | awk '{print $1}')
+	[ -z "$chosen" ] && exit
+	sudo -A umount "$chosen" && notify-send "💻 USB unmounting" "$chosen unmounted."
+	}
+
+unmountandroid() { \
+	chosen=$(echo "$androids" | bemenu -i -p "Unmount which device?")
+	[ -z "$chosen" ] && exit
+	sudo -A umount -l "$chosen" && notify-send "🤖 Android unmounting" "$chosen unmounted."
+	}
+
+unmountcd() { \
+	chosen=$(echo "$cds" | bemenu -i -p "Unmount which CD?")
+	[ -z "$chosen" ] && exit
+	sudo -A umount -l "$chosen" && notify-send "💿 CD unmounting" "$chosen unmounted."
+	}
+
+asktype() { \
+	case "$(printf $undrives | bemenu -i -p "Unmount which device?")" in
+		USB) unmountusb ;;
+		Android) unmountandroid ;;
+		CD) umountcd ;;
+	esac
+	}
+
+drives=$(lsblk -nrpo "name,type,size,mountpoint" | awk '$2=="part"&&$4!~/\/boot|\/home$|SWAP/&&length($4)>1{printf "%s (%s)\n",$4,$3}')
+cds=$(awk '/sr0/ {print $2}' /etc/mtab)
+androids=$(awk '/jmtpfs/ {print $2}' /etc/mtab)
+
+undrives=$([ ! -z "$drives" ] && echo -n "USB\n"; [ ! -z "$cds" ] && echo -n "CD\n"; [ ! -z "$androids" ] && echo -n "Android\n")
+case $(printf $undrives | wc -l) in
+	0) notify-send "No USB drive or Android device or CD to unmount" ;;
+	1) case $(printf $undrives) in
+		USB) unmountusb ;;
+		Android) unmountandroid ;;
+		CD) unmountcd ;;
+	   esac ;;
+	*) asktype;;
+esac

@@ -1,0 +1,2 @@
+C-L: clear-screen
+C-E: autoload edit-command-line; zle -N edit-command-line; edit-command-line

@@ -1,0 +1,6 @@
+#/usr/bin/env bash
+sleep 20
+while [ ! -z $DISPLAY ]; do
+	mailsync
+	sleep 600
+done

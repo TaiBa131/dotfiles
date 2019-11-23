@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+mainfunc() {
+	man -t ${manual} | ps2pdf - "/tmp/${file}pdfmanual.pdf"
+	$READER -- /tmp/${file}pdfmanual.pdf
+	rm "/tmp/${file}pdfmanual.pdf"
+}
+manual="$*"
+file=$(echo "$manual" | tr -d " ")
+mainfunc &>/dev/null &

@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+mpv --save-position-on-quit --loop-file=inf /home/iheb/other/sound/lofihiphopmix.mp3 &
+pkill -RTMIN+3 i3blocks

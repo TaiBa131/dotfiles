@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+file=$(rg --files --hidden ./ | fzf)
+[ -z "${file}" ] && exit
+xdg-open "${file}"

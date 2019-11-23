@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+libreoffice --headless --invisible --convert-to pdf $1

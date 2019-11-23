@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+case $BLOCK_BUTTON in
+	1) swaymsg -q -- exec $TERMINAL -e nmtui & ;;
+esac
+
+out=$(nmcli | grep "\ connected")
+[ ! -z "$(echo $out | grep enp)" ] && echo "" && exit
+[ ! -z "$(echo $out | grep wlp3s0)" ] && echo "" && exit
+echo ""

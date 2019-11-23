@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+case $BLOCK_BUTTON in
+	1) swaymsg -q -- exec $TERMINAL -e neomutt & ;;
+	3) notify-send ' Syncing your mail'; swaymsg -q -- exec pkill -RTMIN+12 i3blocks; mailsync >/dev/null &;;
+esac
+
+mail=$(du -a ~/.local/share/mail/*/INBOX/new/* 2>/dev/null | sed -n '$=')
+#pgrep -x mbsync >/dev/null && [ ! -z $mail ] && { echo "" ; exit ;}
+[ ! -z $mail ] && echo " ${mail}"

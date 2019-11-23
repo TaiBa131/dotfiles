@@ -1,0 +1,13 @@
+#!/bin/sh
+killall swayidle
+killall swaymsg
+swayidle -w timeout 1 'lock.sh' before-sleep 'lock.sh' &
+while [ ! -z "$DISPLAY" ]; do
+	swaymsg -t subscribe '[ "window" ]'
+	fullscreen=$(swaymsg -t get_tree | grep '"fullscreen_mode": 1,' | wc -l)
+	case $fullscreen in
+		0) killall swayidle
+		   swayidle -w timeout 1 'lock.sh' before-sleep 'lock.sh' &;;
+		1) killall swayidle ;;
+	esac
+done

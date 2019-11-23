@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+mpv --loop-file=inf ~/other/sound/brownnoise.mp3 &
+pkill -RTMIN+3 i3blocks

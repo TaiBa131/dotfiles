@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+template=$(find ~/dox/latex/templates/ -type f | sed "s/.*\///;s/\.tex//" | fzf --reverse --header='choose the type of your document: ')
+read -p "name of your document: " name
+cp ~/dox/latex/templates/"$template".tex ~/"$name".tex
+nvim -c 'execute "normal \/\<++>\<Enter>\"\_c4l"' ~/"$name".tex

@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+if [ -z $1 ]; then
+	wallpaper=$(sxiv -oqft ~/pix/wallpapers/*)
+	[ -z $wallpaper ] && exit
+	wal -i $wallpaper
+else
+	wal -i "$1"
+fi
+blue="$(tput setaf 4)"
+red="$(tput setaf 1)"
+white="$(tput setaf 7)"
+reset="$(tput sgr0)"
+bold="$(tput bold)"
+colorstyle="${reset}${bold}${blue}"
+commandstyle="${reset}${bold}${red}"
+textstyle="${reset}${white}"
+
+qutebrowser :pywal && sed '' <<EOM
+${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}qutebrowser${textstyle}: reloaded qutebrowser colors
+EOM
+
+sed '/color5/p;s/color5/active_border_color/' > ~/.cache/wal/kitty < ~/.cache/wal/colors-kitty.conf && sed '' <<EOM
+${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}kitty${textstyle}: reloaded kitty colors
+EOM
+
+. "${HOME}/.cache/wal/colors.sh"
+convert $wallpaper ${HOME}/.config/sway/lockicon.png -gravity center -composite -matte ${HOME}/.config/sway/suspendscreen.png && sed '' <<EOM
+${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}swaylock${textstyle}: reloaded suspend screen
+EOM
+

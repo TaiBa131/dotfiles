@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+if [ $# != 1 ] || [ "$1" == "-h" ]  || [ "$1" == "--help" ]; then
+    echo -e "Example: \e[1m\e[33mcheckem\e[0m /g/"
+    echo "Outputs the last post on the board."
+    echo "Useful if you want to check if you'll GET dubs."
+    echo ""
+    echo "You may use it with 'watch' like this:"
+    echo -e "  watch -tn0.1 \e[1m\e[33mcheckem\e[0m /g/"
+    exit
+fi
+board="$1"
+chan=4channel
+nsfw=(b r9k pol bant soc s4s s hc hm h e u d y t hr gif aco r)
+for bo in "${nsfw[@]}"; do
+    if [ "/$bo/" == "$board" ]; then
+        chan=4chan
+        break
+    fi
+done
+curl -Ls http://boards.$chan.org$board\
+    | grep -o 'this post">[0-9]*</a>'\
+    | sed -ne 's/<\/a>//p'\
+    | sed -ne 's/this post">//p'\
+    | sort -n\
+    | uniq\
+    | tail -n 1

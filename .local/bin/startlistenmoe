@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+refresh() {
+	read line
+	read line
+	pkill -RTMIN+3 i3blocks
+}
+
+mpv https://listen.moe/stream &
+export -f refresh
+while [ ! -z $(pgrep -f "mpv https://listen.moe/stream") ]
+do
+	websocat wss://listen.moe/gateway_v2 -n sh-c:'exec sh -c refresh' --text
+done

@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+[ -z $QUTE_SELECTED_TEXT ] && echo "nothing to yank" && exit
+wl-copy "$QUTE_SELECTED_TEXT" && echo "message-info 'Copied selection to clipboard'" >> $QUTE_FIFO
