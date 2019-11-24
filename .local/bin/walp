@@ -15,7 +15,7 @@ colorstyle="${reset}${bold}${blue}"
 commandstyle="${reset}${bold}${red}"
 textstyle="${reset}${white}"
 
-qutebrowser :pywal && sed '' <<EOM
+pgrep "qutebrowser" && qutebrowser :pywal && sed '' <<EOM
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}qutebrowser${textstyle}: reloaded qutebrowser colors
 EOM
 
@@ -28,3 +28,4 @@ convert $wallpaper ${HOME}/.config/sway/lockicon.png -gravity center -composite 
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}swaylock${textstyle}: reloaded suspend screen
 EOM
 
+pkill -RTMIN+10 i3blocks

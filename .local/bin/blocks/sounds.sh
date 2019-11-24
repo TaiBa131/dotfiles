@@ -9,10 +9,10 @@ misk() {\
 		printf "%s - %s\n" "$artist" "$title" > /tmp/misktitlename
 	}
 	case $BLOCK_BUTTON in
-		2) cat /tmp/misktitlename; echo "$(cat /tmp/misktitlename)" >> ~/.calcurse/notes/songstodownload.txt && notify-send "🎶 Added to songstodownload.txt" "$(cat /tmp/misktitlename)"; sleep 0.1;;
+		2) cat /tmp/misktitlename; echo "$(cat /tmp/misktitlename)" >> ~/.calcurse/notes/songstodownload.txt && notify-send "🎶 Added to songstodownload.txt" "$(cat /tmp/misktitlename)"; sleep 0.5;;
 		3) pkill -f "mpv http://www.misk.art/live"; rm /tmp/misktitlename;;
-		4) cat /tmp/misktitlename; echo "$(cat /tmp/misktitlename)" >> ~/.calcurse/notes/songstodownload.txt && notify-send "🎶 Added to songstodownload.txt" "$(cat /tmp/misktitlename)"; sleep 0.1;;
-		5) cat /tmp/misktitlename; echo "$(cat /tmp/misktitlename)" >> ~/.calcurse/notes/songstodownload.txt && notify-send "🎶 Added to songstodownload.txt" "$(cat /tmp/misktitlename)"; sleep 0.1;;
+		4) cat /tmp/misktitlename; echo "$(cat /tmp/misktitlename)" >> ~/.calcurse/notes/songstodownload.txt && notify-send "🎶 Added to songstodownload.txt" "$(cat /tmp/misktitlename)"; sleep 0.5;;
+		5) cat /tmp/misktitlename; echo "$(cat /tmp/misktitlename)" >> ~/.calcurse/notes/songstodownload.txt && notify-send "🎶 Added to songstodownload.txt" "$(cat /tmp/misktitlename)"; sleep 0.5;;
 	esac
 	exit
 	}
@@ -48,10 +48,10 @@ listenmoe() {\
 	cat /tmp/listenmoeinfo
 	}
 	case $BLOCK_BUTTON in
-		2) cat /tmp/listenmoeinfo; cat /tmp/listenmoeinfo >> ~/.calcurse/notes/songstodownload.txt && notify-send "🎶 Added to songstodownload.txt" "$(cat /tmp/listenmoeinfo)"; sleep 0.1;;
+		2) cat /tmp/listenmoeinfo; cat /tmp/listenmoeinfo >> ~/.calcurse/notes/songstodownload.txt && notify-send "🎶 Added to songstodownload.txt" "$(cat /tmp/listenmoeinfo)"; sleep 0.5;;
 		3) pkill -f "mpv https://listen.moe/stream"; rm /tmp/listenmoeinfo; pkill -f "websocat wss://listen.moe/gateway_v2";;
-		4) cat /tmp/listenmoeinfo; cat /tmp/listenmoeinfo >> ~/.calcurse/notes/songstodownload.txt && notify-send "🎶 Added to songstodownload.txt" "$(cat /tmp/listenmoeinfo)"; sleep 0.1;;
-		5) cat /tmp/listenmoeinfo; cat /tmp/listenmoeinfo >> ~/.calcurse/notes/songstodownload.txt && notify-send "🎶 Added to songstodownload.txt" "$(cat /tmp/listenmoeinfo)"; sleep 0.1;;
+		4) cat /tmp/listenmoeinfo; cat /tmp/listenmoeinfo >> ~/.calcurse/notes/songstodownload.txt && notify-send "🎶 Added to songstodownload.txt" "$(cat /tmp/listenmoeinfo)"; sleep 0.5;;
+		5) cat /tmp/listenmoeinfo; cat /tmp/listenmoeinfo >> ~/.calcurse/notes/songstodownload.txt && notify-send "🎶 Added to songstodownload.txt" "$(cat /tmp/listenmoeinfo)"; sleep 0.5;;
 	esac
 	exit
 	}

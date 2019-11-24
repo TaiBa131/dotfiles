@@ -30,15 +30,16 @@ output "*" bg $wallpaper fill
 # class                 border  backgr. text indicator child_border
 client.focused $color1 $color1 $foreground $color1 $color1
 client.focused_inactive $background $background $foreground $background $background
-client.unfocused #080808 #080808 $foreground #080808 #080808
+client.unfocused $background $background $foreground $background $background
 
 
 #Auto-start
-exec --no-startup-id transmission-daemon
+exec --no-startup-id deluged
 exec --no-startup-id mpd
 exec --no-startup-id syncthing -no-browser
 exec --no-startup-id controlmpd
 exec --no-startup-id queueandnotify
+exec --no-startup-id sudo ydotoold
 exec --no-startup-id rm /tmp/lockscreen.lock
 exec_always --no-startup-id pkill mpDris2; sleep 1; mpDris2
 exec_always --no-startup-id echo $SWAYSOCK > $HOME/.sway_socket
@@ -56,8 +57,8 @@ bar {
         background $background
 
                       #border  backgr. text
-        inactive_workspace #222222 #080808 $foreground
-        active_workspace #222222 #080808 $foreground
+        inactive_workspace $background $background $foreground
+        active_workspace $background $background $foreground
         focused_workspace   $color1 $color1 $foreground
     }
 }
@@ -125,7 +126,7 @@ bindsym XF86MonBrightnessDown exec sudo light -U 5
 
 #Music control
 bindsym XF86AudioNext exec mpc next
-bindsym XF86AudioPrev exec mpc prev
+bindsym XF86AudioPrev exec mpcprevious.sh
 bindsym XF86AudioStop exec mpc stop
 bindsym XF86AudioPause exec mpc toggle
 bindsym XF86AudioPlay exec mpc toggle
@@ -222,7 +223,7 @@ bindsym $mod+Shift+ccedilla move container to workspace $ws9
 bindsym $mod+Shift+agrave move container to workspace $ws10
 
 # reload the configuration file
-bindsym $mod+Shift+r reload
+bindsym $mod+Shift+r exec swaymsg -- reload
 
 #exit sway
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
@@ -280,3 +281,5 @@ bindsym $mod+b exec toggleredshift
 
 #mpv border
 for_window [app_id="mpv"] border pixel 0
+
+#for_window [app_id=".*"] floating enable

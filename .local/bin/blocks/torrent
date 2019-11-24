@@ -3,12 +3,14 @@
 deluge-console info | grep State |
 	sed "s/.*Paused.*/A/g;
 	s/.*Seeding.*/N/g;
+	s/.*Queued.*/Q/g;
 	s/.*Downloading Down Speed: 0\.0.*/B/g
 	s/.*Downloading.*/M/g" |
 		sort -h | uniq -c | sed " # Now we replace the standin letters with icons.
 				s/A//g;
 				s/B//g;
 				s/M//g;
+				s/Q//g;
 				s/N//g;" | awk '{print $2, $1}' | sed ':a;N;$!ba;s/\n/ /g' | sed -e "s/ $//g"
 
 case $BLOCK_BUTTON in

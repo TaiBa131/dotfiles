@@ -7,6 +7,6 @@ mpc status | head -n 1
 case $BLOCK_BUTTON in
     1) swaymsg -q -- exec $TERMINAL -e ncmpcpp & ;;
     3) mpc -q toggle & ;;
-    4) mpc -q next; sleep 0.1 & ;;
-    5) mpc -q prev; sleep 0.1 & ;;
+    4) mpc -q next; sleep 0.5 & ;;
+    5) mpcprevious.sh; sleep 0.5 & ;;
 esac
