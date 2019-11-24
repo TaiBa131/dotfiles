@@ -67,20 +67,8 @@ bar {
 ######################################
 
 
-#Colors of borders
-#client.focused          $fg     $bg     $fg  $fg       $fg
-#client.focused_inactive $bg     $bg     $fg  $bg       $bg
-#client.unfocused        $bg     $bg     $fg  $bg       $bg
-#client.urgent           $bg     $bg     $fg  $bg       $bg
-#client.placeholder      $bg     $bg     $fg  $bg       $bg
-
-#client.background       $bg
-
-
 # start app launcher
-bindsym $mod+o exec pgrep "bemenu" || bemenu-run --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b -n --scrollbar always -l 15 -p "run: "
-#bindsym $mod+o exec dmenu_run -nb "$background" -nf "$foreground" -sb "$foreground" -sf "$background"
-
+bindsym $mod+r exec pgrep "bemenu" || bemenu-run --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b -n --scrollbar always -l 15 -p "run: "
 
 # change volume or toggle mute
 bindsym XF86AudioRaiseVolume exec pulsemixer --change-volume +5 && pkill -RTMIN+10 i3blocks
@@ -127,11 +115,10 @@ bindsym XF86MonBrightnessDown exec sudo light -U 5
 #Music control
 bindsym XF86AudioNext exec mpc next
 bindsym XF86AudioPrev exec mpcprevious.sh
-bindsym XF86AudioStop exec mpc stop
+bindsym XF86AudioStop exec stopmusicandsounds.sh
 bindsym XF86AudioPause exec mpc toggle
 bindsym XF86AudioPlay exec mpc toggle
 bindsym $mod+down exec pgrep "bemenu" || changesong
-#exec_always --no-startup-id $HOME/.scripts/i3blocks/updatempd
 
 # change focus
 bindsym $mod+h focus left
@@ -139,12 +126,6 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 bindsym $mod+Tab workspace back_and_forth
-
-# alternatively, you can use the cursor keys:
-#bindsym $mod+Left focus left
-#bindsym $mod+Down focus down
-#bindsym $mod+Up focus up
-#bindsym $mod+Right focus right
 
 # move focused window
 bindsym $mod+Shift+h move left
@@ -174,16 +155,6 @@ bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
-
-# toogle compton
-bindsym $mod+Shift+n exec pkill compton
-bindsym $mod+n exec compton
-
-# focus the parent container
-#bindsym $mod+a focus parent
-
-# focus the child container
-#bindsym $mod+d focus child
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.

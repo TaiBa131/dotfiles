@@ -27,5 +27,3 @@ EOM
 convert $wallpaper ${HOME}/.config/sway/lockicon.png -gravity center -composite -matte ${HOME}/.config/sway/suspendscreen.png && cat <<EOM
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}swaylock${textstyle}: reloaded suspend screen
 EOM
-
-pkill -RTMIN+10 i3blocks
