@@ -15,16 +15,16 @@ colorstyle="${reset}${bold}${blue}"
 commandstyle="${reset}${bold}${red}"
 textstyle="${reset}${white}"
 
-pgrep "qutebrowser" && qutebrowser :pywal && sed '' <<EOM
+pgrep "qutebrowser" > /dev/null && qutebrowser :pywal &>/dev/null && cat <<EOM
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}qutebrowser${textstyle}: reloaded qutebrowser colors
 EOM
 
-sed '/color5/p;s/color5/active_border_color/' > ~/.cache/wal/kitty < ~/.cache/wal/colors-kitty.conf && sed '' <<EOM
+sed '/color5/p;s/color5/active_border_color/' > ~/.cache/wal/kitty < ~/.cache/wal/colors-kitty.conf && cat <<EOM
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}kitty${textstyle}: reloaded kitty colors
 EOM
 
 . "${HOME}/.cache/wal/colors.sh"
-convert $wallpaper ${HOME}/.config/sway/lockicon.png -gravity center -composite -matte ${HOME}/.config/sway/suspendscreen.png && sed '' <<EOM
+convert $wallpaper ${HOME}/.config/sway/lockicon.png -gravity center -composite -matte ${HOME}/.config/sway/suspendscreen.png && cat <<EOM
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}swaylock${textstyle}: reloaded suspend screen
 EOM
 
