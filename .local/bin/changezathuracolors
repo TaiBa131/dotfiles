@@ -33,7 +33,6 @@ case $theme in
 	Night) setnight;;
 	Grey) setgrey;;
 esac
-FILE=$(cat /tmp/zathuracolorfilename)
+FILE="$1"
 pkill -f "zathura -- $FILE"
 zathura -- "$FILE"
-rm /tmp/zathuracolorfilename

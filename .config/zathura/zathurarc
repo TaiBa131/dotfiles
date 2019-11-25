@@ -1,10 +1,10 @@
 set recolor-darkcolor \#000000
-set recolor-lightcolor \#CCCCCC
-map ,c feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>exec bash -c 'echo $FILE > /tmp/zathuracolorfilename; changezathuracolors'<Return>"
-map ,b feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>bmark ''<Left>"
-map ,m feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>mark ''<Left>"
-map ,l feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>blist<Return>"
-map ,d feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>bdelete "
+set recolor-lightcolor \#FFFFFF
+map ,c feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>exec changezathuracolors $FILE<Return>"
+#map ,b feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>bmark ''<Left>"
+#map ,m feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>mark ''<Left>"
+#map ,l feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>blist<Return>"
+#map ,d feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>bdelete "
 map <C-s> feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>set selection-notification "
 map r recolor
 map <C-r> rotate
