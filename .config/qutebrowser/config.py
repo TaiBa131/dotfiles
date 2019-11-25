@@ -51,7 +51,6 @@ c.colors.downloads.bar.bg = background
 c.colors.downloads.error.bg = red
 c.colors.downloads.error.fg = foreground
 c.colors.downloads.stop.bg = red
-c.colors.downloads.system.bg = 'none'
 c.colors.hints.bg = red
 c.colors.hints.fg = foreground
 c.colors.hints.match.fg = yellow
