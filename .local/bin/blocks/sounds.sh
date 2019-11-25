@@ -73,7 +73,7 @@ thundernoise() {\
 	}
 
 brownnoise() {\
-	[ "$BLOCK_BUTTON" = "3" ] || echo "Playing brown noise"
+	[ "$BLOCK_BUTTON" = "3" ] || echo "Playing brownian noise"
 	case $BLOCK_BUTTON in
 		3) pkill -f "mpv --loop-file=inf /home/iheb/other/sound/brownnoise.mp3";;
 	esac
