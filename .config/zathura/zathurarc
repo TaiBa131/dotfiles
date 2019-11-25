@@ -11,3 +11,5 @@ set selection-clipboard clipboard
 set font "Terminus 12"
 set statusbar-home-tilde true
 set window-title-home-tilde true
+set notification-bg "#000000"
+set notification-fg "#ffffff"
