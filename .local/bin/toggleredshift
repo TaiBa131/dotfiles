@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
-if [ "$(pgrep redshift | wc -l)" -ge 1 ]; then
-	pkill redshift && exit;
+if pgrep redshift > /dev/null
+then
+	pkill redshift
 else
-	redshift -O 3500;
+	redshift -O 3500
 fi
-
