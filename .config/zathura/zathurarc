@@ -1,16 +1,14 @@
-set recolor-darkcolor \#000000
-set recolor-lightcolor \#FFFFFF
+include zathuracolors
 map ,c feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>exec changezathuracolors $FILE<Return>"
-#map ,b feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>bmark ''<Left>"
-#map ,m feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>mark ''<Left>"
-#map ,l feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>blist<Return>"
-#map ,d feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>bdelete "
+map ,b feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>bmark ''<Left>"
+map ,m feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>mark ''<Left>"
+map ,l feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>blist<Return>"
+map ,d feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>bdelete "
 map <C-s> feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>set selection-notification "
+map ,u feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>exec updatezathuraconfig $FILE<Return>"
 map r recolor
 map <C-r> rotate
 set selection-clipboard clipboard
 set font "Terminus 12"
 set statusbar-home-tilde true
 set window-title-home-tilde true
-set notification-bg "#000000"
-set notification-fg "#ffffff"

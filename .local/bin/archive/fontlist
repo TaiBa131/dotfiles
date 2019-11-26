@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-N=$(wc -l < fonts)
-for i in $(seq 1 $N)
-do
-	font=$(sed -n "${i}p" < fonts)
-	qutebrowser "$font tff download"
-	read
-done
-

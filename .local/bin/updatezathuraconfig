@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+FILE="$1"
+pkill -f "zathura -- $FILE"
+zathura -- "$FILE"

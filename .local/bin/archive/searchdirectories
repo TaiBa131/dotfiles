@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-directory=$(find ~/ -type d | fzf)
-[ -z "${directory}" ] && exit
-cd "${directory}"

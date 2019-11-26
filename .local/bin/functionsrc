@@ -33,3 +33,20 @@ mkcd () {
 colorpicker() {
 grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:-
 }
+
+searchfiles() {
+file=$(rg --files --hidden ~/ | fzf)
+[ -z "${file}" ] && exit
+xdg-open "${file}"
+}
+
+searchlocalfiles() {
+file=$(rg --files --hidden ./ | fzf)
+[ -z "${file}" ] && exit
+xdg-open "${file}"
+}
+
+nixc() {
+file=$(find /etc/nixos/ -type f | fzf --reverse )
+[ ! -z $file ] && sudo nvim $file
+}

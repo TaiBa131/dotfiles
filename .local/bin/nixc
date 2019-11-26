@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-file=$(find /etc/nixos/ -type f | fzf --reverse )
-[ ! -z $file ] && sudo nvim $file

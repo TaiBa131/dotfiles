@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 echo " $(df -h -P / | grep "/$" | awk '{print $4}')"
 case $BLOCK_BUTTON in
 	1) swaymsg -q -s $(cat $HOME/.sway_socket) -- exec $TERMINAL -e ranger;;

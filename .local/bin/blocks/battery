@@ -2,7 +2,7 @@
 # Give a battery name (e.g. BAT0) as an argument.
 
 case $BLOCK_BUTTON in
-	1) swaymsg -q -s $(cat $HOME/.sway_socket) "exec notify-send '$(acpi -b)' ";;
+	1) notify-send "$(acpi -b)";;
 esac
 
 status=$(acpi -b | awk '{print $3}' | sed 's/,//')

@@ -2,10 +2,12 @@
 if [ -z $1 ]; then
 	wallpaper=$(sxiv -oqft ~/pix/wallpapers/*)
 	[ -z $wallpaper ] && exit
-	wal -i $wallpaper
+	wal -i $wallpaper && DONE=true
 else
-	wal -i "$1"
+	wal -i "$1" && DONE=true
 fi
+
+[ $DONE ] || exit
 blue="$(tput setaf 4)"
 red="$(tput setaf 1)"
 white="$(tput setaf 7)"
@@ -14,6 +16,8 @@ bold="$(tput bold)"
 colorstyle="${reset}${bold}${blue}"
 commandstyle="${reset}${bold}${red}"
 textstyle="${reset}${white}"
+. "${HOME}/.cache/wal/colors.sh"
+
 
 pgrep "qutebrowser" > /dev/null && qutebrowser :pywal &>/dev/null && cat <<EOM
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}qutebrowser${textstyle}: reloaded qutebrowser colors
@@ -23,7 +27,36 @@ sed '/color5/p;s/color5/active_border_color/' > ~/.cache/wal/kitty < ~/.cache/wa
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}kitty${textstyle}: reloaded kitty colors
 EOM
 
-. "${HOME}/.cache/wal/colors.sh"
+sed -i '2q' ${HOME}/.config/zathura/zathuracolors && echo "set completion-bg \"$background\"
+set completion-fg \"$foreground\"
+set completion-group-bg \"$color1\"
+set completion-group-fg \"$foreground\"
+set completion-highlight-bg \"$color1\"
+set completion-highlight-fg \"$foreground\"
+set inputbar-bg \"$background\"
+set inputbar-fg \"$foreground\"
+set notification-bg \"#000000\"
+set notification-fg \"#ffffff\"
+set notification-error-bg \"$color1\"
+set notification-error-fg \"$foreground\"
+set notification-warning-bg \"$color1\"
+set notification-warning-fg \"$foreground\"
+set tabbar-bg \"$background\"
+set tabbar-fg \"$foreground\"
+set tabbar-focus-bg \"$color1\"
+set tabbar-focus-fg \"$foreground\"
+set statusbar-bg \"$background\"
+set statusbar-fg \"$foreground\"
+set render-loading-bg \"$foreground\"
+set render-loading-fg \"$background\"
+set index-bg \"$background\"
+set index-fg \"$foreground\"
+set index-active-bg \"$color1\"
+set index-active-fg \"$foreground\"" >> ${HOME}/.config/zathura/zathuracolors && cat <<EOM
+${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}zathura${textstyle}: reloaded zathura colors
+EOM
+
+
 convert $wallpaper ${HOME}/.config/sway/lockicon.png -gravity center -composite -matte ${HOME}/.config/sway/suspendscreen.png && cat <<EOM
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}swaylock${textstyle}: reloaded suspend screen
 EOM

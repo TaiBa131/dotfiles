@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 misk() {\
 	[ "$BLOCK_BUTTON" != "1" ] && [ ! -z "$BLOCK_BUTTON" ] || {
