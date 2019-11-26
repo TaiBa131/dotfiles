@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 
+. "${HOME}/.cache/wal/colors.sh"
+alias bemenu='bemenu --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b -n --scrollbar auto'
+
 setmonochrome() {
 	sed -i '1s/.*/set\ recolor-darkcolor\ \\\#000000/' ${HOME}/.config/zathura/zathuracolors
 	sed -i '2s/.*/set\ recolor-lightcolor\ \\\#FFFFFF/' ${HOME}/.config/zathura/zathuracolors
@@ -19,12 +22,15 @@ setnight() {
 	sed -i '1s/^/#/;2s/^/#/' ~/.config/zathura/zathuracolors
 }
 
+setsystem() {
+	sed -i "1s/.*/set\ recolor-darkcolor\ \"${foreground}\"/" ${HOME}/.config/zathura/zathuracolors
+	sed -i "2s/.*/set\ recolor-lightcolor\ \"${background}\"/" ${HOME}/.config/zathura/zathuracolors
+}
+
 #sed -i '1s/^\s*#//;2s/^\s*#//;t;1s/^/#/;2s/^/#/' ~/.config/zathura/zathuracolors
 
-. "${HOME}/.cache/wal/colors.sh"
-alias bemenu='bemenu --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b -n --scrollbar auto'
 
-list='Monochrome\nGrey\nSepia\nNight\n'
+list='Monochrome\nGrey\nSepia\nSystem\nNight\n'
 theme=$(printf ${list} | bemenu -i -l $(printf ${list} | wc -l) -p 'Choose a secondary theme: ')
 [ -z $theme ] && exit
 case $theme in
@@ -32,6 +38,7 @@ case $theme in
 	Sepia) setsepia;;
 	Night) setnight;;
 	Grey) setgrey;;
+	System) setsystem;;
 esac
 FILE="$1"
 pkill -f "zathura -- $FILE"
