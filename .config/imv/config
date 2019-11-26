@@ -51,7 +51,7 @@ a = zoom actual
 r = reset
 
 # Gif playback
-<period> = next_frame
+<comma> = next_frame
 <space> = toggle_playing
 
 # Slideshow control
