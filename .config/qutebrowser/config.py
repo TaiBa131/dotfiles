@@ -104,7 +104,6 @@ c.colors.tabs.selected.even.bg = red
 c.colors.tabs.selected.even.fg = foreground
 c.colors.tabs.selected.odd.bg = red
 c.colors.tabs.selected.odd.fg = foreground
-c.colors.webpage.bg = foreground
 
 
 c.aliases['jblock-disabled-window'] = 'spawn --userscript configwithhostblocking'
