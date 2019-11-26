@@ -23,6 +23,7 @@ q = quit
 <bracketright> = next
 gg = goto 0
 <Shift+G> = goto -1
+<Shift+R> = exec mogrify -rotate 90 "$imv_current_file"
 
 # Panning
 j = pan 0 -50
