@@ -77,6 +77,11 @@ set splitbelow splitright
 	vnoremap <leader><leader> <Esc>/<++><Enter>"_c4l
 	map <leader><leader> <Esc>/<++><Enter>"_c4l
 
+" open up init.vim
+	map <leader>v <Esc>:vsplit ~/.config/nvim/init.vim<Enter>
+	inoremap <leader>v <Esc>:vsplit ~/.config/nvim/init.vim<Enter>
+	vnoremap <leader>v <Esc>:vsplit ~/.config/nvim/init.vim<Enter>
+
 """LATEX
 	" Word count:
 	autocmd FileType tex map <leader>w :w !detex \| wc -w<CR>
