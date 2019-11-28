@@ -1,7 +1,4 @@
 #!/usr/bin/env sh
-# Podboat sucks. This script replaces it.
-# It reads the newsboat queue, queuing downloads with taskspooler.
-# It also removes the junk from extentions.
 pgrep -f "inotifywait /home/iheb/.local/share/newsboat/queue" > /dev/null && exit
 queuefile="$HOME/.local/share/newsboat/queue"
 cd $HOME/other/podcasts/

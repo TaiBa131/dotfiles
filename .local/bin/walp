@@ -57,6 +57,6 @@ ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}zathura${textstyle}: rel
 EOM
 
 
-convert $wallpaper ${HOME}/.config/sway/lockicon.png -gravity center -composite -matte ${HOME}/.config/sway/suspendscreen.png && cat <<EOM
+convert $wallpaper ${HOME}/.config/sway/lockicon.png -gravity center -composite -matte ${HOME}/.config/sway/suspendscreen.jpg && cat <<EOM
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}swaylock${textstyle}: reloaded suspend screen
 EOM

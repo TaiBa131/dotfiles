@@ -2,8 +2,8 @@
 
 lockcommand() {\
 	touch /tmp/lockscreen.lock
-	pulsemixer --toggle-mute
-	swaylock -i ${HOME}/.config/sway/suspendscreen.png -e -f -F
+	pulsemixer --mute
+	swaylock -i ${HOME}/.config/sway/suspendscreen.jpg -e -f -F
 	swayidle timeout 10 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' &
 	swayidle timeout 600 'if [ $(cat /sys/class/power_supply/BAT0/status) == "Discharging" ]; then systemctl suspend; fi' &
 	while true; do
@@ -14,8 +14,8 @@ lockcommand() {\
 	}
 
 bypass() {\
-	pulsemixer --toggle-mute
-	swaylock -i ${HOME}/.config/sway/suspendscreen.png -e -f -F
+	pulsemixer --mute
+	swaylock -i ${HOME}/.config/sway/suspendscreen.jpg -e -f -F
 	swayidle timeout 10 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' &
 	swayidle timeout 600 'if [ $(cat /sys/class/power_supply/BAT0/status) == "Discharging" ]; then systemctl suspend; fi' &
 	while true; do
