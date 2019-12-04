@@ -1,4 +1,14 @@
 #!/usr/bin/env sh
-FILE="$1"
-pkill -f "zathura -- $FILE"
-zathura -- "$FILE"
+FILE="$*"
+TYPE=$(echo ${FILE} | sed -r 's/(\/tmp\/)(.*)(pdfmanual\.pdf)/\1\3/')
+if [ "$TYPE" = "/tmp/pdfmanual.pdf" ]
+then
+	cp "$FILE" /tmp/changezathuracolorsbuffer
+	pkill -f "zathura .*${FILE}" && sleep 0.5
+	mv /tmp/changezathuracolorsbuffer "$FILE"
+	zathura -- "$FILE"
+	rm "$FILE"
+else
+	pkill -f "zathura .*${FILE}"
+	zathura -- "${FILE}"
+fi

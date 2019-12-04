@@ -528,8 +528,8 @@
 #def_key "`"
 #  toggle_library_tag_type
 #
-#def_key "`"
-#  refetch_lyrics
+def_key ","
+  refetch_lyrics
 #
 #def_key "`"
 #  add_random_items

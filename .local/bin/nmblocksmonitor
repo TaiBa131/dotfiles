@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+nmcli monitor | grep --line-buffered "primary connection" | while read
+do
+	pkill -RTMIN+5 i3blocks
+done

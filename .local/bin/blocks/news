@@ -3,10 +3,8 @@
 case $BLOCK_BUTTON in
         1) swaymsg -q -- exec $TERMINAL -e newsboat & ;;
 esac
-while [ -z $news ] ;do
-	news=$(cat /tmp/newsupdate 2>/dev/null || newsboat -x print-unread | awk '{print $1}' | sed s/^$//g)
-	sleep 0.5
-done
+pgrep newsboat > /dev/null || newsboat -x print-unread | awk '{print $1}' | sed s/^$//g > /tmp/newsnumber
+news=$(cat /tmp/newsnumber)
 if [ $news != 0 ]; then
 	echo " ${news}"
 fi

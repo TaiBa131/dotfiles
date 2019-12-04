@@ -1,8 +1,4 @@
-# Headers
-#command=/usr/lib/i3blocks/$BLOCK_NAME
-#separator="|"
 separator_block_width=13
-#markup=none
 
 [sounds]
 command=~/.local/bin/blocks/sounds.sh
@@ -14,15 +10,12 @@ command=~/.local/bin/blocks/music
 label=
 interval=once
 signal=11
-#color=$fg
 
-##Volume
 [volume]
 command=~/.local/bin/blocks/volume
 interval=once
 signal=10
 
-#lockscreen activation status
 [screenawake]
 command=~/.local/bin/blocks/screenawake
 interval=once
@@ -35,13 +28,12 @@ signal=2
 
 [mail]
 command=~/.local/bin/blocks/mail
-interval=10
+interval=15
 signal=12
 
 [torrent]
 command=~/.local/bin/blocks/torrent
-interval=7
-#color=#bbbbbb
+interval=30
 
 [news]
 command=~/.local/bin/blocks/news
@@ -50,21 +42,17 @@ interval=15
 [disk]
 command=~/.local/bin/blocks/root
 interval=60
-#color=#bbbbbb
 
 [battery]
 command=~/.local/bin/blocks/battery
-interval=3
-#color=#bbbbbb
-
-
+interval=60
+signal=8
 
 [time]
 command=~/.local/bin/blocks/dateblock
 interval=18
-#color=#bbbbbb
 
 [nmblocks]
 command=~/.local/bin/blocks/nmblocks
-interval=5
-#color=#bbbbbb
+interval=once
+signal=5

@@ -41,6 +41,9 @@ let g:airline_theme='base16color'
 " autocomplete
 set wildmode=longest,list,full
 
+"super tab
+set completeopt=longest,menuone
+
 " Disable automatic commenting on newline
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 

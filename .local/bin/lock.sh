@@ -2,7 +2,7 @@
 
 lockcommand() {\
 	touch /tmp/lockscreen.lock
-	pulsemixer --mute && pkill -RTMIN+10 i3blocks
+	pulsemixer --mute
 	grim /tmp/screen.jpg
 	convert /tmp/screen.jpg -scale 10% -scale 1000% /tmp/screen.jpg
 	convert /tmp/screen.jpg ${HOME}/.config/sway/lockicon.png -gravity center -composite -matte /tmp/screen.jpg
@@ -22,7 +22,7 @@ lockcommand() {\
 	}
 
 bypass() {\
-	pulsemixer --mute && pkill -RTMIN+10 i3blocks
+	pulsemixer --mute
 	grim /tmp/screen.jpg
 	convert /tmp/screen.jpg -scale 10% -scale 1000% /tmp/screen.jpg
 	convert /tmp/screen.jpg ${HOME}/.config/sway/lockicon.png -gravity center -composite -matte /tmp/screen.jpg

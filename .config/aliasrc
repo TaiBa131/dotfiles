@@ -2,6 +2,7 @@ alias ls='ls -F -G'
 alias r='ranger-cd'
 alias c='searchconfigs'
 alias sf='searchfiles'
+alias sd='searchdirs'
 alias e='exit'
 alias vi='nvim'
 alias vim='nvim'
@@ -13,11 +14,10 @@ alias deletecookies="rm ~/.local/share/qutebrowser/webengine/Cookies"
 alias xorgqt="QT_QPA_PLATFORM=xcb"
 alias wayqt="QT_QPA_PLATFORM=wayland"
 alias printepson="lp -d EPSON_L386_Series"
-alias activatebluetooth="sudo systemctl start bluetooth.service"
-alias stopbluetooth="sudo systemctl stop bluetooth.service"
 alias podboat="podboat -a"
-alias connect2headphones="sudo systemctl start bluetooth.service; bluetoothctl connect 41:42:88:68:2D:3D"
 alias podcastdownloadrefresh="touch /tmp/inotifylock; pkill inotifywait; rm /tmp/inotifylock; echo 'Restart sway now'"
+alias ydotool="sudo ydotool"
+alias resetqueue="touch /tmp/inotifylock; pkill inotifywait; sleep 2; rm /tmp/inotifylock; swaymsg -- exec queueandnotify"
 #. "${HOME}/.cache/wal/colors.sh"
 #alias bemenu="bemenu --tf $background --fb $background --hf $background --nb $background --sb $background --scb $background --tb $foreground --ff $foreground  --nf $foreground  --hb $foreground  --sf $foreground  --scf $foreground --fn 'monospace 11' -b"
 

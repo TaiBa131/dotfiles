@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 if [ -z $1 ]; then
-	wallpaper=$(sxiv -oqft ~/pix/wallpapers/*)
+	wallpaper=$(sxiv -obqft ~/pix/wallpapers/*)
 	[ -z $wallpaper ] && exit
 	wal -i $wallpaper && DONE=true
 else
@@ -23,7 +23,7 @@ pgrep "qutebrowser" > /dev/null && qutebrowser :pywal &>/dev/null && cat <<EOM
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}qutebrowser${textstyle}: reloaded qutebrowser colors
 EOM
 
-sed '/color5/p;s/color5/active_border_color/' > ~/.cache/wal/kitty < ~/.cache/wal/colors-kitty.conf && cat <<EOM
+sed -E '/^(color5|foreground|background)/p;s/color5/active_border_color/;s/background/selection_foreground/;s/foreground/selection_background/' ~/.cache/wal/colors-kitty.conf > ~/.cache/wal/kitty && cat <<EOM
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}kitty${textstyle}: reloaded kitty colors
 EOM
 

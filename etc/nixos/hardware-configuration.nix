@@ -41,15 +41,28 @@
 	  opengl.extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl vaapiVdpau ];
   };
 
-  #services.mbpfan.minFanSpeed = 500;
-
   #for nvidia prime with my double graphics laptops
   services.xserver.videoDrivers = [ "nouveau" ];
 
   nix.maxJobs = lib.mkDefault 4;
-  #powerManagement.enable = false;
-  #powerManagement.cpuFreqGovernor = "ondemand";
-  #powerManagement.cpufreq.min = 2000000;
-  #services.acpid.enable = true;
   services.tlp.enable = true;
+  services.tlp.extraConfig = ''
+    TLP_DEFAULT_MODE=BAT
+    TLP_PERSISTENT_DEFAULT=1
+    CPU_SCALING_GOVERNOR_ON_AC=performance
+    CPU_SCALING_GOVERNOR_ON_BAT=powersave
+    CPU_SCALING_MIN_FREQ_ON_BAT=0
+    CPU_SCALING_MIN_FREQ_ON_AC=0
+    CPU_SCALING_MAX_FREQ_ON_BAT=3700000
+    CPU_SCALING_MAX_FREQ_ON_AC=3700000
+    ENERGY_PERF_POLICY_ON_AC=performance
+    ENERGY_PERF_POLICY_ON_BAT=powersave
+    CPU_HWP_ON_AC=balance_performance
+    CPU_HWP_ON_BAT=balance_power
+    CPU_BOOST_ON_AC=1
+    CPU_BOOST_ON_BAT=0
+    SCHED_POWERSAVE_ON_AC=0
+    SCHED_POWERSAVE_ON_BAT=1
+  '';
+
 }

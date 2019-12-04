@@ -39,6 +39,9 @@ exec --no-startup-id mpd
 exec --no-startup-id syncthing -no-browser
 exec --no-startup-id controlmpd
 exec --no-startup-id queueandnotify
+exec --no-startup-id pactlsubscribe.sh
+exec --no-startup-id batterymonitor
+exec --no-startup-id nmblocksmonitor
 exec --no-startup-id sudo ydotoold
 exec --no-startup-id rm /tmp/lockscreen.lock
 exec_always --no-startup-id pkill mpDris2; sleep 1; mpDris2
@@ -71,9 +74,9 @@ bar {
 bindsym $mod+r exec pgrep "bemenu" || bemenu-run --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b -n --scrollbar always -l 15 -p "run: "
 
 # change volume or toggle mute
-bindsym XF86AudioRaiseVolume exec pulsemixer --change-volume +5 && pkill -RTMIN+10 i3blocks
-bindsym XF86AudioLowerVolume exec pulsemixer --change-volume -5 && pkill -RTMIN+10 i3blocks
-bindsym XF86AudioMute exec pulsemixer --toggle-mute && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioRaiseVolume exec pulsemixer --change-volume +5
+bindsym XF86AudioLowerVolume exec pulsemixer --change-volume -5
+bindsym XF86AudioMute exec pulsemixer --toggle-mute
 
 #Window titles
 font pango:sansserif 9.25
@@ -98,7 +101,7 @@ bindsym $mod+t border toggle
 # quickstart
 bindsym $mod+F1 exec $TERMINAL -e "ranger"
 bindsym $mod+F2 exec $TERMINAL -e "ncmpcpp"
-bindsym $mod+F3 exec $TERMINAL -e "transmission-remote-cli"
+bindsym $mod+F3 exec deluge-gtk
 bindsym $mod+F4 exec $TERMINAL -e "newsboat"
 bindsym $mod+F5 exec $TERMINAL -e "neomutt"
 
@@ -254,3 +257,4 @@ bindsym $mod+b exec toggleredshift
 for_window [app_id="mpv"] border pixel 0
 
 #for_window [app_id=".*"] floating enable
+#for_window [app_id=".*"] move position cursor

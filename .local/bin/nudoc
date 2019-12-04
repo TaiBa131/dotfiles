@@ -1,5 +1,38 @@
 #!/usr/bin/env sh
-template=$(find ~/dox/latex/templates/ -type f | sed "s/.*\///;s/\.tex//" | fzf --reverse --header='choose the type of your document: ')
-read -p "name of your document: " name
-cp ~/dox/latex/templates/"$template".tex ~/"$name".tex
-nvim -c 'execute "normal \/\<++>\<Enter>\"\_c4l"' ~/"$name".tex
+template=$(find ${HOME}/dox/latex/templates/ -type f | sed "s/.*\///;s/\.tex//" | fzf --reverse --header='choose the type of your document: ')
+if [ -f ${HOME}/dox/latex/templates/"$template".tex ]
+then
+	while true
+	do
+		read -p "name of your document: " name
+		[ -f ${HOME}/${name}.tex ] && echo "${name}.tex already exists" && continue
+		break
+	done
+	if [ -z "${name}" ]; then name="new${template}"; fi
+	if [ -f ${HOME}/${name}.tex ]
+	then
+		NBCOPIES=$(ls ${HOME}/ | grep "${name}.*\.tex" | wc -l)
+		cp "${HOME}/dox/latex/templates/${template}.tex" "${HOME}/${name}${NBCOPIES}.tex"
+		nvim -c 'execute "normal \/\<++>\<Enter>\"\_c4l"' "${HOME}/${name}${NBCOPIES}.tex"
+	else
+		cp "${HOME}/dox/latex/templates/${template}.tex" "${HOME}/${name}.tex"
+		nvim -c 'execute "normal \/\<++>\<Enter>\"\_c4l"' "${HOME}/${name}.tex"
+	fi
+else
+	while true
+	do
+		read -p "name of your document: " name
+		[ -f ${HOME}/${name}.tex ] && echo "${name}.tex already exists" && continue
+		break
+	done
+	if [ -z "${name}" ]; then name="newdocument"; fi
+	if [ -f ${HOME}/${name}.tex ]
+	then
+		NBCOPIES=$(ls ${HOME}/ | grep "${name}.*\.tex" | wc -l)
+		touch ${name}${NBCOPIES}.tex
+		nvim ${name}${NBCOPIES}.tex
+	else
+		touch ${name}${NBCOPIES}.tex
+		nvim ${name}${NBCOPIES}.tex
+	fi
+fi

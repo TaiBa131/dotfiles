@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+while true;
+do
+	sleep 1
+	inotifywait /sys/class/power_supply/BAT0/
+	pkill -RTMIN+8 i3blocks
+done

@@ -4,7 +4,7 @@ map ,b feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>bmark '
 map ,m feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>mark ''<Left>"
 map ,l feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>blist<Return>"
 map ,d feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>bdelete "
-map <C-s> feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>set selection-notification "
+map <C-s> feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>set selection-notification 0"
 map ,u feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>exec updatezathuraconfig $FILE<Return>"
 map r recolor
 map <C-r> rotate
