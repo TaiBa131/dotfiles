@@ -149,12 +149,9 @@ c.content.cookies.store = True
 c.tabs.indicator.width = 0
 
 c.editor.command = ['kitty', '-e', 'nvim', '{}']
+c.content.pdfjs = True
 
 c.url.default_page = 'file:///home/iheb/.config/homepage/index.html'
 c.url.start_pages = ['file:///home/iheb/.config/homepage/index.html']
-
-c.content.headers.accept_language = 'en-US,en;q=0.5'
-c.content.headers.custom = {"accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"}
-c.content.headers.user_agent = 'Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0'
 
 c.url.searchengines = {"DEFAULT": "http://127.0.0.1:8888/?q={}","&g": "https://www.google.com/search?q={}"}
