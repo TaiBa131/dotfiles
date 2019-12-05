@@ -100,6 +100,7 @@ in
 		youtube-dl
 		stable.wget
 		stable.lynx
+    searx
 		####torrent
     nur.repos.chagra.deezloader-remix
     deluge
