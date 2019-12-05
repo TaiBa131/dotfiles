@@ -100,7 +100,6 @@ in
 		youtube-dl
 		stable.wget
 		stable.lynx
-    searx
 		####torrent
     nur.repos.chagra.deezloader-remix
     deluge
@@ -153,6 +152,10 @@ in
 	wl-clipboard
   wdisplays
 	];
+
+  #Search engine hosted locally
+  services.searx.enable = true;
+  services.searx.configFile = /home/iheb/.config/searx/settings.yml;
 
   #bash options and bash_profile
   programs.bash.enableCompletion = true;
