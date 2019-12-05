@@ -8,6 +8,16 @@ setmonochrome() {
 	sed -i '2s/.*/set\ recolor-lightcolor\ \\\#FFFFFF/' ${HOME}/.config/zathura/zathuracolors
 }
 
+setscolarizeddark() {
+	sed -i '1s/.*/set\ recolor-darkcolor\ \\\#FDF6E3/' ${HOME}/.config/zathura/zathuracolors
+	sed -i '2s/.*/set\ recolor-lightcolor\ \\\#002B36/' ${HOME}/.config/zathura/zathuracolors
+}
+
+setscolarizedlight() {
+	sed -i '1s/.*/set\ recolor-darkcolor\ \\\#002B36/' ${HOME}/.config/zathura/zathuracolors
+	sed -i '2s/.*/set\ recolor-lightcolor\ \\\#FDF6E3/' ${HOME}/.config/zathura/zathuracolors
+}
+
 setsepia() {
 	sed -i '1s/.*/set\ recolor-darkcolor\ \\\#000000/' ${HOME}/.config/zathura/zathuracolors
 	sed -i '2s/.*/set\ recolor-lightcolor\ \\\#EFE0B9/' ${HOME}/.config/zathura/zathuracolors
@@ -30,7 +40,7 @@ setsystem() {
 #sed -i '1s/^\s*#//;2s/^\s*#//;t;1s/^/#/;2s/^/#/' ~/.config/zathura/zathuracolors
 
 
-list='Monochrome\nGrey\nSepia\nSystem\nNight\n'
+list='Monochrome\nGrey\nSepia\nSystem\nScolarizedDark\nScolarizedLight\nNight\n'
 theme=$(printf ${list} | bemenu -i -l $(printf ${list} | wc -l) -p 'Choose a secondary theme: ')
 [ -z $theme ] && exit
 case $theme in
@@ -38,6 +48,8 @@ case $theme in
 	Sepia) setsepia;;
 	Night) setnight;;
 	Grey) setgrey;;
+	ScolarizedDark) setscolarizeddark;;
+	ScolarizedLight) setscolarizedlight;;
 	System) setsystem;;
 esac
 FILE="$*"
