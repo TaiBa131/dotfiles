@@ -154,4 +154,4 @@ c.content.pdfjs = True
 c.url.default_page = 'file:///home/iheb/.config/homepage/index.html'
 c.url.start_pages = ['file:///home/iheb/.config/homepage/index.html']
 
-c.url.searchengines = {"DEFAULT": "http://127.0.0.1:8888/?q={}","&g": "https://www.google.com/search?q={}"}
+c.url.searchengines = {"DEFAULT": "http://127.0.0.1:8888/?q={}","&fr": "http://127.0.0.1:8888/?q={}&language=fr","&g": "https://www.google.com/search?q={}"}
