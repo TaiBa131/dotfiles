@@ -1,18 +1,18 @@
-eneral:
+general:
     debug : False # Debug mode, only for development
-    instance_name : "searx" # displayed name
+    instance_name : "iheb's search engine" # displayed name
 
 search:
-    safe_search : 0 # Filter results. 0: None, 1: Moderate, 2: Strict
+    safe_search : 1 # Filter results. 0: None, 1: Moderate, 2: Strict
     autocomplete : "google" # Existing autocomplete backends: "dbpedia", "duckduckgo", "google", "startpage", "wikipedia" - leave blank to turn it off by default
-    language : "en-US"
+    language : "en"
     ban_time_on_fail : 5 # ban time in seconds after engine errors
     max_ban_time_on_fail : 120 # max ban time in seconds after engine errors
 
 server:
     port : 8888
     bind_address : "127.0.0.1" # address to listen on
-    secret_key : "shecretshpy" # change this!
+    secret_key : "shupershecretshpee" # change this!
     base_url : False # Set custom base_url. Possible values: False or "https://your.custom.host/location/"
     image_proxy : False # Proxying image results through searx
     http_protocol_version : "1.0"  # 1.0 and 1.1 are supported
@@ -135,6 +135,7 @@ engines:
   - name : currency
     engine : currency_convert
     categories : general
+    disabled : True
     shortcut : cc
 
   - name : deezer
@@ -184,7 +185,6 @@ engines:
   - name : duckduckgo
     engine : duckduckgo
     shortcut : ddg
-    disabled : True
 
   - name : duckduckgo images
     engine : duckduckgo_images
@@ -201,7 +201,6 @@ engines:
     content_xpath : //section[contains(@class, "word__defination")]/object
     first_page_num : 0
     shortcut : et
-    disabled : True
 
   - name : faroo
     engine : faroo
@@ -278,7 +277,7 @@ engines:
 
   - name : google
     engine : google
-    shortcut : g
+    shortcut : go
 
   - name : google images
     engine : google_images
@@ -492,7 +491,6 @@ engines:
     engine : qwant
     shortcut : qw
     categories : general
-    disabled : True
 
   - name : qwant images
     engine : qwant
@@ -624,7 +622,6 @@ engines:
   - name : yandex
     engine : yandex
     shortcut : yn
-    disabled : True
 
   - name : yahoo news
     engine : yahoo_news
@@ -665,6 +662,7 @@ engines:
 
   - name : dictzone
     engine : dictzone
+    disabled : True
     shortcut : dc
 
   - name : mymemory translated
@@ -740,44 +738,10 @@ engines:
 
 locales:
     en : English
-    ar : العَرَبِيَّة (Arabic)
-    #bg : Български (Bulgarian)
-    #ca : Català (Catalan)
-    #cs : Čeština (Czech)
-    #cy : Cymraeg (Welsh)
-    #da : Dansk (Danish)
-    de : Deutsch (German)
-    #el_GR : Ελληνικά (Greek_Greece)
-    #eo : Esperanto (Esperanto)
-    #es : Español (Spanish)
-    #eu : Euskara (Basque)
-    #fa_IR : (fārsī) فارسى (Persian)
-    #fi : Suomi (Finnish)
-    #fil : Wikang Filipino (Filipino)
     fr : Français (French)
-    #gl : Galego (Galician)
-    #he : עברית (Hebrew)
-    #hr : Hrvatski (Croatian)
-    #hu : Magyar (Hungarian)
-    #it : Italiano (Italian)
-    #ja : 日本語 (Japanese)
-    #nl : Nederlands (Dutch)
-    #nl_BE : Vlaams (Dutch_Belgium)
-    #pl : Polski (Polish)
-    #pt : Português (Portuguese)
-    #pt_BR : Português (Portuguese_Brazil)
-    #ro : Română (Romanian)
-    #ru : Русский (Russian)
-    #sk : Slovenčina (Slovak)
-    #sl : Slovenski (Slovene)
-    #sr : српски (Serbian)
-    #sv : Svenska (Swedish)
-    #te : తెలుగు (telugu)
-    #tr : Türkçe (Turkish)
-    #uk : українська мова (Ukrainian)
-    #vi : tiếng việt (㗂越)
-    #zh : 中文 (Chinese)
-    #zh_TW : 國語 (Taiwanese Mandarin)
+    ar : العَرَبِيَّة (Arabic)
+    de : Deutsch (German)
+    es : Español (Spanish)
 
 doi_resolvers :
   sci-hub.tw : 'http://sci-hub.tw/'
@@ -785,4 +749,4 @@ doi_resolvers :
   doi.org : 'https://doi.org/'
   doai.io  : 'http://doai.io/'
 
-default_doi_resolver : 'http://sci-hub.tw/'
+default_doi_resolver : 'sci-hub.tw'
