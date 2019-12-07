@@ -18,3 +18,4 @@ application/xbittorrent=deluge.desktop
 application/pdf=zathura.desktop
 image/vnd.djvu+multipage=zathura.desktop;
 x-scheme-handler/magnet=deluge.desktop;
+x-scheme-handler/mailto=neomutt.desktop
