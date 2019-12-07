@@ -3,7 +3,8 @@
 ON=$(mpc status | wc -l)
 
 [ ! "$ON" == "3" ] && exit
-mpc status | head -n 1
+FORMAT="[%albumartist% - ]|[%artist% - ]&%title%"
+mpc -f "$FORMAT" current
 case $BLOCK_BUTTON in
     1) swaymsg -q -- exec $TERMINAL -e ncmpcpp & ;;
     3) mpc -q toggle & ;;

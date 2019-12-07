@@ -1855,16 +1855,6 @@ class empty(Command):
     def execute(self):
         os.system("rm -rf /home/iheb/.trash/{*,.[^.]*}")
 
-"""
-class searchdirectories(Command):
-
-    def execute(self):
-        result = os.popen("find ~ -type d | fzf | tr -d '\n'")
-        dir=result.read()
-        self.fm.cd(dir)
-        self.fm.redraw_window()
-"""
-
 
 class directorysize(Command):
     """:directorysize
@@ -1893,6 +1883,9 @@ class fzf_search(Command):
         if self.arg(1) == 'dirs':
             # match only directories
             command="find ~ -type d -print 2> /dev/null | sed 1d | fzf +m "
+        if self.arg(1) == 'localdirs':
+            # match only directories
+            command="find ./ -type d -print 2> /dev/null | sed 1d | fzf +m "
         elif self.arg(1) == 'local':
             # match files locally
             command="rg --files --hidden ./ 2> /dev/null | cut -b3- | fzf +m "
@@ -1956,3 +1949,35 @@ class mkcd(Command):
                     self.fm.execute_console('scout -ae ^{}$'.format(s))
         else:
             self.fm.notify("file/directory exists!", bad=True)
+
+class normalfilename(Command):
+    """
+    :normalfilename <dirname>
+
+    changes the filename into normal charcaters
+    """
+
+    def execute(self):
+        from ranger.container.file import File
+        from os import access
+        command="echo \"" + str(self.fm.thisfile.basename) + "\" | sed 's/ê/e/g;s/é/e/g;s/è/e/g;s/à/a/g;s/\ /_/g;s/(/_/g;s/)/_/g' | perl -pe 's/[^\w.:-]+//g'"
+        result=os.popen(command)
+        new_name=result.read()
+
+        if not new_name:
+            return self.fm.notify('Can\'t produce a new filename', bad=True)
+
+        if new_name == self.fm.thisfile.relative_path:
+            return None
+
+        if access(new_name, os.F_OK):
+            return self.fm.notify("Can't rename: file already exists!", bad=True)
+
+        if self.fm.rename(self.fm.thisfile, new_name):
+            file_new = File(new_name)
+            self.fm.bookmarks.update_path(self.fm.thisfile.path, file_new)
+            self.fm.tags.update_path(self.fm.thisfile.path, file_new.path)
+            self.fm.thisdir.pointed_obj = file_new
+            self.fm.thisfile = file_new
+
+        return None
