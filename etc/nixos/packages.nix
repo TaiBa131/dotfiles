@@ -49,13 +49,13 @@ in
     stable.jq
     websocat
 		####audio
-		pavucontrol
+		stable.pavucontrol
     stable.pulsemixer
 		stable.audacity
-		stable.mpd
-		stable.mpdris2
-		stable.mpc_cli
-		stable.ncmpcpp
+		mpd
+		mpdris2
+		mpc_cli
+		ncmpcpp
 		####video
 		mpv
 		stable.kdenlive

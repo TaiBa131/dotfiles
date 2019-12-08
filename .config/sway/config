@@ -218,6 +218,10 @@ bindsym $mod+a gaps inner current minus 5
 bindsym $mod+Shift+z gaps outer current plus 5
 bindsym $mod+Shift+a gaps outer current minus 5
 
+#window opacity
+bindsym $mod+right opacity minus 0.1
+bindsym $mod+left opacity plus 0.1
+
 #Meme folder
 bindsym $mod+s exec thumbnailfilepicker
 for_window [instance="thumbnailfilepicker"] floating enable
