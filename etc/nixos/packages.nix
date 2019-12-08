@@ -17,8 +17,8 @@ in
   nixpkgs.overlays = [ waylandOverlay ]; #overlay for wayland packages
   nixpkgs.config = {
   		packageOverrides = pkgs: {
-			#nix user repository
-  			nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
+			#my nix user repository
+  			nur = import (builtins.fetchTarball "https://github.com/ihebchagra/nur-packages/archive/master.tar.gz") {
       				inherit pkgs;
     				};
 			stable = import <stable> {};
@@ -51,18 +51,18 @@ in
 		####audio
 		pavucontrol
     stable.pulsemixer
-		audacity
-		mpd
-		mpdris2
-		mpc_cli
-		ncmpcpp
+		stable.audacity
+		stable.mpd
+		stable.mpdris2
+		stable.mpc_cli
+		stable.ncmpcpp
 		####video
 		mpv
-		kdenlive
+		stable.kdenlive
 		####img
-		sxiv
+		stable.sxiv
     imv
-		imagemagick
+		stable.imagemagick
 		stable.w3m
 		krita
 		gmic_krita_qt
@@ -101,7 +101,7 @@ in
 		stable.wget
 		stable.lynx
 		####torrent
-    nur.repos.chagra.deezloader-remix
+    nur.deezloader-remix
     deluge
 		####mail
 		neomutt
@@ -115,21 +115,20 @@ in
 		stable.texlive.combined.scheme-full
 		####gaymen
 		wine
-		nur.repos.chagra.nudoku
-		nur.repos.chagra.ripcord
+		nur.nudoku
+		nur.ripcord
 		####misc
 		stable.tty-clock
 		calcurse
 		stable.newsboat
 		####nix stuff
-		nix-prefetch-scripts
-		nix-prefetch-github
+		stable.nix-prefetch-scripts
+		stable.nix-prefetch-github
 		####Sway improvements
 		stable.pango
 		light
-    nur.repos.chagra.bemenu
+    nur.bemenu
 		i3blocks
-		neofetch
 		pywal
     ydotool
   	];
