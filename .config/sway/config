@@ -219,8 +219,8 @@ bindsym $mod+Shift+z gaps outer current plus 5
 bindsym $mod+Shift+a gaps outer current minus 5
 
 #window opacity
-bindsym $mod+right opacity minus 0.1
-bindsym $mod+left opacity plus 0.1
+bindsym $mod+right opacity minus 0.05
+bindsym $mod+left opacity plus 0.05
 
 #Meme folder
 bindsym $mod+s exec thumbnailfilepicker
