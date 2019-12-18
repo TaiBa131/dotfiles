@@ -36,32 +36,45 @@
     #Intel
 	  cpu.intel.updateMicrocode = true;
     #graphics
-  	opengl.driSupport32Bit = true;
-	  opengl.enable = true;
-	  opengl.extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl vaapiVdpau ];
+    opengl = {
+  	  driSupport32Bit = true;
+      enable = true;
+      extraPackages = with pkgs; [
+        vaapiIntel
+        vaapiVdpau
+        libvdpau-va-gl
+        intel-media-driver # LIBVA_DRIVER_NAME=iHD to use this
+      ];
+    };
   };
 
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+
+
   #for nvidia prime with my double graphics laptops
-  services.xserver.videoDrivers = [ "nouveau" ];
+  #still worthless anyway
+  services.xserver.videoDrivers = [ "intel" "nouveau" ];
 
   nix.maxJobs = lib.mkDefault 4;
   services.tlp.enable = true;
   services.tlp.extraConfig = ''
     TLP_DEFAULT_MODE=BAT
-    TLP_PERSISTENT_DEFAULT=1
-    CPU_SCALING_GOVERNOR_ON_AC=performance
+    TLP_PERSISTENT_DEFAULT=0
+    CPU_SCALING_GOVERNOR_ON_AC=powersave
     CPU_SCALING_GOVERNOR_ON_BAT=powersave
-    CPU_SCALING_MIN_FREQ_ON_BAT=0
-    CPU_SCALING_MIN_FREQ_ON_AC=0
-    CPU_SCALING_MAX_FREQ_ON_BAT=3700000
-    CPU_SCALING_MAX_FREQ_ON_AC=3700000
-    ENERGY_PERF_POLICY_ON_AC=performance
-    ENERGY_PERF_POLICY_ON_BAT=powersave
-    CPU_HWP_ON_AC=balance_performance
-    CPU_HWP_ON_BAT=balance_power
+    CPU_SCALING_MIN_FREQ_ON_BAT=400000
+    CPU_SCALING_MIN_FREQ_ON_AC=400000
+    CPU_SCALING_MAX_FREQ_ON_BAT=2700000
+    CPU_SCALING_MAX_FREQ_ON_AC=3500000
+    ENERGY_PERF_POLICY_ON_AC=power
+    ENERGY_PERF_POLICY_ON_BAT=power
+    CPU_HWP_ON_AC=power
+    CPU_HWP_ON_BAT=power
     CPU_BOOST_ON_AC=1
     CPU_BOOST_ON_BAT=0
-    SCHED_POWERSAVE_ON_AC=0
+    SCHED_POWERSAVE_ON_AC=1
     SCHED_POWERSAVE_ON_BAT=1
   '';
 

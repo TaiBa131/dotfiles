@@ -1882,8 +1882,8 @@ class fzf_search(Command):
         import os.path
         if self.arg(1) == 'dirs':
             # match only directories
-            command="find ~ -type d -print 2> /dev/null | sed 1d | fzf +m "
-        if self.arg(1) == 'localdirs':
+            command="find ~/ -type d -print 2> /dev/null | sed 1d | fzf +m "
+        elif self.arg(1) == 'localdirs':
             # match only directories
             command="find ./ -type d -print 2> /dev/null | sed 1d | fzf +m "
         elif self.arg(1) == 'local':
@@ -1892,6 +1892,7 @@ class fzf_search(Command):
         else:
             # match files and directories
             command="rg --files --hidden ~/ 2> /dev/null | fzf +m "
+
         fzf = self.fm.execute_command(command, universal_newlines=True, stdout=subprocess.PIPE)
         stdout, stderr = fzf.communicate()
         if fzf.returncode == 0:

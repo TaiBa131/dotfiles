@@ -37,7 +37,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.iheb = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [ "wheel" "networkmanager" "input" ];
     shell = pkgs.zsh;
   };
 

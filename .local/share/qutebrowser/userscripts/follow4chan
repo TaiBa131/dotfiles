@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+POST=$(echo $QUTE_URL | sed -E 's/^.*\/(.*\/.*)$/\1/;s/\//#p/;s/\#q//')
+echo "open -t https://boards.4channel.org/g/thread/$POST" >> $QUTE_FIFO

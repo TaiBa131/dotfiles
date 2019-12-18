@@ -26,7 +26,6 @@ call vundle#end()
 set bg=light
 set go=a
 set mouse=a
-set nohlsearch
 set clipboard=unnamedplus
 set number relativenumber
 filetype plugin indent on
@@ -85,6 +84,11 @@ set splitbelow splitright
 	inoremap <leader>v <Esc>:vsplit ~/.config/nvim/init.vim<Enter>
 	vnoremap <leader>v <Esc>:vsplit ~/.config/nvim/init.vim<Enter>
 
+" searching stuff
+	" set nohlsearch
+	nnoremap <esc> :noh<return><esc>
+
+
 """LATEX
 	" Word count:
 	autocmd FileType tex map <leader>w :w !detex \| wc -w<CR>
@@ -128,7 +132,6 @@ set splitbelow splitright
 	autocmd FileType tex inoremap ,st <Esc>F{i*<Esc>f}i
 	autocmd FileType tex inoremap ,beg \begin{DELRN}<Enter><++><Enter>\end{DELRN}<Enter><Enter><++><Esc>4k0fR:MultipleCursorsFind<Space>DELRN<Enter>c
 	autocmd FileType tex inoremap ,up <Esc>/usepackage<Enter>o\usepackage{}<Esc>i
-	autocmd FileType tex nnoremap ,up /usepackage<Enter>o\usepackage{}<Esc>i
 	autocmd FileType tex inoremap ,tt \texttt{}<Space><++><Esc>T{i
 	autocmd FileType tex inoremap ,bt {\blindtext}
 	autocmd FileType tex inoremap ,nu $\varnothing$

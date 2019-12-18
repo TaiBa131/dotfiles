@@ -109,7 +109,7 @@ c.colors.tabs.selected.odd.fg = foreground
 c.aliases['jblock-disabled-window'] = 'spawn --userscript configwithhostblocking'
 c.aliases['adblock-start'] = 'adblock-update;; reload'
 c.aliases['pywal'] = 'spawn --userscript configwithoutjblock;; config-source ~/.config/qutebrowser/configwithoutjblock.py'
-config.bind('U', 'pywal')
+config.bind('U', 'spawn --userscript configwithoutjblock;; config-source ~/.config/qutebrowser/configwithoutjblock.py')
 
 c.downloads.location.directory = '/home/iheb/downloads'
 c.downloads.location.remember = False
@@ -123,14 +123,17 @@ config.bind(',p', 'set downloads.location.directory ~/other/podcasts/;; download
 
 config.bind('sh', 'spawn thumbnailfilepicker')
 config.bind(',m', 'spawn --userscript view_in_mpv')
+config.bind(',g', 'spawn --userscript changetogoogle')
 config.bind('C', 'tab-clone -w;; tab-close')
 config.bind(',y', 'hint links yank')
+config.bind(',fp', 'hint links userscript follow4chan')
 config.bind('<Ctrl+h>', 'history -t')
 config.bind('C', 'tab-clone -w;; tab-close')
 config.bind('sh', 'spawn thumbnailfilepicker')
 config.bind(',ug', 'greasemonkey-reload')
 config.bind('E', 'open-editor')
 config.bind('tap', 'config-cycle content.autoplay true false ;; reload')
+config.bind(',D', 'hint all delete')
 
 c.fonts.downloads = '9pt DejaVu Sans'
 c.fonts.tabs = '9pt DejaVu Sans'
@@ -154,4 +157,5 @@ c.content.pdfjs = True
 c.url.default_page = 'file:///home/iheb/.config/homepage/index.html'
 c.url.start_pages = ['file:///home/iheb/.config/homepage/index.html']
 
-c.url.searchengines = {"DEFAULT": "http://127.0.0.1:8888/?q={}","&fr": "http://127.0.0.1:8888/?q={}&language=fr","&g": "https://www.google.com/search?q={}"}
+c.url.open_base_url = True
+c.url.searchengines = {"DEFAULT": "http://127.0.0.1:8888/?q={}","&g": "https://www.google.com/search?q={}","&fr": "http://127.0.0.1:8888/?q={}&language=fr","&/g/":"https://archive.rebeccablacktech.com/g/search/text/{}/","&wf": "https://fr.wikipedia.org/wiki/Spécial:Recherche?search={}","&we": "https://en.wikipedia.org/wiki/Special:Search?search={}"}

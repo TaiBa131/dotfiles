@@ -1,0 +1,19 @@
+[commands.swipe.three]
+left_up = "sudo ydotool key PAGEUP"
+right_up = "sudo ydotool key PAGEUP"
+up = "sudo ydotool key PAGEUP"
+left_down = "sudo ydotool key PAGEDOWN"
+right_down = "sudo ydotool key PAGEDOWN"
+down = "sudo ydotool key PAGEDOWN"
+left = ""
+right = ""
+
+[commands.swipe.four]
+left_up = ""
+right_up = ""
+up = ""
+left_down = ""
+right_down = ""
+down = ""
+left = ""
+right = ""

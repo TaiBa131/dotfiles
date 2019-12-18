@@ -1,11 +1,10 @@
-#!/usr/bin/env sh
-pgrep -f "inotifywait /home/iheb/.local/share/newsboat/queue" > /dev/null && exit
-queuefile="$HOME/.local/share/newsboat/queue"
+#!/usr/bin/env bash
+pgrep -f "tail -f /home/iheb/.local/share/newsboat/queue" > /dev/null && exit
+[ -f /tmp/inotifylock ] && exit
 cd $HOME/other/podcasts/
-while [ ! -f /tmp/inotifylock ]; do
+queuefile="$HOME/.local/share/newsboat/queue"
 echo > "$queuefile"
-inotifywait $queuefile
-while read -r line; do
+tail -f $queuefile 2> /dev/null | while read -r line; do
 	[ -z "$line" ] && continue
 	url="$(echo "$line" | awk '{print $1}')"
 	notify-send "🔽 Podcast started downloading"
@@ -18,5 +17,4 @@ while read -r line; do
 	else
 		notify-send "✅ Podcast finished downloading" "please name the podcast"
 	fi
-done < "$queuefile"
 done
