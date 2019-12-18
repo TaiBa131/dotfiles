@@ -20,7 +20,7 @@ in
   #edits to packages
   nixpkgs.overlays = [ waylandOverlay ]; #overlay for wayland packages
   nixpkgs.config = {
-  		packageOverrides = pkgs: {
+      packageOverrides = pkgs: {
         #my nix user repository
         nur = import (builtins.fetchTarball "https://github.com/ihebchagra/nur-packages/archive/master.tar.gz") {
         				inherit pkgs;
