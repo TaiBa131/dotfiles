@@ -21,13 +21,13 @@ in
   nixpkgs.overlays = [ waylandOverlay ]; #overlay for wayland packages
   nixpkgs.config = {
   		packageOverrides = pkgs: {
-			  #my nix user repository
-  		  nur = import (builtins.fetchTarball "https://github.com/ihebchagra/nur-packages/archive/master.tar.gz") {
+        #my nix user repository
+        nur = import (builtins.fetchTarball "https://github.com/ihebchagra/nur-packages/archive/master.tar.gz") {
         				inherit pkgs;
-    	  };
-			  unstable = import <unstable> {};
-			  ncmpcpp = pkgs.ncmpcpp.override { visualizerSupport = true; }; #enable visualiser support
-			  wine = pkgs.wine.override { wineBuild = "wineWow"; }; #enable both 32bit and 64bit support
+        };
+        unstable = import <unstable> {};
+        ncmpcpp = pkgs.ncmpcpp.override { visualizerSupport = true; }; #enable visualiser support
+        wine = pkgs.wine.override { wineBuild = "wineWow"; }; #enable both 32bit and 64bit support
         neomutt = pkgs.neomutt.overrideAttrs ( oldAttrs: {
           buildInputs = with pkgs; [
             cyrus_sasl gss gpgme kerberos libidn ncurses
@@ -62,108 +62,108 @@ in
         '';
           doCheck = false;
         });
-		};
-		allowUnfree = true;
+  	};
+  	allowUnfree = true;
   };
 
 
   environment = {
-	systemPackages = with pkgs; [
-		####vim
-		neovim
-		####sysutil
-		networkmanagerapplet
+  systemPackages = with pkgs; [
+    ####vim
+    neovim
+    ####sysutil
+    networkmanagerapplet
     htop
-		libnotify
-		pciutils
-		killall
-		usbutils
-		acpi
+    libnotify
+    pciutils
+    killall
+    usbutils
+    acpi
     inotify-tools
     xdg_utils
-		####dev
-		git
-		gawk
+    ####dev
+    git
+    gawk
     jq
     unstable.websocat
-		####audio
-		pavucontrol
+    ####audio
+    pavucontrol
     pulsemixer
-		audacity
-		mpd
-		mpdris2
-		mpc_cli
-		ncmpcpp
-		####video
-		mpv
-		kdenlive
-		####img
-		sxiv
+    audacity
+    mpd
+    mpdris2
+    mpc_cli
+    ncmpcpp
+    ####video
+    mpv
+    kdenlive
+    ####img
+    sxiv
     imv
-		imagemagick
-		krita
-		gmic_krita_qt
-		####documents
-		zathura
-		libreoffice
-		####shell
-		libqalculate
-		kitty
-		####files
-		ranger
-		syncthing
-		jmtpfs
-		keepassxc
-		unrar
-		zip
-		unzip
-		fzf
+    imagemagick
+    krita
+    gmic_krita_qt
+    ####documents
+    zathura
+    libreoffice
+    ####shell
+    libqalculate
+    kitty
+    ####files
+    ranger
+    syncthing
+    jmtpfs
+    keepassxc
+    unrar
+    zip
+    unzip
+    fzf
     ripgrep
-		ffmpeg
-		pandoc
-		####Ranger utils
-		atool
-		libarchive
-		mupdf
-		ffmpegthumbnailer
-		exiftool
-		file
-		poppler_utils
-		####web
-		qutebrowser
-		youtube-dl
-		wget
-		lynx
-		####torrent
+    ffmpeg
+    pandoc
+    ####Ranger utils
+    atool
+    libarchive
+    mupdf
+    ffmpegthumbnailer
+    exiftool
+    file
+    poppler_utils
+    ####web
+    qutebrowser
+    youtube-dl
+    wget
+    lynx
+    ####torrent
     deluge
-		####mail
-		neomutt
-		isync
-		msmtp
-		pass
-		gnupg
+    ####mail
+    neomutt
+    isync
+    msmtp
+    pass
+    gnupg
     notmuch
-		####latex
-		texlive.combined.scheme-full
-		####gaymen
-		wine
-		nur.nudoku
-		nur.ripcord
-		####misc
-		tty-clock
-		calcurse
-		newsboat
-		####nix stuff
-		nix-prefetch-scripts
-		nix-prefetch-github
-		####Sway improvements
-		pango
-		light
+    ####latex
+    texlive.combined.scheme-full
+    ####gaymen
+    wine
+    nur.nudoku
+    nur.ripcord
+    ####misc
+    tty-clock
+    calcurse
+    newsboat
+    ####nix stuff
+    nix-prefetch-scripts
+    nix-prefetch-github
+    ####Sway improvements
+    pango
+    light
     nur.bemenu
-		i3blocks
-		pywal
+    i3blocks
+    pywal
     nur.ydotool
-  	];
+    ];
   };
 
   services.xserver.desktopManager.plasma5.enable = true;
@@ -171,19 +171,19 @@ in
   #sway window manager
   programs.sway.enable = true;
   programs.sway.extraPackages = with pkgs; [
-	  xwayland
-	  swaybg
-	  swayidle
-	  swaylock
-	  grim
-	  slurp
-	  mako
-	  redshift-wayland
-	  wf-recorder
-	  wl-clipboard
+    xwayland
+    swaybg
+    swayidle
+    swaylock
+    grim
+    slurp
+    mako
+    redshift-wayland
+    wf-recorder
+    wl-clipboard
     wdisplays
     gebaar-libinput
-	];
+  ];
 
 
   #Search engine hosted locally
@@ -199,7 +199,7 @@ in
 
   #GnuPG
   programs.gnupg.agent = {
-	 enable = true;
+   enable = true;
   };
 
 }
