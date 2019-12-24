@@ -5,7 +5,7 @@ lockcommand() {\
 	pulsemixer --mute
 	maim -u -m 5 /tmp/screen.jpg
 	convert /tmp/screen.jpg -scale 10% -scale 1000% /tmp/screen.jpg
-	convert /tmp/screen.jpg ${HOME}/.config/sway/lockicon.png -gravity center -composite -matte -resize 1366x768 RGB:- | i3lock --raw 1366x768:rgb --image /dev/stdin -e -f
+	convert /tmp/screen.jpg ${HOME}/.config/i3/lockicon.png -gravity center -composite -matte -resize 1366x768 RGB:- | i3lock --raw 1366x768:rgb --image /dev/stdin -e -f
 	sleep 1
 	xset dpms force off
 	xidlehook \
@@ -31,7 +31,7 @@ bypass() {\
 	pulsemixer --mute
 	maim -u /tmp/screen.jpg
 	convert /tmp/screen.jpg -scale 10% -scale 1000% /tmp/screen.jpg
-	convert /tmp/screen.jpg ${HOME}/.config/sway/lockicon.png -gravity center -composite -matte -resize 1366x768 RGB:- | i3lock --raw 1366x768:rgb --image /dev/stdin -e -f
+	convert /tmp/screen.jpg ${HOME}/.config/i3/lockicon.png -gravity center -composite -matte -resize 1366x768 RGB:- | i3lock --raw 1366x768:rgb --image /dev/stdin -e -f
 	sleep 1
 	xset dpms force off
 	xidlehook \

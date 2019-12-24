@@ -36,7 +36,7 @@
 
   #for scripts running in the background
   services.cron.enable = true;
-  services.cron.systemCronJobs = [ "0 22 * * * root updatedb" "*/15 * * * * iheb newsboat -x reload" "*/6 * * * * root /home/iheb/.local/bin/checklowbattery.sh" "*/10 * * * * iheb /home/iheb/.local/bin/mailsync" "*/7 * * * * iheb swaymsg -s $(cat $HOME/.sway_socket) -- exec webdiff" ];
+  services.cron.systemCronJobs = [ "0 22 * * * root updatedb" "*/15 * * * * iheb newsboat -x reload" "*/6 * * * * root /home/iheb/.local/bin/checklowbattery.sh" "*/10 * * * * iheb /home/iheb/.local/bin/mailsync" "*/7 * * * * iheb i3-msg -s $(cat $HOME/.i3_socket) -- exec webdiff" ];
 
   systemd.services.i3suspend = {
     enable = true;

@@ -11,8 +11,28 @@ packages=$(nix-store -q --requisites /run/current-system/sw | wc -l)
 #packages=$(nix-store --query -R /run/current-system/ | wc -l)
 terminal="$TERMINAL"
 shell="$(basename "$SHELL")"
-uitype="WM"
-ui="sway"
+if [ -n "${DE}" ]; then
+	ui="${DE}"
+	uitype='DE'
+elif [ -n "${WM}" ]; then
+	ui="${WM}"
+	uitype='WM'
+elif [ -n "${XDG_CURRENT_DESKTOP}" ]; then
+	ui="${XDG_CURRENT_DESKTOP}"
+	uitype='DE'
+elif [ -n "${DESKTOP_SESSION}" ]; then
+	ui="${DESKTOP_SESSION}"
+	uitype='DE'
+elif [ -f "${HOME}/.xinitrc" ]; then
+	ui="$(tail -n 1 "${HOME}/.xinitrc" | cut -d ' ' -f 2)"
+	uitype='WM'
+elif [ -f "${HOME}/.xsession" ]; then
+	ui="$(tail -n 1 "${HOME}/.xsession" | cut -d ' ' -f 2)"
+	uitype='WM'
+else
+	ui='unknown'
+	uitype='UI'
+fi
 
 
 ## DEFINE COLORS
