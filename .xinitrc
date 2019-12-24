@@ -1,7 +1,7 @@
 setxkbmap fr &
 xset r rate 300 30 &
 pgrep deluged || deluged &
-pgrep compton || compton &
+togglecompton &
 pgrep syncthing || syncthing -no-browser &
 pgrep controlmpd || controlmpd &
 pgrep -f "pactl subscribe" || pactlsubscribe.sh &
@@ -10,5 +10,6 @@ pgrep -f "nmcli monitor" || nmblocksmonitor &
 queueandnotify &
 startdunst &
 rm /tmp/lockscreen.lock &
+rm /tmp/redshifttoggle.lock &
 pgrep xidlehook || xidlehook --not-when-fullscreen --timer normal 1200 "lock.sh" "" &
 exec i3

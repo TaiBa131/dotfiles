@@ -1,7 +1,9 @@
 #!/usr/bin/env sh
-if pgrep redshift > /dev/null
+if [ -f /tmp/redshifttoggle.lock ]
 then
-	pkill redshift
+	redshift -x
+	rm /tmp/redshifttoggle.lock
 else
 	redshift -O 3500
+	touch /tmp/redshifttoggle.lock
 fi

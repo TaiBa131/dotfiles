@@ -217,7 +217,7 @@ bindsym $mod+m bar mode toggle
 
 #Take screenshot
 bindsym $mod+shift+F11 exec maimmenu
-bindsym $mod+F11 exec maim "$(date '+%Y-%m-%d-%H:%M:%S')-full".jpg
+bindsym $mod+F11 exec maim "$(date '+%Y-%m-%d-%H:%M:%S')-full".png
 
 #lock screen / suspend
 bindsym $mod+F12 exec keepscreenawake.sh
@@ -226,8 +226,8 @@ bindsym $mod+shift+F12 exec lock.sh --bypass
 #Screen Cast
 bindsym $mod+shift+F8 exec screencast.sh
 
-#Blue light filter
+#Blue light filter and transparency
 bindsym $mod+b exec toggleredshift
-
+bindsym $mod+shift+b exec togglecompton
 #don't focus on reload
 focus_on_window_activation urgent
