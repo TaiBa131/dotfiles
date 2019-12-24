@@ -6,7 +6,7 @@ ON=$(mpc status | wc -l)
 FORMAT="[%albumartist% - ]|[%artist% - ]&%title%"
 mpc -f "$FORMAT" current
 case $BLOCK_BUTTON in
-    1) swaymsg -q -- exec $TERMINAL -e ncmpcpp & ;;
+    1) $TERMINAL -e ncmpcpp & ;;
     3) mpc -q toggle & ;;
     4) mpc -q next; sleep 0.5 & ;;
     5) mpcprevious.sh; sleep 0.5 & ;;

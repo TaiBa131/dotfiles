@@ -12,7 +12,7 @@
   #kernel
   boot.kernelParams = [ "pci=noaer" ];
   #boot.blacklistedKernelModules = [ "tpm" "tpm_tis_core" "tpm_tis" "tpm_crb" ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "sd_mod" "sr_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
@@ -30,11 +30,11 @@
   # Enable sound.
   sound.enable = true;
   hardware = {
-  	pulseaudio.enable = true;
-	  pulseaudio.package = pkgs.pulseaudioFull; #for bluetooth headset support
-	  bluetooth.enable = true;
+    pulseaudio.enable = true;
+    pulseaudio.package = pkgs.pulseaudioFull; #for bluetooth headset support
+    bluetooth.enable = true;
     #Intel
-	  cpu.intel.updateMicrocode = true;
+    cpu.intel.updateMicrocode = true;
     #graphics
     opengl = {
   	  driSupport32Bit = true;
@@ -46,6 +46,10 @@
         intel-media-driver # LIBVA_DRIVER_NAME=iHD to use this
       ];
     };
+    bumblebee = {
+      enable = true;
+      driver = "nvidia";
+    };
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
@@ -53,9 +57,15 @@
   };
 
 
-  #for nvidia prime with my double graphics laptops
-  #still worthless anyway
-  services.xserver.videoDrivers = [ "intel" "nouveau" ];
+  #Graphics drivers and screen tear fix
+  services.xserver = {
+    enable=true;
+    videoDrivers = [ "intel" ];
+    deviceSection = ''
+      Option "DRI" "2"
+      Option "TearFree" "true"
+      '';
+  };
 
   nix.maxJobs = lib.mkDefault 4;
   services.tlp.enable = true;

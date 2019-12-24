@@ -19,7 +19,7 @@ command -v notify-send >/dev/null || echo "Note that \`libnotify\` or \`libnotif
 if [ "$(uname)" = "Darwin" ]; then
     notify() { osascript -e "display notification \"$2 in $1\" with title \"You've got Mail\" subtitle \"Account: $account\"" && sleep 2 ;}
 else
-    notify() { swaymsg -s $(cat $HOME/.sway_socket) "exec notify-send 'mutt-wizard' '📬 $2 new mail(s) in \`$1\` account.'" ;}
+    notify() { i3-msg -s $(cat $HOME/.i3_socket) "exec notify-send 'mutt-wizard' '📬 $2 new mail(s) in \`$1\` account.'" ;}
 fi
 
 # Check account for new mail. Notify if there is new content.
@@ -34,7 +34,7 @@ syncandnotify() {
             # Extract subject and sender from mail.
             from=$(awk '/^From: / && ++n ==1,/^\<.*\>:/' "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | awk '{ $1=""; if (NF>=3)$NF=""; print $0 }' | sed 's/^[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//')
             subject=$(awk '/^Subject: / && ++n == 1,/^\<.*\>: / && ++i == 2' "$file" | head -n-1 | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | sed 's/^Subject: //' | sed 's/^{[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//' | tr -d '\n')
-            swaymsg -s $(cat $HOME/.sway_socket) "exec notify-send '📧$from:' '$subject' &"
+            i3-msg -s $(cat $HOME/.i3_socket) "exec notify-send '📧$from:' '$subject' &"
         done
     fi
 }

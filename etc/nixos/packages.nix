@@ -1,26 +1,33 @@
 { config, lib, pkgs, ... }:
 
-
-let
-  #this is for the wayland overlay by colemickens
-  wayurl = "https://github.com/colemickens/nixpkgs-wayland/archive/master.tar.gz";
-  waylandOverlay = (import (builtins.fetchTarball wayurl));
-in
 {
-
-  #Nix Flakes
-  #nix.package = pkgs.nixFlakes;
-
-  #ancient technology
-  #services.xserver.windowManager.i3.enable = true;
-  #services.xserver.displayManager.startx.enable = true;
-  services.xserver.enable = false;
-  #services.compton.enable = true;
+  services.xserver = {
+    libinput.enable = true;
+    windowManager.i3 = {
+      enable = true;
+      package = pkgs.i3-gaps;
+      extraPackages = with pkgs; [
+        bemenu
+        i3blocks
+        i3lock
+        dunst
+        maim
+        redshift
+        xidlehook
+        xdotool
+        xclip
+        arandr
+        compton
+      ];
+      };
+    displayManager.startx.enable = true;
+    enable = true;
+  };
+  services.illum.enable = true;
 
   #edits to packages
-  nixpkgs.overlays = [ waylandOverlay ]; #overlay for wayland packages
   nixpkgs.config = {
-      packageOverrides = pkgs: {
+  		packageOverrides = pkgs: {
         #my nix user repository
         nur = import (builtins.fetchTarball "https://github.com/ihebchagra/nur-packages/archive/master.tar.gz") {
         				inherit pkgs;
@@ -99,7 +106,6 @@ in
     kdenlive
     ####img
     sxiv
-    imv
     imagemagick
     krita
     gmic_krita_qt
@@ -153,37 +159,14 @@ in
     tty-clock
     calcurse
     newsboat
-    ####nix stuff
+    pywal
     nix-prefetch-scripts
     nix-prefetch-github
-    ####Sway improvements
-    pango
-    light
-    nur.bemenu
-    i3blocks
-    pywal
-    nur.ydotool
     ];
   };
 
+  #filepicker thumbnail fix
   services.xserver.desktopManager.plasma5.enable = true;
-
-  #sway window manager
-  programs.sway.enable = true;
-  programs.sway.extraPackages = with pkgs; [
-    xwayland
-    swaybg
-    swayidle
-    swaylock
-    grim
-    slurp
-    mako
-    redshift-wayland
-    wf-recorder
-    wl-clipboard
-    wdisplays
-    gebaar-libinput
-  ];
 
 
   #Search engine hosted locally

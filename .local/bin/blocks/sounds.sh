@@ -40,7 +40,7 @@ listenmoe() {\
 		else
 			final="$artistRomaji - $title"
 		fi
-		[ ! -z "$source" ] && final="$final [$source]"
+		[ ! -z "$source" ] && final="$final 『 $source 』"
 		echo "$final" >/tmp/listenmoeinfo
 	}
 	export -f getmetadata

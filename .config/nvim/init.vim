@@ -20,7 +20,6 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'roxma/nvim-yarp'
 Plugin 'spwhitt/vim-nix'
-Plugin 'aouelete/sway-vim-syntax'
 call vundle#end()
 " basics
 set bg=light

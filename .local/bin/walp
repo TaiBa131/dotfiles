@@ -2,9 +2,9 @@
 if [ -z $1 ]; then
 	wallpaper=$(sxiv -obqft ~/pix/wallpapers/*)
 	[ -z $wallpaper ] && exit
-	wal -i $wallpaper && DONE=true
+	wal --saturate 0.3 -i $wallpaper && DONE=true
 else
-	wal -i "$1" && DONE=true
+	wal --saturate 0.3 -i "$1" && DONE=true
 fi
 
 [ $DONE ] || exit
@@ -56,7 +56,11 @@ set index-active-fg \"$foreground\"" >> ${HOME}/.config/zathura/zathuracolors &&
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}zathura${textstyle}: reloaded zathura colors
 EOM
 
+startdunst && cat <<EOM
+${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}dunst${textstyle}: reloaded dunst colors
+EOM
 
-convert $wallpaper ${HOME}/.config/sway/lockicon.png -gravity center -composite -matte ${HOME}/.config/sway/suspendscreen.jpg && cat <<EOM
-${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}swaylock${textstyle}: reloaded suspend screen
+
+convert $wallpaper ${HOME}/.config/i3/lockicon.png -gravity center -composite -matte -resize "1366^x768" -crop 1366x768+0+0 ${HOME}/.config/i3/suspendscreen.jpg && cat <<EOM
+${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}i3lock${textstyle}: reloaded suspend screen
 EOM

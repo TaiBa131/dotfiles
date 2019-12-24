@@ -1,22 +1,17 @@
 #!/usr/bin/env sh
-# Give dmenu list of all unicode characters to copy.
-# Shows the selected character in dunst if running.
-# This is basically luke smith's script but works on wayland
-
-# Must have wl-clipboard installed to even show menu.
-wl-copy -h >/dev/null || exit
+xclip -h >/dev/null || exit
 
 . "${HOME}/.cache/wal/colors.sh"
-alias bemenu='bemenu --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b -n --scrollbar always'
+alias bemenu='bemenu --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b --scrollbar always'
 
 chosen=$(grep -hv "#" ~/.config/emoji ~/.config/fontawesome | bemenu -i -l 20 -p 'choose a unicode character: ')
 
-[ "$chosen" != "" ] || exit
+[ -z "$chosen" ] && exit
 
 c=$(echo "$chosen" | sed "s/ .*//")
-wl-copy "$(echo "$c" | tr -d '\n')"
-notify-send "'$c' copied to clipboard."
+echo "$c" | tr -d '\n' | xclip -selection clipboard
+notify-send "'$c' copied to clipboard." &
 
-#s=$(echo "$chosen" | sed "s/.*; //" | awk '{print $1}')
-#echo "$s" | tr -d '\n' | wl-copy --primary
-#notify-send "'$s' copied to primary."
+s=$(echo "$chosen" | sed "s/.*; //" | awk '{print $1}')
+echo "$s" | tr -d '\n' | xclip
+notify-send "'$s' copied to primary." &

@@ -1,8 +1,8 @@
-# _____      ____ _ _   _
-#/ __\ \ /\ / / _` | | | |
-#\__ \\ V  V / (_| | |_| |
-#|___/ \_/\_/ \__,_|\__, |
-#                   |___/
+# _ _____
+#(_)___ /
+#| | |_ \
+#| |___) |
+#|_|____/
 
 ##one of these days...
 #xwayland disable
@@ -12,20 +12,20 @@ set $alt Mod1
 hide_edge_borders smart
 default_border normal 2
 workspace_layout tabbed
-input * xkb_layout "fr"
-input * xkb_options "caps:swapescape"
-input * xkb_numlock enabled
-input * tap enabled
-input * drag enabled
-input * repeat_rate 45
 
-
-##Define Colors
-include "$HOME/.cache/wal/colors-sway"
-set $bg $color0
-set $fg $color5
 exec --no-startup-id wal -R
-output "*" bg $wallpaper fill
+set_from_resource $fg i3wm.color5 #f0f0f0
+set_from_resource $bg i3wm.color0 #f0f0f0
+set_from_resource $background i3wm.background #f0f0f0
+set_from_resource $foreground i3wm.foreground #f0f0f0
+set_from_resource $color0 i3wm.color0 #f0f0f0
+set_from_resource $color1 i3wm.color1 #f0f0f0
+set_from_resource $color2 i3wm.color2 #f0f0f0
+set_from_resource $color3 i3wm.color3 #f0f0f0
+set_from_resource $color4 i3wm.color4 #f0f0f0
+set_from_resource $color5 i3wm.color5 #f0f0f0
+set_from_resource $color6 i3wm.color6 #f0f0f0
+set_from_resource $color7 i3wm.color7 #f0f0f0
 
 # class                 border  backgr. text indicator child_border
 client.focused $color1 $color1 $foreground $color1 $color1
@@ -34,17 +34,8 @@ client.unfocused $background $background $foreground $background $background
 
 
 #Auto-start
-exec --no-startup-id deluged
-exec --no-startup-id syncthing -no-browser
-exec --no-startup-id controlmpd
-exec --no-startup-id queueandnotify
-exec --no-startup-id pactlsubscribe.sh
-exec --no-startup-id batterymonitor
-exec --no-startup-id nmblocksmonitor
-exec --no-startup-id sudo ydotoold
-exec --no-startup-id rm /tmp/lockscreen.lock
 exec_always --no-startup-id pkill mpDris2; sleep 1; mpDris2
-exec_always --no-startup-id echo $SWAYSOCK > $HOME/.sway_socket
+exec_always --no-startup-id echo $I3SOCK > $HOME/.i3_socket
 
 #######################################
 #######################################
@@ -70,7 +61,7 @@ bar {
 
 
 # start app launcher
-bindsym $mod+r exec pgrep "bemenu" || bemenu-run --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b -n --scrollbar always -l 15 -p "run: "
+bindsym $mod+r exec pgrep "bemenu" || bemenu-run --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b --scrollbar always -l 15 -p "run: "
 
 # change volume or toggle mute
 bindsym XF86AudioRaiseVolume exec pulsemixer --change-volume +5
@@ -79,7 +70,7 @@ bindsym XF86AudioMute exec pulsemixer --toggle-mute
 
 #Window titles
 font pango:sansserif 9.25
-titlebar_padding 4 2
+#titlebar_padding 4 2
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -89,7 +80,7 @@ bindsym $mod+Return exec $TERMINAL
 
 # start browser
 bindsym $mod+i exec $BROWSER
-for_window [app_id="org.qutebrowser.qutebrowser"] border pixel 0
+#for_window [app_id="org.qutebrowser.qutebrowser"] border pixel 0
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -110,17 +101,13 @@ bindsym $mod+Shift+u exec pgrep "bemenu" || emojimenu
 #Calculator
 bindsym $mod+c exec $TERMINAL -e "qalc"
 
-#Brightness control
-bindsym XF86MonBrightnessUp exec sudo light -A 5
-bindsym XF86MonBrightnessDown exec sudo light -U 5
-
 #Music control
 bindsym XF86AudioNext exec mpc next
 bindsym XF86AudioPrev exec mpcprevious.sh
 bindsym XF86AudioStop exec stopmusicandsounds.sh
 bindsym XF86AudioPause exec mpc toggle
 bindsym XF86AudioPlay exec mpc toggle
-bindsym $mod+down exec pgrep "bemenu" || changesong
+bindsym $mod+Down exec pgrep "bemenu" || changesong
 
 # change focus
 bindsym $mod+h focus left
@@ -190,13 +177,13 @@ bindsym $mod+Shift+ccedilla move container to workspace $ws9
 bindsym $mod+Shift+agrave move container to workspace $ws10
 
 # reload the configuration file
-bindsym $mod+Shift+r exec swaymsg -- reload
+bindsym $mod+Shift+r restart
 
 #exit sway
-bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your Xorg session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 #hibernate
-bindsym $mod+shift+F7 exec swaynag -t warning -m 'You pressed the Hibernate shortcut, are you sure you want to put the computer into hibernation' -b 'Yes, hibernate' 'systemctl hibernate; pkill swaynag'
+bindsym $mod+shift+F7 exec "i3-nagbar -t warning -m 'You pressed the Hibernate shortcut, are you sure you want to put the computer into hibernation' -B 'Yes, hibernate' 'systemctl hibernate; pkill swaynag'"
 
 
 #Resizing
@@ -207,10 +194,10 @@ bindsym $alt+shift+l resize grow width 10 px or 10 ppt
 
 #GAPS
 gaps inner 0
-bindsym $mod+right gaps inner current plus 5
-bindsym $mod+left gaps inner current minus 5
-bindsym $mod+Shift+right gaps outer current plus 5
-bindsym $mod+Shift+left gaps outer current minus 5
+bindsym $mod+Right gaps inner current plus 5
+bindsym $mod+Left gaps inner current minus 5
+bindsym $mod+Shift+Right gaps outer current plus 5
+bindsym $mod+Shift+Left gaps outer current minus 5
 
 #window opacity
 bindsym $mod+z opacity minus 0.05
@@ -229,20 +216,12 @@ bindsym $mod+F10 exec beumount
 bindsym $mod+m bar mode toggle
 
 #Take screenshot
-bindsym $mod+shift+F11 exec geom=$(slurp) && grim -g "$geom" "$(date '+%Y-%m-%d-%H:%M:%S')-$(echo $geom | awk '{print $2}')".png
-bindsym $mod+F11 exec grim "$(date '+%Y-%m-%d-%H:%M:%S')".png
-
-#notifications
-#exec_always dbus-daemon --session --address=unix:path=$XDG_RUNTIME_DIR/bus
-exec_always rm /tmp/notificationlock
-exec_always pkill mako; mako --font Inconsolata 11 --background-color "$background"DD --text-color "$foreground" --width 400 --height 100 --border-color "$color5" --anchor bottom-right --ignore-timeout 1
-exec swayidle timeout 1 '' resume 'notificationclear.sh'
+bindsym $mod+shift+F11 exec maimmenu
+bindsym $mod+F11 exec maim "$(date '+%Y-%m-%d-%H:%M:%S')-full".jpg
 
 #lock screen / suspend
-exec rm /tmp/lockscreen.lock
 bindsym $mod+F12 exec keepscreenawake.sh
 bindsym $mod+shift+F12 exec lock.sh --bypass
-exec swayidle timeout 1200 'lock.sh' before-sleep 'suspend.sh'
 
 #Screen Cast
 bindsym $mod+shift+F8 exec screencast.sh
@@ -250,8 +229,5 @@ bindsym $mod+shift+F8 exec screencast.sh
 #Blue light filter
 bindsym $mod+b exec toggleredshift
 
-#mpv border
-for_window [app_id="mpv"] border pixel 0
-
-#for_window [app_id=".*"] floating enable
-#for_window [app_id=".*"] move position cursor
+#don't focus on reload
+focus_on_window_activation urgent

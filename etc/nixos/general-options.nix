@@ -11,9 +11,14 @@
   networking.networkmanager.enable = true; #networking via networkmanager
 
   #internationalisation
+  services.xserver = {
+    layout = "fr";
+    xkbOptions = "caps:swapescape";
+  };
+
   i18n = {
     consoleFont = "Lat2-Terminus16";
-    consoleKeyMap = "fr";
+    consoleUseXkbConfig = true;
     defaultLocale = "en_US.UTF-8";
   };
 
@@ -31,25 +36,33 @@
 
   #for scripts running in the background
   services.cron.enable = true;
-  services.cron.systemCronJobs = [ "0 22 * * * root updatedb" "*/15 * * * * iheb newsboat -x reload" "*/6 * * * * root /home/iheb/.local/bin/checklowbattery.sh" "*/10 * * * * iheb /home/iheb/.local/bin/mailsync" ];
+  services.cron.systemCronJobs = [ "0 22 * * * root updatedb" "*/15 * * * * iheb newsboat -x reload" "*/6 * * * * root /home/iheb/.local/bin/checklowbattery.sh" "*/10 * * * * iheb /home/iheb/.local/bin/mailsync" "*/7 * * * * iheb swaymsg -s $(cat $HOME/.sway_socket) -- exec webdiff" ];
 
+  systemd.services.i3suspend = {
+    enable = true;
+		before = [ "sleep.target" "suspend.target" ];
+		description = "lockscreen on lid close";
+    serviceConfig = {
+      Type = "oneshot";
+      User = "iheb";
+      ExecStart = pkgs.writeScript "laptopsleepmode.sh" ''
+        #! /bin/sh
+        ${pkgs.i3}/bin/i3-msg -s $(cat /home/iheb/.i3_socket) -- exec suspend.sh
+        sleep 2
+        '';
+      };
+		wantedBy = [ "sleep.target" "suspend.target" ];
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.iheb = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "input" ];
+    extraGroups = [ "wheel" "networkmanager" "input" "video" ];
     shell = pkgs.zsh;
   };
 
-  ##Block ad and malware hosts
-  #networking.extraHosts = builtins.readFile (builtins.fetchurl {
-    #name = "blocked_hosts.txt";
-    #url =
-    #"https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts";
-  #});
-
 
   #sudoers file
-  security.sudo.extraConfig = "%wheel ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/shutdown,/run/current-system/sw/bin/reboot,/run/current-system/sw/bin/mount,/run/current-system/sw/bin/umount,/run/current-system/sw/bin/jmtpfs,/run/current-system/sw/bin/light,/run/current-system/sw/bin/loadkeys,/run/current-system/sw/bin/ydotool,/run/current-system/sw/bin/ydotoold,/run/current-system/sw/bin/systemctl stop bluetooth.service,/run/current-system/sw/bin/systemctl start bluetooth.service\n";
+  security.sudo.extraConfig = "%wheel ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/shutdown,/run/current-system/sw/bin/reboot,/run/current-system/sw/bin/mount,/run/current-system/sw/bin/umount,/run/current-system/sw/bin/jmtpfs,/run/current-system/sw/bin/light,/run/current-system/sw/bin/systemctl stop bluetooth.service,/run/current-system/sw/bin/systemctl start bluetooth.service\n";
 
 }

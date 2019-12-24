@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 case $BLOCK_BUTTON in
-	1) swaymsg -q -- exec $TERMINAL -e nmtui & ;;
+	1) $TERMINAL -e nmtui & ;;
 esac
 
 out=$(nmcli | grep "\ connected")

@@ -3,24 +3,35 @@
 lockcommand() {\
 	touch /tmp/lockscreen.lock
 	pulsemixer --mute
-	swaylock -i ${HOME}/.config/sway/suspendscreen.jpg -e -f -F
-	swayidle timeout 10 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' &
-	swayidle timeout 600 'if [ $(cat /sys/class/power_supply/BAT0/status) == "Discharging" ]; then systemctl suspend; fi' &
+	#i3lock -i ${HOME}/.config/i3/suspendscreen.jpg -e -f
+	convert ${HOME}/.config/i3/suspendscreen.jpg RGB:- | i3lock --raw 1366x768:rgb --image /dev/stdin -e -f
+	xidlehook \
+	  --timer normal 10 \
+	    'xset dpms force off' \
+	    'xset dpms force on' \
+	  --timer normal 600 \
+	    '[ $(cat /sys/class/power_supply/BAT0/status) == "Discharging" ] && systemctl suspend' \
+	    '' &
 	while true; do
 		sleep 1
-		if [ $(pgrep swaylock | wc -l ) = "0" ]; then pkill -n swayidle; pkill -n swayidle; break; fi
+		if ! pgrep i3lock > /dev/null; then pkill -n xidlehook && break; fi
 	done
 	rm /tmp/lockscreen.lock
 	}
 
 bypass() {\
 	pulsemixer --mute
-	swaylock -i ${HOME}/.config/sway/suspendscreen.jpg -e -f -F
-	swayidle timeout 10 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' &
-	swayidle timeout 600 'if [ $(cat /sys/class/power_supply/BAT0/status) == "Discharging" ]; then systemctl suspend; fi' &
+	i3lock -i ${HOME}/.config/i3/suspendscreen.png -e -f
+	xidlehook \
+	  --timer normal 10 \
+	    'xset dpms force off' \
+	    'xset dpms force on' \
+	  --timer normal 600 \
+	    '[ $(cat /sys/class/power_supply/BAT0/status) == "Discharging" ] && systemctl suspend' \
+	    '' &
 	while true; do
 		sleep 1
-		if [ $(pgrep swaylock | wc -l ) = "0" ]; then pkill -n swayidle; pkill -n swayidle; break; fi
+		if ! pgrep i3lock > /dev/null; then pkill -n xidlehook && break; fi
 	done
 	}
 

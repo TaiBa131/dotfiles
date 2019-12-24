@@ -1,18 +1,18 @@
 [Default Applications]
-image/jpeg=imv.desktop
+image/jpeg=sxiv.desktop
 application/djvu=zathura.desktop
 image/vnd.djvu+multipage=zathura-usercreated-1.desktop
 audio/mpeg3=mpv.desktop
 audio/mpeg=mpv.desktop
 audio/mp3=mpv.desktop
-image/gif=imv.desktop
+image/gif=sxiv.desktop
 audio/x-m4a=mpv.desktop
 audio/mp4=mpv.desktop
 audio/wav=mpv.desktop
 audio/x-wav=mpv.desktop
-image/png=imv.desktop
-image/svg=imv.desktop
-image/tiff=imv.desktop
+image/png=sxiv.desktop
+image/svg=sxiv.desktop
+image/tiff=sxiv.desktop
 x-scheme-handler/magnet=userapp-transmission-gtk-J19QB0.desktop
 application/xbittorrent=deluge.desktop
 application/pdf=zathura.desktop

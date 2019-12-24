@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+
+# @The-compiler's webdiff but with neomutt, lynx and a sane shebang. Also changed the configs in .config
+# Usage:
+#
+# - create ~/.config/webdiff/pages with one page per line, in the format
+#       <char changed threshold> <url>
+#   e.g:
+#       1 http://www.google.com/
+#
+# - create ~/.config/webdiff/mail with the destination mail adress in it. E.g.
+#       echo 'webdiff@the-compiler.org' > ~/.config/webdiff/mail
+#
+# - Then just periodically call webdiff, e.g. in a cronjob
+
+if [[ $1 == -v ]]; then
+    shift 1
+    verbose=1
+else
+    verbose=0
+fi
+
+if [[ ! -r ~/.config/webdiff/mail ]]; then
+    echo "Error: ~/.config/webdiff/mail does not exist or is not readable!" >&2
+    exit 1
+fi
+
+if [[ ! -r ~/.config/webdiff/pages ]]; then
+    echo "Error: ~/.config/webdiff/pages does not exist or is not readable!" >&2
+    exit 1
+fi
+
+if [[ ! -d ~/.config/webdiff/down ]]; then
+    mkdir ~/.config/webdiff/down
+    if (( $? != 0 )); then
+        echo "Error: Could not create ~/.config/webdiff/down!" >&2
+        exit 1
+    fi
+fi
+
+mail_to=$(<~/.config/webdiff/mail)
+
+tmp=$(mktemp)
+
+if (( $? != 0 )); then
+    echo "Error: Could not create temporary file!" >&2
+    exit 1
+fi
+
+trap 'rm -f "$tmp"' EXIT
+
+while read thresh page; do
+    [[ $thresh == \#* ]] && continue
+
+    file=~/.config/webdiff/down/"$(echo $page | md5sum | cut -d ' ' -f 1)"
+    ((verbose)) && echo "=== $page ==="
+
+    lynx -dump -nonumbers -nolist -width=80 -display_charset=utf-8 -nocolor "$page" > "$tmp" 2>&1
+
+    if [[ $? != 0 ]]; then
+        ((verbose)) && echo "$page: lynx failed"
+        continue
+    fi
+
+    if [[ ! -r "$file" ]]; then
+        ((verbose)) && echo "First download"
+        mv "$tmp" "$file"
+        continue
+    fi
+
+    n_old=$(wc -c "$file" | awk '{ print $1 }')
+    n_diff=$(diff -wy --suppress-common-lines <(sed 's/./&\n/g' "$file") \
+             <(sed 's/./&\n/g' "$tmp") | wc -l)
+
+    if (( n_diff >= thresh || verbose)); then
+	    diff -wu "$file" "$tmp" | \
+		    neomutt -x -s "webdiff: $page $n_diff/$n_old chars changed" "$mail_to" -F ~/.config/mutt/muttrcwebdiff
+    fi
+
+    mv "$tmp" "$file"
+done < ~/.config/webdiff/pages

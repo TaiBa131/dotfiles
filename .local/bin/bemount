@@ -12,7 +12,7 @@ let a=$(jmtpfs -l | wc -l)-2
 #alias dmenu='dmenu -nb "$background" -nf "$foreground" -sb "$foreground" -sf "$background"'
 
 . "${HOME}/.cache/wal/colors.sh"
-alias bemenu='bemenu --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b -n --scrollbar auto'
+alias bemenu='bemenu --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b --scrollbar auto'
 
 getmount() { \
 	[ -z "$chosen" ] && exit 1

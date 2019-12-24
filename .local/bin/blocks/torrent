@@ -14,5 +14,5 @@ deluge-console info | grep State |
 				s/N//g;" | awk '{print $2, $1}' | sed ':a;N;$!ba;s/\n/ /g' | sed -e "s/ $//g"
 
 case $BLOCK_BUTTON in
-    1) swaymsg -q -- exec deluge-gtk & ;;
+    1) deluge-gtk & ;;
 esac
