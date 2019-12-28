@@ -1,6 +1,7 @@
 [Default Applications]
 image/jpeg=sxiv.desktop
 application/djvu=zathura.desktop
+application/epub+zip=zathura.desktop
 image/vnd.djvu+multipage=zathura-usercreated-1.desktop
 audio/mpeg3=mpv.desktop
 audio/mpeg=mpv.desktop
@@ -19,3 +20,4 @@ application/pdf=zathura.desktop
 image/vnd.djvu+multipage=zathura.desktop;
 x-scheme-handler/magnet=deluge.desktop;
 x-scheme-handler/mailto=neomutt.desktop
+inode/directory=ranger.desktop

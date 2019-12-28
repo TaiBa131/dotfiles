@@ -30,10 +30,6 @@ mkcd () {
 	mkdir "$1" && cd "$1"
 }
 
-colorpicker() {
-grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:-
-}
-
 searchfiles() {
 file=$(rg --files --hidden ~/ | fzf)
 [ -z "${file}" ] && exit
@@ -47,6 +43,6 @@ xdg-open "${file}"
 }
 
 nixc() {
-file=$(find /etc/nixos/ -type f | fzf --reverse )
+file=$(find /etc/nixos/ -type f ! -name splashscreen.png | fzf --reverse )
 [ ! -z $file ] && sudo nvim $file
 }

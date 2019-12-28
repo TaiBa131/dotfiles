@@ -117,10 +117,10 @@ bindsym $mod+l focus right
 bindsym $mod+Tab workspace back_and_forth
 
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+bindsym $mod+Shift+h move left 20px
+bindsym $mod+Shift+j move down 20px
+bindsym $mod+Shift+k move up 20px
+bindsym $mod+Shift+l move right 20px
 
 #change tiling direction
 bindsym $mod+q split toggle
@@ -183,14 +183,14 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your Xorg session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 #hibernate
-bindsym $mod+shift+F7 exec "i3-nagbar -t warning -m 'You pressed the Hibernate shortcut, are you sure you want to put the computer into hibernation' -B 'Yes, hibernate' 'systemctl hibernate; pkill swaynag'"
+bindsym $mod+shift+F7 exec "i3-nagbar -t warning -m 'You pressed the Hibernate shortcut, are you sure you want to put the computer into hibernation' -B 'Yes, hibernate' 'systemctl hibernate; pkill i3-nagbar'"
 
 
 #Resizing
-bindsym $alt+shift+h resize shrink width 10 px or 10 ppt
-bindsym $alt+shift+j resize grow height 10 px or 10 ppt
-bindsym $alt+shift+k resize shrink height 10 px or 10 ppt
-bindsym $alt+shift+l resize grow width 10 px or 10 ppt
+bindsym $alt+shift+h resize shrink width 20 px or 20 ppt
+bindsym $alt+shift+j resize grow height 20 px or 20 ppt
+bindsym $alt+shift+k resize shrink height 20 px or 20 ppt
+bindsym $alt+shift+l resize grow width 20 px or 20 ppt
 
 #GAPS
 gaps inner 0

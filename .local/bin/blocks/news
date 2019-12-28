@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 case $BLOCK_BUTTON in
-        1) $TERMINAL -e newsboat & ;;
+        1) i3-msg -q -- exec $TERMINAL -e newsboat & ;;
 esac
 pgrep newsboat > /dev/null || newsboat -x print-unread | awk '{print $1}' | sed s/^$//g > /tmp/newsnumber
 news=$(cat /tmp/newsnumber)

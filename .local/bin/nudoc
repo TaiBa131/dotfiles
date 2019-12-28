@@ -5,7 +5,7 @@ then
 	while true
 	do
 		read -p "name of your document: " name
-		[ -f ${HOME}/${name}.tex ] && echo "${name}.tex already exists" && continue
+		[ -f "${HOME}/${name}.tex" ] && echo "${name}.tex already exists" && continue
 		break
 	done
 	if [ -z "${name}" ]; then name="new${template}"; fi
@@ -13,16 +13,18 @@ then
 	then
 		NBCOPIES=$(ls ${HOME}/ | grep "${name}.*\.tex" | wc -l)
 		cp "${HOME}/dox/latex/templates/${template}.tex" "${HOME}/${name}${NBCOPIES}.tex"
+		sed -i 's/\(\\title{\).*\(}\)/\1'"$name"'\2/' "${HOME}/${name}${NBCOPIES}.tex"
 		nvim -c 'execute "normal \/\<++>\<Enter>\"\_c4l"' "${HOME}/${name}${NBCOPIES}.tex"
 	else
 		cp "${HOME}/dox/latex/templates/${template}.tex" "${HOME}/${name}.tex"
+		sed -i 's/\(\\title{\).*\(}\)/\1'"$name"'\2/' "${HOME}/${name}.tex"
 		nvim -c 'execute "normal \/\<++>\<Enter>\"\_c4l"' "${HOME}/${name}.tex"
 	fi
 else
 	while true
 	do
 		read -p "name of your document: " name
-		[ -f ${HOME}/${name}.tex ] && echo "${name}.tex already exists" && continue
+		[ "-f ${HOME}/${name}.tex" ] && echo "${name}.tex already exists" && continue
 		break
 	done
 	if [ -z "${name}" ]; then name="newdocument"; fi

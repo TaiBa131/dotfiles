@@ -1,8 +1,41 @@
 { config, lib, pkgs, ... }:
 
+let
+
+  #My Nix User Repository/Channel
+  NurRepo = import <nur> { inherit pkgs; };
+
+  #In case of debugging my nix channel
+  #NurRepo = import /home/iheb/.local/repos/nur-packages { inherit pkgs; };
+  #NurRepo = import ( builtins.fetchTarball "https://github.com/ihebchagra/nur-packages/archive/master.tar.gz" ) { inherit pkgs; };
+
+in
+
 {
+
+  #edits to packages + my nix packages
+  nixpkgs.config = {
+    allowUnfree = true;
+    ncmpcpp.visualizerSupport = true;
+    packageOverrides = pkgs: {
+      unstable = import <unstable> {};
+      nur = NurRepo;
+      neomutt = NurRepo.neomutt;
+      notmuch = NurRepo.notmuch;
+      vimCustom = NurRepo.vimCustom;
+      zathura-poppler-only = NurRepo.zathura-poppler-only;
+    };
+  };
+
+  #Use my binary cache for packages
+  nix = {
+    binaryCaches = [ "https://chagra.cachix.org/" ];
+    trustedBinaryCaches = [ "https://chagra.cachix.org/" ];
+    binaryCachePublicKeys = [ "chagra.cachix.org-1:Km6wWFDVC2KxXQSZ2bsnk+tnrQ/ONQqea4jFSAr88Pk=" ];
+    requireSignedBinaryCaches = true;
+  };
+
   services.xserver = {
-    libinput.enable = true;
     windowManager.i3 = {
       enable = true;
       package = pkgs.i3-gaps;
@@ -17,67 +50,42 @@
         xdotool
         xclip
         arandr
-        compton
+        nur.compton-tryone
       ];
-      };
+    };
     displayManager.startx.enable = true;
     enable = true;
   };
-  services.illum.enable = true;
 
-  #edits to packages
-  nixpkgs.config = {
-  		packageOverrides = pkgs: {
-        #my nix user repository
-        nur = import (builtins.fetchTarball "https://github.com/ihebchagra/nur-packages/archive/master.tar.gz") {
-        				inherit pkgs;
-        };
-        unstable = import <unstable> {};
-        ncmpcpp = pkgs.ncmpcpp.override { visualizerSupport = true; }; #enable visualiser support
-        wine = pkgs.wine.override { wineBuild = "wineWow"; }; #enable both 32bit and 64bit support
-        neomutt = pkgs.neomutt.overrideAttrs ( oldAttrs: {
-          buildInputs = with pkgs; [
-            cyrus_sasl gss gpgme kerberos libidn ncurses
-            openssl perl lmdb
-            mailcap
-          ];
-          configureFlags = [
-            "--gpgme"
-            "--gss"
-            "--lmdb"
-            "--ssl"
-            "--sasl"
-            "--with-homespool=mailbox"
-            "--with-mailpath="
-            # Look in $PATH at runtime, instead of hardcoding /usr/bin/sendmail
-            "ac_cv_path_SENDMAIL=sendmail"
-          ];
-        });
-        notmuch = pkgs.notmuch.overrideAttrs ( oldAttrs: {
-          buildInputs = with pkgs; [
-            gnupg
-            xapian gmime3 talloc zlib
-            perl
-            pythonPackages.python
-          ];
-        postPatch = ''
-          patchShebangs configure
-          patchShebangs test/
+  #kde file picker and gui stuff
+  imports =
+    [
+      NurRepo.modules.kdefilepicker
+    ];
 
-          substituteInPlace lib/Makefile.local \
-            --replace '-install_name $(libdir)' "-install_name $out/lib"
-        '';
-          doCheck = false;
-        });
-  	};
-  	allowUnfree = true;
+  #Search engine hosted locally
+  services.searx.enable = true;
+  services.searx.configFile = /home/iheb/.config/searx/settings.yml;
+
+  #bash options and bash_profile
+  programs.bash.enableCompletion = true;
+  programs.zsh.enable = true;
+  programs.zsh.enableCompletion = true;
+  programs.zsh.syntaxHighlighting.enable = true;
+  programs.zsh.autosuggestions.enable = true;
+
+  #GnuPG
+  programs.gnupg.agent = {
+   enable = true;
   };
 
+  #brightness control
+  services.illum.enable = true;
 
   environment = {
   systemPackages = with pkgs; [
     ####vim
-    neovim
+    vimCustom
     ####sysutil
     networkmanagerapplet
     htop
@@ -111,6 +119,7 @@
     gmic_krita_qt
     ####documents
     zathura
+    zathura-poppler-only
     libreoffice
     ####shell
     libqalculate
@@ -163,26 +172,6 @@
     nix-prefetch-scripts
     nix-prefetch-github
     ];
-  };
-
-  #filepicker thumbnail fix
-  services.xserver.desktopManager.plasma5.enable = true;
-
-
-  #Search engine hosted locally
-  services.searx.enable = true;
-  services.searx.configFile = /home/iheb/.config/searx/settings.yml;
-
-  #bash options and bash_profile
-  programs.bash.enableCompletion = true;
-  programs.zsh.enable = true;
-  programs.zsh.enableCompletion = true;
-  programs.zsh.syntaxHighlighting.enable = true;
-  programs.zsh.autosuggestions.enable = true;
-
-  #GnuPG
-  programs.gnupg.agent = {
-   enable = true;
   };
 
 }

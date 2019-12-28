@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+colorsbegin=$(grep -n "#Colors {{{" ${HOME}/.config/qutebrowser/config.py | cut -d : -f 1)
+colorsend=$(grep -n "#ColorsEnd }}}" ${HOME}/.config/qutebrowser/config.py | cut -d : -f 1)
+sed -n "${colorsbegin},${colorsend}p" ${HOME}/.config/qutebrowser/config.py > ${HOME}/.config/qutebrowser/colorsconfig.py

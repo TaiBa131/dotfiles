@@ -3,5 +3,5 @@ if pgrep -x compton > /dev/null
 then
 	pkill compton
 else
-	compton &
+	compton --blur-background --blur-method kawase --blur-strength 9 --backend glx -I 0 -O 0 -D 1 --no-fading-openclose --no-fading-destroyed-argb --config ~/.config/compton/compton.conf & &>/dev/null
 fi

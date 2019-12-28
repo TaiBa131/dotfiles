@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 case $BLOCK_BUTTON in
-	1) pavucontrol & ;;
+	1) i3-msg -q -- exec pavucontrol & ;;
 	3) pulsemixer --toggle-mute ;;
 	4) pulsemixer --change-volume +5 ;;
 	5) pulsemixer --change-volume -5 ;;

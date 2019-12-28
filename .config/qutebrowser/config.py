@@ -1,5 +1,11 @@
+# vim:fileencoding=utf-8:ft=conf:foldmethod=marker
+
+#Autoconfig {{{
+#Autoload options set from browser
 config.load_autoconfig()
-#######################################################
+#AutoconfigEnd }}}
+
+#Adblock {{{
 #adblock
 #DO NOT CHANGE THE POSITION OF THE ADBLOCK LINES
 import sys, os
@@ -9,8 +15,9 @@ config.source("jblock/jblock/integrations/qutebrowser.py")
 #Adblock toggle lines
 c.content.host_blocking.enabled = False
 c.content.host_blocking.lists = ['https://easylist.to/easylist/easylist.txt']
-#######################################################
+#AdblockEnd }}}
 
+#Colors {{{
 #pywal colors
 from os.path import expanduser
 colorsfilepath = expanduser("~") + "/.cache/wal/colors"
@@ -104,11 +111,12 @@ c.colors.tabs.selected.even.bg = red
 c.colors.tabs.selected.even.fg = foreground
 c.colors.tabs.selected.odd.bg = red
 c.colors.tabs.selected.odd.fg = foreground
+#ColorsEnd }}}
 
-
+#Bindings And Commands {{{
 c.aliases['jblock-disabled-window'] = 'spawn --userscript configwithhostblocking'
 c.aliases['adblock-start'] = 'adblock-update;; reload'
-c.aliases['pywal'] = 'spawn --userscript configwithoutjblock;; config-source ~/.config/qutebrowser/configwithoutjblock.py'
+c.aliases['pywal'] = 'spawn --userscript updatecolors;; config-source ~/.config/qutebrowser/colorsconfig.py'
 config.bind('U', 'spawn --userscript configwithoutjblock;; config-source ~/.config/qutebrowser/configwithoutjblock.py')
 
 c.downloads.location.directory = '/home/iheb/downloads'
@@ -134,7 +142,9 @@ config.bind(',ug', 'greasemonkey-reload')
 config.bind('E', 'open-editor')
 config.bind('tap', 'config-cycle content.autoplay true false ;; reload')
 config.bind(',D', 'hint all delete')
+#Bindings And Commands End }}}
 
+#Other Options {{{
 c.fonts.downloads = '9pt DejaVu Sans'
 c.fonts.tabs = '9pt DejaVu Sans'
 c.fonts.monospace = 'Terminus'
@@ -142,8 +152,6 @@ c.fonts.statusbar = '10pt monospace'
 
 c.fonts.hints = '11pt DejaVu Sans Bold'
 c.hints.border = '1px solid ' + foreground
-
-c.qt.force_platform = 'wayland'
 
 c.completion.web_history.max_items = 0
 
@@ -158,4 +166,7 @@ c.url.default_page = 'file:///home/iheb/.config/homepage/index.html'
 c.url.start_pages = ['file:///home/iheb/.config/homepage/index.html']
 
 c.url.open_base_url = True
-c.url.searchengines = {"DEFAULT": "http://127.0.0.1:8888/?q={}","&g": "https://www.google.com/search?q={}","&fr": "http://127.0.0.1:8888/?q={}&language=fr","&/g/":"https://archive.rebeccablacktech.com/g/search/text/{}/","&wf": "https://fr.wikipedia.org/wiki/Spécial:Recherche?search={}","&we": "https://en.wikipedia.org/wiki/Special:Search?search={}"}
+c.url.searchengines = {"DEFAULT": "http://127.0.0.1:8888/?q={}","&g": "https://www.google.com/search?q={}","&git":"https://github.com/search?type=Code&q={}","&fr": "http://127.0.0.1:8888/?q={}&language=fr","&rbt":"https://archive.rebeccablacktech.com/g/search/text/{}/","&wf": "https://fr.wikipedia.org/wiki/Spécial:Recherche?search={}","&we": "https://en.wikipedia.org/wiki/Special:Search?search={}"}
+
+c.qt.args=["ignore-gpu-blacklist", "enable-gpu-rasterization", "enable-native-gpu-memory-buffers", "num-raster-threads=4"]
+#Other Options End }}}

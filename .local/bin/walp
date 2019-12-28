@@ -56,7 +56,7 @@ set index-active-fg \"$foreground\"" >> ${HOME}/.config/zathura/zathuracolors &&
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}zathura${textstyle}: reloaded zathura colors
 EOM
 
-startdunst && cat <<EOM
+startdunst &>/dev/null && cat <<EOM
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}dunst${textstyle}: reloaded dunst colors
 EOM
 

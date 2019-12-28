@@ -5,6 +5,7 @@
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
   boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.splashImage = ./splashscreen.png;
 
   #Networking
   networking.hostName = "hera"; #hostname.
@@ -38,10 +39,11 @@
   services.cron.enable = true;
   services.cron.systemCronJobs = [ "0 22 * * * root updatedb" "*/15 * * * * iheb newsboat -x reload" "*/6 * * * * root /home/iheb/.local/bin/checklowbattery.sh" "*/10 * * * * iheb /home/iheb/.local/bin/mailsync" "*/7 * * * * iheb i3-msg -s $(cat $HOME/.i3_socket) -- exec webdiff" ];
 
+  #lockscreen on sleep
   systemd.services.i3suspend = {
     enable = true;
-		before = [ "sleep.target" "suspend.target" ];
-		description = "lockscreen on lid close";
+    before = [ "sleep.target" "suspend.target" ];
+    description = "lockscreen on lid close";
     serviceConfig = {
       Type = "oneshot";
       User = "iheb";
@@ -51,7 +53,7 @@
         sleep 2
         '';
       };
-		wantedBy = [ "sleep.target" "suspend.target" ];
+    wantedBy = [ "sleep.target" "suspend.target" ];
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.

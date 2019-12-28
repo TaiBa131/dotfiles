@@ -3,10 +3,10 @@
 alias bemenu='bemenu --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b --scrollbar always'
 
 case "$(printf "a selected area\\ncurrent window\\nfull screen\\na selected area (copy)\\ncurrent window (copy)\\nfull screen (copy)" | bemenu -l 6 -i -p "Screenshot which area?")" in
-	"a selected area") maim -s "$(date '+%Y-%m-%d-%H:%M:%S')-selected.png" ;;
+	"a selected area") maim -s -o "$(date '+%Y-%m-%d-%H:%M:%S')-selected.png" ;;
 	"current window") maim -i "$(xdotool getactivewindow)" "$(date '+%Y-%m-%d-%H:%M:%S')-window.png" ;;
 	"full screen") maim "$(date '+%Y-%m-%d-%H:%M:%S')-full.png" ;;
-	"a selected area (copy)") maim -s | xclip -selection clipboard -t image/png ;;
+	"a selected area (copy)") maim -s -o | xclip -selection clipboard -t image/png ;;
 	"current window (copy)") maim -i "$(xdotool getactivewindow)" | xclip -selection clipboard -t image/png ;;
 	"full screen (copy)") maim | xclip -selection clipboard -t image/png ;;
 esac

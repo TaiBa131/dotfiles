@@ -3,7 +3,7 @@
 {
   imports =
     [ #hardware
-      ./hardware-configuration.nix
+      ./hardware.nix
       #system options
       ./general-options.nix
       #packages

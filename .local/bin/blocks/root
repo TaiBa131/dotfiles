@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 echo " $(df -h -P / | grep "/$" | awk '{print $4}')"
 case $BLOCK_BUTTON in
-	1) $TERMINAL -e ranger;;
+	1) i3-msg -q -- exec $TERMINAL -e ranger;;
 esac

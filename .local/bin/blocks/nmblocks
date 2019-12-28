@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 case $BLOCK_BUTTON in
-	1) $TERMINAL -e nmtui & ;;
+	1) i3-msg -q -- exec nm-connection-editor & ;;
 esac
 
 out=$(nmcli | grep "\ connected")

@@ -1,2 +1,4 @@
 #!/usr/bin/env sh
-sed "3,11d" ${HOME}/.config/qutebrowser/config.py > ${HOME}/.config/qutebrowser/configwithoutjblock.py
+adblockbegin=$(grep -n "#Adblock {{{" ${HOME}/.config/qutebrowser/config.py | cut -d : -f 1)
+adblockend=$(grep -n "#AdblockEnd }}}" ${HOME}/.config/qutebrowser/config.py | cut -d : -f 1)
+sed "${adblockbegin},${adblockend}d" ${HOME}/.config/qutebrowser/config.py > ${HOME}/.config/qutebrowser/configwithoutjblock.py

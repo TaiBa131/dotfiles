@@ -11,5 +11,5 @@ queueandnotify &
 startdunst &
 rm /tmp/lockscreen.lock &
 rm /tmp/redshifttoggle.lock &
-pgrep xidlehook || xidlehook --not-when-fullscreen --timer normal 1200 "lock.sh" "" &
+pgrep xidlehook || xidlehook --not-when-audio --not-when-fullscreen --timer normal 1200 "lock.sh" "" &
 exec i3
