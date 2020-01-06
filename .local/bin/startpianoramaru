@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 pkill -f "mpv http://live.misk.tn:8000/stream"
 mpc -q clear
-mpc add "https://listen.moe/stream"
+mpc add "http://stream.pianoramaradio.ru"
 mpc play

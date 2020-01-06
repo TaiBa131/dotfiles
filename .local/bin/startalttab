@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+. "${HOME}/.cache/wal/colors.sh"
+pkill -x alttab
+alttab -d 1 -i 1x1 -s 3 -t 160x50 -bg "$background" -fg "$foreground" -frame "$color1" &

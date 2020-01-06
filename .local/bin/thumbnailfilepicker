@@ -1,3 +1,9 @@
 #!/usr/bin/env sh
-image=$(sxiv -N "thumbnailfilepicker" -oqt ~/pix/other)
-[ ! -z $image ] && echo $image | tr -d '\n' | wl-copy
+picker () {
+	cd $HOME/pix/other
+	fzfimg.sh --preview-window right:80% > /tmp/imagepicked
+}
+export -f picker
+$TERMINAL -e sh -c picker
+
+echo "$HOME/pix/other/$(cat /tmp/imagepicked)" | tr -d '\n' | xclip -selection clipboard

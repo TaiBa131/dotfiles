@@ -2,12 +2,10 @@
 
 let
 
-  #My Nix User Repository/Channel
-  NurRepo = import <nur> { inherit pkgs; };
-
-  #In case of debugging my nix channel
+  #In case of debugging my nur repo
   #NurRepo = import /home/iheb/.local/repos/nur-packages { inherit pkgs; };
-  #NurRepo = import ( builtins.fetchTarball "https://github.com/ihebchagra/nur-packages/archive/master.tar.gz" ) { inherit pkgs; };
+  NurRepo = import ( builtins.fetchTarball "https://github.com/ihebchagra/nur-packages/archive/master.tar.gz" ) { inherit pkgs; };
+  UnstableRepo = import ( builtins.fetchTarball "https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz" )  { };
 
 in
 
@@ -16,14 +14,48 @@ in
   #edits to packages + my nix packages
   nixpkgs.config = {
     allowUnfree = true;
-    ncmpcpp.visualizerSupport = true;
     packageOverrides = pkgs: {
-      unstable = import <unstable> {};
+      unstable = UnstableRepo;
       nur = NurRepo;
-      neomutt = NurRepo.neomutt;
-      notmuch = NurRepo.notmuch;
       vimCustom = NurRepo.vimCustom;
       zathura-poppler-only = NurRepo.zathura-poppler-only;
+
+      ncmpcpp = pkgs.ncmpcpp.override { visualizerSupport = true; };
+      neomutt = pkgs.neomutt.overrideAttrs ( oldAttrs: {
+        buildInputs = with pkgs; [
+          cyrus_sasl gss gpgme kerberos libidn ncurses
+          openssl perl lmdb
+          mailcap
+        ];
+        configureFlags = [
+          "--gpgme"
+          "--gss"
+          "--lmdb"
+          "--ssl"
+          "--sasl"
+          "--with-homespool=mailbox"
+          "--with-mailpath="
+          # Look in $PATH at runtime, instead of hardcoding /usr/bin/sendmail
+          "ac_cv_path_SENDMAIL=sendmail"
+        ];
+      });
+      notmuch = pkgs.notmuch.overrideAttrs ( oldAttrs: {
+        buildInputs = with pkgs; [
+          gnupg
+          xapian gmime3 talloc zlib
+          perl
+          pythonPackages.python
+        ];
+        postPatch = ''
+          patchShebangs configure
+          patchShebangs test/
+
+          substituteInPlace lib/Makefile.local \
+            --replace '-install_name $(libdir)' "-install_name $out/lib"
+        '';
+        doCheck = false;
+      });
+
     };
   };
 
@@ -50,6 +82,7 @@ in
         xdotool
         xclip
         arandr
+        alttab
         nur.compton-tryone
       ];
     };
@@ -82,12 +115,19 @@ in
   #brightness control
   services.illum.enable = true;
 
+  #weechat IRC client
+  services.weechat.enable = true;
+  programs.screen.screenrc = ''
+    multiuser on
+    acladd iheb
+    term screen-256color
+  '';
+
   environment = {
   systemPackages = with pkgs; [
     ####vim
     vimCustom
     ####sysutil
-    networkmanagerapplet
     htop
     libnotify
     pciutils
@@ -100,7 +140,6 @@ in
     git
     gawk
     jq
-    unstable.websocat
     ####audio
     pavucontrol
     pulsemixer
@@ -109,6 +148,7 @@ in
     mpdris2
     mpc_cli
     ncmpcpp
+    easytag
     ####video
     mpv
     kdenlive
@@ -117,10 +157,14 @@ in
     imagemagick
     krita
     gmic_krita_qt
+    kolourpaint
+    nur.ueberzug
     ####documents
     zathura
     zathura-poppler-only
     libreoffice
+    pandoc
+    texlive.combined.scheme-full
     ####shell
     libqalculate
     kitty
@@ -135,7 +179,7 @@ in
     fzf
     ripgrep
     ffmpeg
-    pandoc
+    appimage-run
     ####Ranger utils
     atool
     libarchive
@@ -149,7 +193,7 @@ in
     youtube-dl
     wget
     lynx
-    ####torrent
+    ####Torrenting Linux ISOs
     deluge
     ####mail
     neomutt
@@ -158,10 +202,8 @@ in
     pass
     gnupg
     notmuch
-    ####latex
-    texlive.combined.scheme-full
     ####gaymen
-    wine
+    wineWowPackages.staging
     nur.nudoku
     nur.ripcord
     ####misc

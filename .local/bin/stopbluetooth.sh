@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-sudo systemctl stop bluetooth.service
+bluetoothctl power off

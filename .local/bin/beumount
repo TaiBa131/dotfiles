@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # A bemenu prompt to unmount drives.
 # Provides you with mounted partitions, select one to unmount.
 # Drives mounted at /, /boot and /home will not be options to unmount.
@@ -26,7 +26,7 @@ unmountcd() { \
 	}
 
 asktype() { \
-	case "$(printf $undrives | bemenu -i -p "Unmount which device?")" in
+	case "$(printf "$undrives" | bemenu -i -p "Unmount which device?")" in
 		USB) unmountusb ;;
 		Android) unmountandroid ;;
 		CD) umountcd ;;
@@ -38,9 +38,9 @@ cds=$(awk '/sr0/ {print $2}' /etc/mtab)
 androids=$(awk '/jmtpfs/ {print $2}' /etc/mtab)
 
 undrives=$([ ! -z "$drives" ] && echo -n "USB\n"; [ ! -z "$cds" ] && echo -n "CD\n"; [ ! -z "$androids" ] && echo -n "Android\n")
-case $(printf $undrives | wc -l) in
+case $(printf "$undrives" | wc -l) in
 	0) notify-send "No USB drive or Android device or CD to unmount" ;;
-	1) case $(printf $undrives) in
+	1) case $(printf "$undrives") in
 		USB) unmountusb ;;
 		Android) unmountandroid ;;
 		CD) unmountcd ;;

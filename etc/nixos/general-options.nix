@@ -65,6 +65,6 @@
 
 
   #sudoers file
-  security.sudo.extraConfig = "%wheel ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/shutdown,/run/current-system/sw/bin/reboot,/run/current-system/sw/bin/mount,/run/current-system/sw/bin/umount,/run/current-system/sw/bin/jmtpfs,/run/current-system/sw/bin/light,/run/current-system/sw/bin/systemctl stop bluetooth.service,/run/current-system/sw/bin/systemctl start bluetooth.service\n";
+  security.sudo.extraConfig = "%wheel ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/shutdown,/run/current-system/sw/bin/reboot,/run/current-system/sw/bin/mount,/run/current-system/sw/bin/umount,/run/current-system/sw/bin/jmtpfs\n";
 
 }

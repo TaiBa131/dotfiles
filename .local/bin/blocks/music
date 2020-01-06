@@ -1,8 +1,11 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-ON=$(mpc status | wc -l)
+[ -z "$(mpc current)" ] && exit
+file=$(mpc current -f "%file%")
+[[ "$file" =~ ^https:\/\/lainon\.life\/radio\/.*\.ogg$ ]] && exit
+[ "$file" = "https://listen.moe/stream" ] && exit
+[ "$file" = "http://stream.pianoramaradio.ru" ] && exit
 
-[ ! "$ON" == "3" ] && exit
 FORMAT="[%albumartist% - ]|[%artist% - ]&%title%"
 mpc -f "$FORMAT" current
 case $BLOCK_BUTTON in

@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 if [ $# != 1 ] || [ "$1" == "-h" ]  || [ "$1" == "--help" ]; then
     echo -e "Example: \e[1m\e[33mcheckem\e[0m /g/"
     echo "Outputs the last post on the board."

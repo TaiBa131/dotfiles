@@ -60,7 +60,10 @@ startdunst &>/dev/null && cat <<EOM
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}dunst${textstyle}: reloaded dunst colors
 EOM
 
+startalttab &>/dev/null && cat <<EOM
+${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}alttab${textstyle}: reloaded alttab colors
+EOM
 
-convert $wallpaper ${HOME}/.config/i3/lockicon.png -gravity center -composite -matte -resize "1366^x768" -crop 1366x768+0+0 ${HOME}/.config/i3/suspendscreen.jpg && cat <<EOM
+convert $wallpaper -resize "1366^x768" -crop 1366x768+0+0 ${HOME}/.config/i3/lockicon.png -gravity center -composite -matte ${HOME}/.config/i3/suspendscreen.jpg && cat <<EOM
 ${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}i3lock${textstyle}: reloaded suspend screen
 EOM

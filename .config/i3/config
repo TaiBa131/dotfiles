@@ -35,6 +35,7 @@ client.unfocused $background $background $foreground $background $background
 
 #Auto-start
 exec_always --no-startup-id pkill mpDris2; sleep 1; mpDris2
+exec_always --no-startup-id startalttab
 exec_always --no-startup-id echo $I3SOCK > $HOME/.i3_socket
 
 #######################################
@@ -198,10 +199,6 @@ bindsym $mod+Right gaps inner current plus 5
 bindsym $mod+Left gaps inner current minus 5
 bindsym $mod+Shift+Right gaps outer current plus 5
 bindsym $mod+Shift+Left gaps outer current minus 5
-
-#window opacity
-bindsym $mod+z opacity minus 0.05
-bindsym $mod+a opacity plus 0.05
 
 #Meme folder
 bindsym $mod+s exec thumbnailfilepicker

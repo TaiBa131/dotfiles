@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+kitty -T=Weechat -e zsh -c "TERM='screen-256color' screen -x weechat/weechat-screen"
+

@@ -4,6 +4,8 @@
 
 while [ ! -z "$DISPLAY" ]; do
 	pgrep -x "mpd" > /dev/null || mpd
-	mpc idle && pkill -RTMIN+11 i3blocks
+	mpc idle
+	pkill -RTMIN+11 i3blocks
+	pkill -RTMIN+3 i3blocks
 done
 

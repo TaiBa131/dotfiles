@@ -57,7 +57,7 @@ mountcd() { \
 	}
 
 asktype() { \
-	case $(printf $drives | bemenu -i -p "Mount which drive?") in
+	case $(printf "$drives" | bemenu -i -p "Mount which drive?") in
 		USB) mountusb ;;
 		Android) mountandroid ;;
 		CD) mountcd ;;
@@ -69,9 +69,9 @@ usbdrives="$(lsblk -rpo "name,type,size,mountpoint" | awk '$2=="part"&&$4==""{pr
 cddrives="$(blkid /dev/sr0 | awk '{print $1}' | sed 's/://')"
 
 drives=$([ ! -z "$usbdrives" ] && echo -n "USB\n"; [ ! -z "$cddrives" ] && echo -n "CD\n"; [ ! -z "$anddrives" ] && echo -n "Android\n")
-case $(printf $drives | wc -l) in
+case $(printf "$drives" | wc -l) in
 	0) notify-send "No USB drive or Android device or CD detected" ;;
-	1) case $(printf $drives) in
+	1) case $(printf "$drives") in
 		USB) mountusb ;;
 		Android) mountandroid ;;
 		CD) mountcd ;;

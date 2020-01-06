@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
-mpv http://www.misk.art/live &
-while [ ! -z $(pgrep -f "mpv http://www.misk.art/live") ]; do
+mpc stop
+mpv http://live.misk.tn:8000/stream &
+while pgrep -f "mpv http://live.misk.tn:8000/stream" > /dev/null; do
 	pkill -RTMIN+3 i3blocks
-	sleep 10
+	sleep 15
 done
