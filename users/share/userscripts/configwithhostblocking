@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+adblockbegin=$(grep -n "#Adblock {{{" ${HOME}/.config/qutebrowser/config.py | cut -d : -f 1)
+adblockend=$(grep -n "#AdblockEnd }}}" ${HOME}/.config/qutebrowser/config.py | cut -d : -f 1)
+sed "${adblockbegin},${adblockend}d" ${HOME}/.config/qutebrowser/config.py > ${HOME}/.config/qutebrowser/configwithhostblocking.py
+cat >> ${HOME}/.config/qutebrowser/configwithhostblocking.py << CONF
+c.content.host_blocking.enabled = True
+c.content.host_blocking.lists = ['https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts']
+CONF
+rm -r $HOME/.cache/nojblockbrowsing
+mkdir -p $HOME/.cache/nojblockbrowsing/data/
+cp -r ${HOME}/.local/share/qutebrowser/greasemonkey/ $HOME/.cache/nojblockbrowsing/data/
+cp -r ${HOME}/.local/share/qutebrowser/userscripts/ $HOME/.cache/nojblockbrowsing/data/
+mkdir -p $HOME/.cache/nojblockbrowsing/config/
+cp ${HOME}/.config/qutebrowser/quickmarks $HOME/.cache/nojblockbrowsing/config/quickmarks
+cp -r ${HOME}/.config/qutebrowser/bookmarks/ $HOME/.cache/nojblockbrowsing/config/
+qutebrowser -C ${HOME}/.config/qutebrowser/configwithhostblocking.py -B $HOME/.cache/nojblockbrowsing ":adblock-start" $QUTE_URL &

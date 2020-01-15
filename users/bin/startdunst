@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+. "${HOME}/.cache/wal/colors.sh"
+pkill dunst
+dunst -font Inconsolata 11 -transparency 14 -nb "$background" -nf "$foreground" -nfr "$color5" -nto 10 -lb "$background" -lf "$foreground" -lfr "$color5" -lto 10 &
