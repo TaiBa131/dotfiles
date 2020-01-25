@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
-configname=$(rg --files --hidden ~/ | fzf)
+configname=$(find ~/ -type f | fzf)
 [ -z "$configname" ] && exit
 $EDITOR "$configname"

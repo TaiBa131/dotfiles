@@ -1,89 +1,110 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python3
+import sys, subprocess, os, logging, re
 
-extracolor () {
-	{ read x; read y; read z; } < <(sed "s/,/\n/g" ~/.cache/wal/variables)
-	case $1 in
-		dark) {
-			let x=x+35
-			let y=y+35
-			let z=z+35
-			echo "dark" > ~/.cache/wal/type
-		};;
-		light) {
-			let x=x-35
-			let y=y-35
-			let z=z-35
-			echo "light" > ~/.cache/wal/type
-		};;
-	esac
-	x=$(printf "%x\n" "$x")
-	y=$(printf "%x\n" "$y")
-	z=$(printf "%x\n" "$z")
-	[ $(echo $x | wc -m) -eq 2 ] && x="0$x"
-	[ $(echo $y | wc -m) -eq 2 ] && x="0$y"
-	[ $(echo $z | wc -m) -eq 2 ] && x="0$z"
-	echo "#$x$y$z" >> ~/.cache/wal/colors
-	echo "*lighter: #$x$y$z" >> ~/.cache/wal/colors.Xresources
-	xrdb ~/.cache/wal/colors.Xresources
-	i3-msg -q reload
-}
-
-case $1 in
-	"") {
-		wallpaper=$(sxiv -obqft ~/pix/wallpapers/*)
-		[ -z $wallpaper ] && exit
-		wal -e -i $wallpaper && DONE=true
-		[ $DONE ] && extracolor dark
-	};;
-	-l) {
-		case $2 in
-			"")wallpaper=$(sxiv -obqft ~/pix/wallpapers/*);;
-			*)wallpaper="$2";;
-		esac
-		[ -z $wallpaper ] && exit
-		wal -e --saturate 0.3 -l -i $wallpaper && DONE=true
-		[ $DONE ] && extracolor light
-	};;
-	*) {
-		case $2 in
-			"-l")wal -e -l -i "$1" && extracolor light && DONE=true;;
-			*)wal -e -i "$1" && extracolor dark && DONE=true;;
-		esac
-	};;
-esac
-
-[ $DONE ] || exit
+FNULL = open(os.devnull, 'w')
+HOME=os.path.expanduser('~')
 
 
+def setuplogging():
+    logging.basicConfig(format=("[%(levelname)s\033[0m] "
+                                "\033[1;31m%(module)s\033[0m: "
+                                "%(message)s"),
+                        level=logging.INFO,
+                        stream=sys.stdout)
+    logging.addLevelName(logging.INFO, '\033[1;32mI')
 
 
-blue="$(tput setaf 4)"
-red="$(tput setaf 1)"
-white="$(tput setaf 7)"
-reset="$(tput sgr0)"
-bold="$(tput bold)"
-colorstyle="${reset}${bold}${blue}"
-commandstyle="${reset}${bold}${red}"
-textstyle="${reset}${white}"
-. "${HOME}/.cache/wal/colors.sh"
+def extracolor(type):
+    rgb=list(int(background.strip('#')[i:i+2], 16) for i in (0, 2, 4))
+    if type=='light':
+        for i in range(0,3):
+            rgb[i]=rgb[i]-35
+    else:
+        for i in range(0,3):
+            rgb[i]=rgb[i]+35
+    extra='#{:02x}{:02x}{:02x}'.format(rgb[0],rgb[1],rgb[2])
+    f=open(f'{HOME}/.cache/wal/colors.Xresources','a')
+    f.write(f'*lighter :{extra}\n')
+    f.close()
+    f=open(f'{HOME}/.cache/wal/colorspython.py','a')
+    f.write(f'color16=\'{extra}\'\n')
+    f.close()
 
 
-pgrep "qutebrowser" > /dev/null && qutebrowser :pywal &>/dev/null && cat <<EOM
-${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}qutebrowser${textstyle}: reloaded qutebrowser colors
-EOM
+setuplogging()
 
-mv ~/.cache/wal/zathuracolors ~/.config/zathura/ && cat <<EOM
-${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}zathura${textstyle}: reloaded zathura colors
-EOM
+cmd=sys.argv
+cmd.remove(cmd[0])
+if '-l' in cmd:
+    cmd.remove('-l')
+    args='-l'
+    type='light'
+else:
+    args=''
+    type='dark'
+if '--theme' in cmd:
+    theme=cmd[cmd.index('--theme')+1]
+    if theme is None:
+        logging.info('No theme set')
+        exit()
+    args=f'--theme {theme}'
+    if type=='light':
+        args='-l '+args
+elif '-r' in cmd:
+    if type=='light':
+        args='--theme random_light'
+    else:
+        args='--theme random_dark'
+elif len(cmd) > 0:
+    wallpaper=cmd[0]
+    args=f'-i {wallpaper} '+args
+else:
+    wallpaper=subprocess.check_output('sxiv -obqft ~/pix/wallpapers/*',shell=True,text=True).strip().split()[0]
+    if wallpaper is None:
+        logging.info('No wallpaper set')
+        exit()
+    args=f'-i {wallpaper} '+args
 
-startdunst &>/dev/null && cat <<EOM
-${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}dunst${textstyle}: reloaded dunst colors
-EOM
+process=subprocess.run(f'wal -e {args}',shell=True)
+if process.returncode != 0:
+    exit()
 
-startalttab &>/dev/null && cat <<EOM
-${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}alttab${textstyle}: reloaded alttab colors
-EOM
+sys.path.append(f'{HOME}/.cache/wal')
+from colorspython import *
 
-convert $wallpaper -resize "1366^x768" -crop 1366x768+0+0 ${HOME}/.config/i3/lockicon.png -gravity center -composite -matte ${HOME}/.config/i3/suspendscreen.jpg && cat <<EOM
-${textstyle}[${colorstyle}E${textstyle}] ${commandstyle}i3lock${textstyle}: reloaded suspend screen
-EOM
+
+extracolor(type)
+
+f=open(f'{HOME}/.cache/wal/args','w')
+f.write(f'{args}\n')
+f.close()
+
+subprocess.run(['xrdb',f'{HOME}/.cache/wal/colors.Xresources'])
+subprocess.Popen(['i3-msg','-q','reload'])
+logging.info('Reloading i3')
+
+os.rename(f'{HOME}/.cache/wal/zathuracolors',f'{HOME}/.config/zathura/zathuracolors')
+logging.info('Reloaded zathura colors')
+
+if subprocess.run(['pgrep','qutebrowser'],stdout=FNULL,stderr=FNULL).returncode == 0:
+    subprocess.Popen(['qutebrowser',':pywal'],stdout=FNULL,stderr=FNULL)
+    logging.info('Reloading qutebrowser')
+
+subprocess.Popen(['startdunst'],stdout=FNULL,stderr=FNULL)
+logging.info('Reloading dunst')
+
+subprocess.Popen(['startalttab'],stdout=FNULL,stderr=FNULL)
+logging.info('Reloading altab')
+
+if wallpaper == 'None':
+    f=open(f'{HOME}/.fehbg','r')
+    wallpaper=f.readlines()[1]
+    wallpaper=re.sub('.+ \'(.+)\' \n',r'\1',wallpaper)
+    f.close()
+    f=open(f'{HOME}/.cache/wal/colorspython.py','a')
+    f.write(f'wallpaper=\'{wallpaper}\'\n')
+    f.close()
+else:
+    imagemagickcommand = f'convert {wallpaper} -resize "1366^x768" -crop 1366x768+0+0 {HOME}/.config/i3/lockicon.png -gravity center -composite -matte {HOME}/.config/i3/suspendscreen.jpg'
+    subprocess.run(imagemagickcommand,shell=True)
+    logging.info('Reloaded suspend screen')

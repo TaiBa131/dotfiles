@@ -13,7 +13,7 @@ hide_edge_borders smart
 default_border normal 2
 workspace_layout tabbed
 
-exec --no-startup-id pywalinit.sh
+exec --no-startup-id pywalinit
 set_from_resource $fg i3wm.color5 #f0f0f0
 set_from_resource $bg i3wm.color0 #f0f0f0
 set_from_resource $background i3wm.background #f0f0f0
@@ -217,7 +217,7 @@ bindsym $mod+m bar mode toggle
 
 #Take screenshot
 bindsym $mod+shift+F11 exec maimmenu
-bindsym $mod+F11 exec maim "$(date '+%Y-%m-%d-%H:%M:%S')-full".png
+bindsym $mod+F11 exec maim -u "$(date '+%Y-%m-%d-%H:%M:%S')-full".png
 
 #lock screen / suspend
 bindsym $mod+F12 exec keepscreenawake.sh

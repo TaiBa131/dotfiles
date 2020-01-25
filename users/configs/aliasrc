@@ -6,6 +6,7 @@ alias sd='searchdirs'
 alias e='exit'
 alias prime='DRI_PRIME=1'
 alias test-build="nix-build -E 'with import <nixpkgs> {}; callPackage ./. {}'"
+alias fix-wifi="sudo modprobe -vr rtl8723be; sudo modprobe -v rtl8723be"
 alias invidon="mv ~/.local/share/qutebrowser/greasemonkey/invidious .local/share/qutebrowser/greasemonkey/invidious.user.js"
 alias invidoff="mv ~/.local/share/qutebrowser/greasemonkey/invidious.user.js .local/share/qutebrowser/greasemonkey/invidious"
 alias deletecookies="rm -r ~/.local/share/qutebrowser/sessions; rm -r ~/.local/share/qutebrowser/webengine; rm -r ~/.cache/qutebrowser"

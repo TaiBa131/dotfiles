@@ -1888,10 +1888,10 @@ class fzf_search(Command):
             command="find ./ -type d -print 2> /dev/null | sed 1d | fzf +m "
         elif self.arg(1) == 'local':
             # match files locally
-            command="rg --files --hidden ./ 2> /dev/null | cut -b3- | fzf +m "
+            command="find ./ -type f 2> /dev/null | cut -b3- | fzf +m "
         else:
             # match files and directories
-            command="rg --files --hidden ~/ 2> /dev/null | fzf +m "
+            command="find ~/ -type f 2> /dev/null | fzf +m "
 
         fzf = self.fm.execute_command(command, universal_newlines=True, stdout=subprocess.PIPE)
         stdout, stderr = fzf.communicate()

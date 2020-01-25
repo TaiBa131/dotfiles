@@ -18,27 +18,21 @@ c.content.host_blocking.lists = ['https://easylist.to/easylist/easylist.txt']
 
 #Colors {{{
 #pywal colors
-from os.path import expanduser
-colorsfilepath = expanduser("~") + "/.cache/wal/colors"
-f=open(colorsfilepath)
-colors = [color.strip() for color in f]
-f.close
+import sys, os
+HOME=os.path.expanduser('~')
+sys.path.append(f'{HOME}/.cache/wal')
+from colorspython import *
 
-
-background = colors[0]
-foreground = colors[7]
-cursor = colors[7]
-
-black = colors[0]
-red = colors[1]
-green = colors[2]
-yellow = colors[3]
-blue = colors[4]
-magenta = colors[5]
-cyan = colors[6]
-white = colors[7]
-gray = colors[8]
-lighter = colors[16]
+black = color0
+red = color1
+green = color2
+yellow = color3
+blue = color4
+magenta = color5
+cyan = color6
+white = color7
+gray = color8
+lighter = color16
 
 c.colors.completion.category.bg = red
 c.colors.completion.category.border.bottom = red
@@ -61,7 +55,7 @@ c.colors.downloads.stop.bg = lighter
 c.colors.downloads.stop.fg = foreground
 c.colors.downloads.start.bg = red
 c.colors.downloads.start.fg = foreground
-c.colors.hints.bg = red
+c.colors.hints.bg = lighter
 c.colors.hints.fg = foreground
 c.colors.hints.match.fg = yellow
 c.colors.keyhint.bg = background
@@ -139,6 +133,8 @@ config.bind('C', 'tab-clone -w;; tab-close')
 config.bind(',y', 'hint links yank')
 config.bind(',fp', 'hint links userscript follow4chan')
 config.bind('<Ctrl+h>', 'history -t')
+config.bind('<Ctrl+j>', 'tab-move +')
+config.bind('<Ctrl+k>', 'tab-move -')
 config.bind('C', 'tab-clone -w;; tab-close')
 config.bind('sh', 'spawn thumbnailfilepicker')
 config.bind(',ug', 'greasemonkey-reload')
@@ -163,13 +159,12 @@ c.content.cookies.store = True
 c.tabs.indicator.width = 0
 
 c.editor.command = ['kitty', '-e', 'nvim', '{}']
-c.content.pdfjs = True
 
 c.url.default_page = 'file:///home/iheb/.config/homepage/index.html'
 c.url.start_pages = ['file:///home/iheb/.config/homepage/index.html']
 
 c.url.open_base_url = True
-c.url.searchengines = {"DEFAULT": "https://www.google.com/search?q={}","&git":"https://github.com/search?type=Code&q={}","&rbt":"https://archive.rebeccablacktech.com/g/search/text/{}/","&wf": "https://fr.wikipedia.org/wiki/Spécial:Recherche?search={}","&we": "https://en.wikipedia.org/wiki/Special:Search?search={}"}
+c.url.searchengines = {"DEFAULT": "https://www.google.com/search?q={}","&git":"https://github.com/search?type=Code&q={}","&rbt":"https://archive.rebeccablacktech.com/g/search/text/{}/","&wf": "https://fr.wikipedia.org/wiki/Spécial:Recherche?search={}","&we": "https://en.wikipedia.org/wiki/Special:Search?search={}","&py": "https://docs.python.org/3/search.html?q={}&check_keywords=yes&area=default"}
 
 c.qt.args=["ignore-gpu-blacklist", "enable-gpu-rasterization", "enable-native-gpu-memory-buffers", "num-raster-threads=4"]
 #Other Options End }}}

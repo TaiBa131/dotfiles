@@ -1,8 +1,5 @@
 { config, lib, pkgs, ... }:
 
-let
-    nixosConfigDir = "/etc/nixos";
-in
 {
   #grub
   boot.loader.grub.enable = true;
@@ -40,7 +37,7 @@ in
   services.cron.enable = true;
   services.cron.systemCronJobs = [
     "0 22 * * * root updatedb"
-    "*/6 * * * * root ${nixosConfigDir}/users/bin/checklowbattery.sh"
+    "*/6 * * * * iheb i3-msg -s $(cat $HOME/.i3_socket) -- exec checklowbattery.sh"
     "*/15 * * * * iheb i3-msg -s $(cat $HOME/.i3_socket) -- exec newsboat -x reload"
     "*/10 * * * * iheb i3-msg -s $(cat $HOME/.i3_socket) -- exec mailsync"
     "*/7 * * * * iheb i3-msg -s $(cat $HOME/.i3_socket) -- exec webdiff" ];

@@ -7,7 +7,7 @@
 #(_) .__/|_|  \___/|_| |_|_|\___|
 #  |_|
 
-export PATH=$PATH:$HOME/.local/bin
+export PATH=$PATH:$HOME/.local/share/extrabin:$HOME/.local/bin
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export EDITOR="nvim"
@@ -21,8 +21,10 @@ export NOTMUCH_CONFIG="$HOME/.config/notmuch-config"
 export GTK2_RC_FILES="$HOME/.config/gtk-2.0/gtkrc-2.0"
 export LESSHISTFILE="-"
 export INPUTRC="$HOME/.config/inputrc"
+export WEECHAT_HOME="$HOME/.config/weechat"
 export PASSWORD_STORE_DIR="$HOME/.local/share/password-store"
 export MAILCAPS="$HOME/.local/share/mutt-wizard/"
+export PYTHONDONTWRITEBYTECODE=1
 
 export GTK_USE_PORTAL=1
 export QT_QPA_PLATFORMTHEME=kde

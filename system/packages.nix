@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-
   #edits to packages + my nix packages
   nixpkgs.config = import ../pkgs/nixpkgs-config.nix;
 
@@ -21,12 +20,13 @@
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-kde ];
 
   services.xserver = {
-    displayManager.startx.enable = true;
     windowManager.i3 = {
       enable = true;
       package = pkgs.i3-gaps;
     };
+    displayManager.startx.enable = true;
   };
+
 
   #bash options and bash_profile
   programs.bash.enableCompletion = true;
@@ -42,10 +42,7 @@
   services.illum.enable = true;
 
   #weechat IRC client
-  services.weechat.enable = true;
   programs.screen.screenrc = ''
-    multiuser on
-    acladd iheb
     term screen-256color
   '';
 
@@ -55,5 +52,4 @@
     xclip
     ];
   };
-
 }

@@ -64,12 +64,12 @@ pkgs.neovim.override {
       	map <leader><leader> <Esc>/<++><Enter>"_c4l
 
       " open up vim.nix
-        map <leader>v <Esc>:vsplit ~/.local/repos/nur-packages/pkgs/overrides/vim.nix<Enter>
-      	inoremap <leader>v <Esc>:vsplit ~/.local/repos/nur-packages/pkgs/overrides/vim.nix<Enter>
-      	vnoremap <leader>v <Esc>:vsplit ~/.local/repos/nur-packages/pkgs/overrides/vim.nix<Enter>
+        map <leader>v <Esc>:vsplit /etc/nixos/pkgs/overrides/vim.nix<Enter>
+      	inoremap <leader>v <Esc>:vsplit /etc/nixos/pkgs/overrides/vim.nix<Enter>
+      	vnoremap <leader>v <Esc>:vsplit /etc/nixos/pkgs/overrides/vim.nix<Enter>
 
       " set nohlsearch
-      	nnoremap <esc> :noh<return><esc>
+      	nnoremap <Esc> :noh<return><Esc>
 
       " Sourcing from home for quick changes
       if $USER != 'root'

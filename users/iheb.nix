@@ -1,10 +1,8 @@
 { pkgs, ... }:
 
-
 let
-  nixosConfigDir = "/etc/nixos";
+  inherit (import ../variables.nix) nixosConfigDir;
 in
-
 {
   imports = [
     ./private/secrets.nix
@@ -39,8 +37,7 @@ in
     "mpd/mpd.conf".source = ./configs/mpd.conf;
     "mpv/mpv.conf".source = ./configs/mpv.conf;
     "mpv/input.conf".source = ./configs/mpvinput.conf;
-    "mpv/scripts/reload.lua".source = ./configs/mpvreload.lua;
-    "mpv/scripts/webm.lua".source = ./configs/mpvwebm.lua;
+    "mpv/scripts/webm.lua".source = (builtins.fetchurl "https://raw.githubusercontent.com/ElegantMonkey/mpv-webm/master/build/webm.lua");
     "ncmpcpp/bindings".source = ./configs/ncmpcppbindings;
     "ncmpcpp/config".source = ./configs/ncmpcppconfig;
     "newsboat/config".source = ./configs/newsboatconfig;
@@ -52,6 +49,10 @@ in
     "ranger/rifle.conf".source = ./configs/rangerrifle.conf;
     "ranger/scope.sh".source = ./configs/rangerscope.sh;
     "zathura/zathurarc".source = ./configs/zathurarc;
+    "wal/templates/colorskitty.conf".source = ./share/templates/pywalkittytemplate;
+    "wal/templates/colorspython.py".source = ./share/templates/pywalpythontemplate.py;
+    "wal/templates/zathuracolors".source = ./share/templates/pywalzathuratemplate;
+    "wal/templates/variables".source = ./share/templates/pywalvariablestemplate;
     "aliasrc".source = ./configs/aliasrc;
     "emoji".source = ./configs/emoji;
     "fontawesome".source = ./configs/fontawesome;
@@ -62,7 +63,8 @@ in
   xdg.dataFile = {
     "applications".source = ./share/applications;
     "mutt-wizard".source = ./share/mutt-wizard;
-    "qutebrowser/greasemonkey".source = ./share/greasemonkey;
+    "qutebrowser/greasemonkey/4chanx.user.js".source = (builtins.fetchurl "https://www.4chan-x.net/builds/4chan-X.user.js");
+    "qutebrowser/greasemonkey/ffz.user.js".source = (builtins.fetchurl "https://cdn.frankerfacez.com/static/ffz_injector.user.js");
     "qutebrowser/userscripts".source = ./share/userscripts;
   };
 
@@ -106,6 +108,7 @@ in
     ####img
     sxiv
     imagemagick
+    feh
     krita
     gmic_krita_qt
     kolourpaint
@@ -119,6 +122,7 @@ in
     ####shell
     libqalculate
     kitty
+    screen
     ####files
     ranger
     syncthing
@@ -128,7 +132,6 @@ in
     zip
     unzip
     fzf
-    ripgrep
     ffmpeg
     appimage-run
     ####Ranger utils
@@ -144,6 +147,7 @@ in
     youtube-dl
     wget
     lynx
+    weechat
     ####Torrenting Linux ISOs
     deluge
     ####mail
@@ -155,6 +159,7 @@ in
     notmuch
     ####gaymen
     wineWowPackages.staging
+    winetricks
     nudoku
     ripcord
     ####misc

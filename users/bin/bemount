@@ -1,80 +1,104 @@
-#!/bin/sh
-# Gives a bemenu prompt to mount unmounted drives.
-# If they're in /etc/fstab, they'll be mounted automatically.
-# Otherwise, you'll be prompted to give a mountpoint from already existsing directories.
-# If you input a novel directory, it will prompt you to create that directory.
+#!/usr/bin/env python3
+import subprocess, re, os, sys
+from getpass import getuser
 
+def getmount():
+    alreadymounted=subprocess.check_output('lsblk -nrpo "mountpoint"',shell=True,text=True)
+    alreadymounted=re.sub('^(|\/|\[SWAP\])$\n','',alreadymounted,flags=re.M).strip()
+    if alreadymounted != '':
+        extraflags=''
+        for i in alreadymounted.split('\n'):
+            extraflags = extraflags + f' -not -path {i} -prune'
+        filecmd=f'find /mnt /home -maxdepth 5 -type d{extraflags}'
+    else:
+        filecmd='find /mnt /home -maxdepth 5 -type d'
+    mountpoint=subprocess.check_output(f'{filecmd} | {bemenucmd} -p "Choose Mountpoint:" ',shell=True,text=True).strip()
+    if mountpoint is None:
+        exit ()
+    return mountpoint
 
+def mountusb():
+    chosen=subprocess.Popen(f'{bemenucmd} -p "Choose USB device:"',shell=True,text=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE).communicate(usbdrives)[0].strip().split()[0]
+    if chosen is None:
+        exit ()
+    mount=subprocess.run(f'sudo -A mount "{chosen}"',shell=True)
+    if mount.returncode == 0:
+        subprocess.run(f'notify-send "💻 USB mounting" "{chosen} mounted."',shell=True)
+        exit()
+    else:
+        mountpoint=getmount()
+        partitiontype=subprocess.check_output(f'lsblk -no "fstype" "{chosen}"',shell=True,text=True).strip()
+        if partitiontype=='vfat':
+            mount=subprocess.run(f'sudo -A mount -t vfat "{chosen}" "{mountpoint}" -o rw,umask=0000',shell=True)
+        else:
+            ug=subprocess.check_output('groups').split()[0]
+            user=getuser()
+            mount=subprocess.run(f'sudo -A mount "{chosen}" "{mountpoint}"; sudo -A chown "{user}":"{ug}" 741 "{mountpoint}"',shell=True)
+        if mount.returncode == 0:
+            subprocess.run(f'notify-send "💻 USB mounting" "{chosen} mounted to {mountpoint}"',shell=True)
+        else:
+            subprocess.run(f'notify-send "⛔ USB mounting" "Failed to mount {chosen} to {mountpoint}"',shell=True)
 
-let a=$(jmtpfs -l | wc -l)-2
+def mountandroid():
+    chosen=subprocess.Popen(f'{bemenucmd} -p "Choose Android device:"',shell=True,text=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE).communicate(anddrives)[0].strip()
+    if chosen is None:
+        exit ()
+    chosen=re.sub('(\w+\, \w+)\,.*',r'\1',chosen)
+    mountpoint=getmount()
+    subprocess.run(f'echo "OK" | {bemenucmd} -p "Allow File Transfer on your Phone Screen"',shell=True)
+    mount=subprocess.run(f'sudo jmtpfs -device="{chosen}" -o allow_other "{mountpoint}"',shell=True)
+    if mount.returncode == 0:
+        subprocess.run(f'notify-send "🤖 Android Mounting" "Android mounted to {mountpoint}"',shell=True)
+    else:
+        subprocess.run(f'notify-send "⛔ Android Mounting" "Failed to mount Android to {mountpoint}"',shell=True)
 
-#. "${HOME}/.cache/wal/colors.sh"
-#alias dmenu='dmenu -nb "$background" -nf "$foreground" -sb "$foreground" -sf "$background"'
+def mountcd():
+    mountpoint=getmount()
+    mount=subprocess.run(f'sudo -A mount "/dev/sr0" "{mountpoint}"',shell=True)
+    if mount.returncode == 0:
+        subprocess.run(f'notify-send "💿 CD mounting" "CD mounted to {mountpoint}"',shell=True)
+    else:
+        subprocess.run(f'notify-send "⛔ CD mounting" "Failed to mount CD to {mountpoint}"',shell=True)
 
-. "${HOME}/.cache/wal/colors.sh"
-alias bemenu='bemenu --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b --scrollbar auto'
+sys.path.append(os.path.expanduser("~") + '/.cache/wal')
+from colorspython import *
+bemenucmd = f'bemenu --tf "{background}" --fb "{background}" --hf "{background}" --nb "{background}" --sb "{background}" --scb "{background}" --tb "{foreground}" --ff "{foreground}" --nf "{foreground}" --hb "{foreground}" --sf "{foreground}" --scf "{foreground}" --fn "sans 9.5" -b --scrollbar auto -i'
 
-getmount() { \
-	[ -z "$chosen" ] && exit 1
-	mp="$(find $1 | bemenu -i -p "Type in mount point.")"
-	[ "$mp" = "" ] && exit 1
-	if [ ! -d "$mp" ]; then
-		mkdiryn=$(printf "No\\nYes" | bemenu -i -p "$mp does not exist. Create it?")
-		[ "$mkdiryn" = "Yes" ] && (mkdir -p "$mp" || sudo -A mkdir -p "$mp")
-	fi
-	}
+anddrives=subprocess.check_output('jmtpfs -l',shell=True, text=True)
+anddrives=re.sub(r'.*\n?Available devices.*\n','', anddrives)
+drives=''
+if anddrives != '':
+    drives=drives+'Android\n'
 
-mountusb() { \
-	chosen="$(echo "$usbdrives" | bemenu -i -p "Mount which drive?" | awk '{print $1}')"
-	sudo -A mount "$chosen" && notify-send "💻 USB mounting" "$chosen mounted." && exit 0
-	alreadymounted=$(lsblk -nrpo "name,type,mountpoint" | awk '$2=="part"&&$3!~/\/boot|\/home$|SWAP/&&length($3)>1{printf "-not \( -path *%s -prune \) \ \n",$3}')
-	getmount "/mnt /media /mount /home -maxdepth 5 -type d $alreadymounted"
-	partitiontype="$(lsblk -no "fstype" "$chosen")"
-	case "$partitiontype" in
-		"vfat") sudo -A mount -t vfat "$chosen" "$mp" -o rw,umask=0000;;
-		*) sudo -A mount "$chosen" "$mp"; user="$(whoami)"; ug="$(groups | awk '{print $1}')"; sudo -A chown "$user":"$ug" 741 "$mp";;
-	esac
-	notify-send "💻 USB mounting" "$chosen mounted to $mp."
-	}
+usbdrives=subprocess.check_output('lsblk -nrpo "name,type,size,mountpoint"',shell=True,text=True)
+usbdrives=re.sub('^.+ ((?!part).+ .+ $|.+ .+ .+$)\n','',usbdrives,flags=re.M).replace('part','')
+if usbdrives != '':
+    drives=drives+'USB\n'
 
-mountandroid() { \
-	chosen=$(echo "$anddrives" | bemenu -i -p "Which Android device?" | awk '{print $1 $2}' | sed 's/,$//' )
-	bus=$(echo "$chosen" | sed 's/,.*//' )
-	getmount "$HOME -maxdepth 3 -type d"
-	sudo jmtpfs -device="$chosen" -o allow_other "$mp"
-	echo "OK" | bemenu -i -p "Press (Allow) file transfer on your phone screen"
-	newchosen=$(jmtpfs -l | tail -n $a | grep "$bus" | awk '{print $1 $2}' | sed 's/,$//' )
-	echo "this is $newchosen"
-	sudo umount "$mp"
-	sudo jmtpfs -device="$newchosen" -o allow_other "$mp"
-	notify-send "🤖 Android Mounting" "Android device mounted to $mp."
-	}
+try:
+    cddrives=subprocess.check_output('blkid /dev/sr0',shell=True,text=True)
+    cddrives=re.sub(':.*','',cddrives)
+except:
+    cddrives=''
 
-mountcd() { \
-	chosen="$(echo "$cddrives" | bemenu -i -p "Mount which cd?")"
-	getmount "$HOME -maxdepth 3 -type d"
-	sudo -A mount "$chosen" "$mp" && notify-send "💿 CD mounting" "$chosen mounted." && exit 0
-	}
+if cddrives != '':
+    drives=drives+'CD\n'
 
-asktype() { \
-	case $(printf "$drives" | bemenu -i -p "Mount which drive?") in
-		USB) mountusb ;;
-		Android) mountandroid ;;
-		CD) mountcd ;;
-	esac
-	}
-
-anddrives=$([ "$a" -ge 0 ] && jmtpfs -l 2>/dev/null | tail -n $a)
-usbdrives="$(lsblk -rpo "name,type,size,mountpoint" | awk '$2=="part"&&$4==""{printf "%s (%s)\n",$1,$3}')"
-cddrives="$(blkid /dev/sr0 | awk '{print $1}' | sed 's/://')"
-
-drives=$([ ! -z "$usbdrives" ] && echo -n "USB\n"; [ ! -z "$cddrives" ] && echo -n "CD\n"; [ ! -z "$anddrives" ] && echo -n "Android\n")
-case $(printf "$drives" | wc -l) in
-	0) notify-send "No USB drive or Android device or CD detected" ;;
-	1) case $(printf "$drives") in
-		USB) mountusb ;;
-		Android) mountandroid ;;
-		CD) mountcd ;;
-	   esac ;;
-	*) asktype;;
-esac
+number = len(drives.split())
+if number == 0:
+    subprocess.run('notify-send "No USB drive or Android device or CD detected"',shell=True)
+elif number == 1:
+    if drives.strip() == 'USB':
+        mountusb()
+    elif drives.strip() == 'Android':
+        mountandroid()
+    elif drives.strip() == 'CD':
+        mountcd()
+else:
+    driveType=subprocess.Popen(f'{bemenucmd} -p "Choose device type to mount:"',shell=True,text=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE).communicate(drives)[0].strip()
+    if driveType == 'USB':
+        mountusb()
+    elif driveType == 'Android':
+        mountandroid()
+    elif driveType == 'CD':
+        mountcd()

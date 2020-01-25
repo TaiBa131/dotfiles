@@ -31,13 +31,13 @@ mkcd () {
 }
 
 searchfiles() {
-file=$(rg --files --hidden ~/ | fzf)
+file=$(find ~/ -type f | fzf)
 [ -z "${file}" ] && exit
 xdg-open "${file}"
 }
 
 searchlocalfiles() {
-file=$(rg --files --hidden ./ | fzf)
+file=$(find ./ -type f | fzf)
 [ -z "${file}" ] && exit
 xdg-open "${file}"
 }

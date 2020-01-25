@@ -1,49 +1,77 @@
-#!/usr/bin/env sh
-# A bemenu prompt to unmount drives.
-# Provides you with mounted partitions, select one to unmount.
-# Drives mounted at /, /boot and /home will not be options to unmount.
+#!/usr/bin/env python3
+import subprocess, re, os, sys
+from getpass import getuser
 
-. "${HOME}/.cache/wal/colors.sh"
-alias bemenu='bemenu --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b --scrollbar auto'
+def umountusb():
+    chosen=subprocess.Popen(f'{bemenucmd} -p "Choose USB device:"',shell=True,text=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE).communicate(usbdrives)[0].strip()
+    if chosen is None:
+        exit ()
+    umount=subprocess.run(f'sudo -A umount "{chosen}"',shell=True)
+    if umount.returncode == 0:
+        subprocess.run(f'notify-send "💻 USB unmounting" "{chosen} unmounted."',shell=True)
+    else:
+        subprocess.run(f'notify-send "⛔ USB unmounting" "Failed to unmount {chosen}"',shell=True)
 
-unmountusb() {
-	[ -z "$drives" ] && exit
-	chosen=$(echo "$drives" | bemenu -i -p "Unmount which drive?" | awk '{print $1}')
-	[ -z "$chosen" ] && exit
-	sudo -A umount "$chosen" && notify-send "💻 USB unmounting" "$chosen unmounted."
-	}
+def umountandroid():
+    chosen=subprocess.Popen(f'{bemenucmd} -p "Choose CD device:"',shell=True,text=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE).communicate(anddrives)[0].strip()
+    if chosen is None:
+        exit ()
+    umount=subprocess.run(f'sudo -A umount "{chosen}"',shell=True)
+    if umount.returncode == 0:
+        subprocess.run(f'notify-send "🤖 Android unmounting" "{chosen} unmounted."',shell=True)
+    else:
+        subprocess.run(f'notify-send "⛔ Android unmounting" "Failed to unmount {chosen}"',shell=True)
 
-unmountandroid() { \
-	chosen=$(echo "$androids" | bemenu -i -p "Unmount which device?")
-	[ -z "$chosen" ] && exit
-	sudo -A umount -l "$chosen" && notify-send "🤖 Android unmounting" "$chosen unmounted."
-	}
+def umountcd():
+    chosen=subprocess.Popen(f'{bemenucmd} -p "Choose CD device:"',shell=True,text=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE).communicate(cddrives)[0].strip()
+    if chosen is None:
+        exit ()
+    umount=subprocess.run(f'sudo -A umount "{chosen}"',shell=True)
+    if umount.returncode == 0:
+        subprocess.run(f'notify-send "💿 CD unmounting" "{chosen} unmounted."',shell=True)
+    else:
+        subprocess.run(f'notify-send "⛔ CD unmounting" "Failed to unmount {chosen}"',shell=True)
 
-unmountcd() { \
-	chosen=$(echo "$cds" | bemenu -i -p "Unmount which CD?")
-	[ -z "$chosen" ] && exit
-	sudo -A umount -l "$chosen" && notify-send "💿 CD unmounting" "$chosen unmounted."
-	}
+sys.path.append(os.path.expanduser("~") + '/.cache/wal')
+from colorspython import *
+bemenucmd = f'bemenu --tf "{background}" --fb "{background}" --hf "{background}" --nb "{background}" --sb "{background}" --scb "{background}" --tb "{foreground}" --ff "{foreground}" --nf "{foreground}" --hb "{foreground}" --sf "{foreground}" --scf "{foreground}" --fn "sans 9.5" -b --scrollbar auto -i'
 
-asktype() { \
-	case "$(printf "$undrives" | bemenu -i -p "Unmount which device?")" in
-		USB) unmountusb ;;
-		Android) unmountandroid ;;
-		CD) umountcd ;;
-	esac
-	}
+anddrives=''
+cddrives=''
+f=open('/etc/mtab')
+for line in f:
+    if 'jmtpfs' in line:
+            anddrives=anddrives + line.split()[1] +'\n'
+    elif 'sr0' in line:
+            cddrives=cddrives + line.split()[1] +'\n'
+f.close()
 
-drives=$(lsblk -nrpo "name,type,size,mountpoint" | awk '$2=="part"&&$4!~/\/boot|\/home$|SWAP/&&length($4)>1{printf "%s (%s)\n",$4,$3}')
-cds=$(awk '/sr0/ {print $2}' /etc/mtab)
-androids=$(awk '/jmtpfs/ {print $2}' /etc/mtab)
+usbdrives=subprocess.check_output('lsblk -nrpo "mountpoint"',shell=True,text=True)
+usbdrives=re.sub('^(|\/|\[SWAP\])$\n','',usbdrives,flags=re.M)
 
-undrives=$([ ! -z "$drives" ] && echo -n "USB\n"; [ ! -z "$cds" ] && echo -n "CD\n"; [ ! -z "$androids" ] && echo -n "Android\n")
-case $(printf "$undrives" | wc -l) in
-	0) notify-send "No USB drive or Android device or CD to unmount" ;;
-	1) case $(printf "$undrives") in
-		USB) unmountusb ;;
-		Android) unmountandroid ;;
-		CD) unmountcd ;;
-	   esac ;;
-	*) asktype;;
-esac
+drives=''
+if anddrives != '':
+    drives=drives+'Android\n'
+if cddrives != '':
+    drives=drives+'CD\n'
+if usbdrives != '':
+    drives=drives+'USB\n'
+
+number = len(drives.split())
+if number == 0:
+    subprocess.run('notify-send "Nothing to unmount"',shell=True)
+elif number == 1:
+    if drives.strip() == 'USB':
+        umountusb()
+    elif drives.strip() == 'Android':
+        umountandroid()
+    elif drives.strip() == 'CD':
+        umountcd()
+else:
+    driveType=subprocess.Popen(f'{bemenucmd} -p "Choose device type to unmount:"',shell=True,text=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE).communicate(drives)[0].strip()
+    if driveType == 'USB':
+        umountusb()
+    elif driveType == 'Android':
+        umountandroid()
+    elif driveType == 'CD':
+        umountcd()

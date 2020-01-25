@@ -19,13 +19,15 @@
 
 
   #kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [ "pci=noaer" "mitigations=off" ];
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "sd_mod" "sr_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-
-
+  boot.extraModprobeConfig = ''
+    options rtl8723be swenc=1
+  '';
 
   # Enable sound.
   sound.enable = true;
@@ -34,9 +36,9 @@
     #Bluetooth
     bluetooth.enable = true;
     bluetooth.powerOnBoot = false;
-    #for bluetooth headset support
-    pulseaudio.enable = true;
+    ##for bluetooth headset support
     pulseaudio.package = pkgs.pulseaudioFull;
+    pulseaudio.enable = true;
 
     #Intel
     cpu.intel.updateMicrocode = true;
@@ -52,10 +54,10 @@
         intel-media-driver # LIBVA_DRIVER_NAME=iHD to use this
       ];
     };
-    bumblebee = {
-      enable = true;
-      driver = "nvidia";
-    };
+    #bumblebee = {
+    #  enable = true;
+    #  driver = "nvidia";
+    #};
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
@@ -78,24 +80,25 @@
   };
 
   nix.maxJobs = lib.mkDefault 4;
-  services.tlp.enable = true;
-  services.tlp.extraConfig = ''
-    TLP_DEFAULT_MODE=BAT
-    TLP_PERSISTENT_DEFAULT=0
-    CPU_SCALING_GOVERNOR_ON_AC=powersave
-    CPU_SCALING_GOVERNOR_ON_BAT=powersave
-    CPU_SCALING_MIN_FREQ_ON_BAT=400000
-    CPU_SCALING_MIN_FREQ_ON_AC=400000
-    CPU_SCALING_MAX_FREQ_ON_BAT=2700000
-    CPU_SCALING_MAX_FREQ_ON_AC=3500000
-    ENERGY_PERF_POLICY_ON_AC=power
-    ENERGY_PERF_POLICY_ON_BAT=power
-    CPU_HWP_ON_AC=power
-    CPU_HWP_ON_BAT=power
-    CPU_BOOST_ON_AC=1
-    CPU_BOOST_ON_BAT=0
-    SCHED_POWERSAVE_ON_AC=1
-    SCHED_POWERSAVE_ON_BAT=1
-  '';
+  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  #services.tlp.enable = true;
+  #services.tlp.extraConfig = ''
+  #  TLP_DEFAULT_MODE=BAT
+  #  TLP_PERSISTENT_DEFAULT=0
+  #  CPU_SCALING_GOVERNOR_ON_AC=powersave
+  #  CPU_SCALING_GOVERNOR_ON_BAT=powersave
+  #  CPU_SCALING_MIN_FREQ_ON_BAT=400000
+  #  CPU_SCALING_MIN_FREQ_ON_AC=400000
+  #  CPU_SCALING_MAX_FREQ_ON_BAT=2700000
+  #  CPU_SCALING_MAX_FREQ_ON_AC=3500000
+  #  ENERGY_PERF_POLICY_ON_AC=power
+  #  ENERGY_PERF_POLICY_ON_BAT=power
+  #  CPU_HWP_ON_AC=power
+  #  CPU_HWP_ON_BAT=power
+  #  CPU_BOOST_ON_AC=1
+  #  CPU_BOOST_ON_BAT=0
+  #  SCHED_POWERSAVE_ON_AC=1
+  #  SCHED_POWERSAVE_ON_BAT=1
+  #'';
 
 }
