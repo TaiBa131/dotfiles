@@ -52,7 +52,6 @@ in
     "wal/templates/colorskitty.conf".source = ./share/templates/pywalkittytemplate;
     "wal/templates/colorspython.py".source = ./share/templates/pywalpythontemplate.py;
     "wal/templates/zathuracolors".source = ./share/templates/pywalzathuratemplate;
-    "wal/templates/variables".source = ./share/templates/pywalvariablestemplate;
     "aliasrc".source = ./configs/aliasrc;
     "emoji".source = ./configs/emoji;
     "fontawesome".source = ./configs/fontawesome;
