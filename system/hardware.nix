@@ -26,7 +26,8 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
   boot.extraModprobeConfig = ''
-    options rtl8723be swenc=1
+    blacklist btcoexist
+    options rtl8723be ant_sel=0
   '';
 
   # Enable sound.
