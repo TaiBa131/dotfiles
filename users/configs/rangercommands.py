@@ -1853,8 +1853,7 @@ class empty(Command):
     """
 
     def execute(self):
-        HOME=os.path.expanduser('~')
-        os.system('rm -rf {HOME}/.trash/{*,.[^.]*}')
+        os.system('rm -rf ~/.trash/{*,.[^.]*}')
 
 
 class directorysize(Command):

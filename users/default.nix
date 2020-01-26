@@ -1,0 +1,18 @@
+{ config, lib, pkgs, ... }:
+
+let
+  inherit (import ../variables.nix) mainUser;
+  home-manager = import ( builtins.fetchTarball "https://github.com/rycee/home-manager/archive/release-19.09.tar.gz" )  { };
+in
+
+{
+  imports = [ home-manager.nixos ];
+
+  # Defines the main user account. Don't forget to set a password with ‘passwd’.
+  users.users.${mainUser} = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "networkmanager" "input" "video" ];
+    shell = pkgs.zsh;
+  };
+  home-manager.users.${mainUser} = import ./mainuser.nix ;
+}

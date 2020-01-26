@@ -81,25 +81,10 @@
   };
 
   nix.maxJobs = lib.mkDefault 4;
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-  #services.tlp.enable = true;
-  #services.tlp.extraConfig = ''
-  #  TLP_DEFAULT_MODE=BAT
-  #  TLP_PERSISTENT_DEFAULT=0
-  #  CPU_SCALING_GOVERNOR_ON_AC=powersave
-  #  CPU_SCALING_GOVERNOR_ON_BAT=powersave
-  #  CPU_SCALING_MIN_FREQ_ON_BAT=400000
-  #  CPU_SCALING_MIN_FREQ_ON_AC=400000
-  #  CPU_SCALING_MAX_FREQ_ON_BAT=2700000
-  #  CPU_SCALING_MAX_FREQ_ON_AC=3500000
-  #  ENERGY_PERF_POLICY_ON_AC=power
-  #  ENERGY_PERF_POLICY_ON_BAT=power
-  #  CPU_HWP_ON_AC=power
-  #  CPU_HWP_ON_BAT=power
-  #  CPU_BOOST_ON_AC=1
-  #  CPU_BOOST_ON_BAT=0
-  #  SCHED_POWERSAVE_ON_AC=1
-  #  SCHED_POWERSAVE_ON_BAT=1
-  #'';
-
+  powerManagement = {
+    cpuFreqGovernor = lib.mkDefault "powersave";
+    powertop.enable = true;
+    cpufreq.max = 3700000;
+    cpufreq.min = 400000;
+  };
 }
