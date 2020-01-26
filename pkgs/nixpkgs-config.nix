@@ -12,13 +12,13 @@ in
     unstable = UnstableRepo;
     nur = NurRepo;
 
-    vimCustom = pkgs.callPackage (builtins.toPath ''${nixosConfigDir}/pkgs/overrides/vim.nix'') { };
-    zathura-poppler-only = pkgs.callPackage (builtins.toPath ''${nixosConfigDir}/pkgs/overrides/zathurapoppler.nix'') { };
+    vimCustom = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/overrides/vim.nix") { };
+    zathura-poppler-only = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/overrides/zathurapoppler.nix") { };
 
-    ueberzug = pkgs.callPackage (builtins.toPath ''${nixosConfigDir}/pkgs/ueberzug'') { };
-    nudoku = pkgs.callPackage (builtins.toPath ''${nixosConfigDir}/pkgs/nudoku'') { };
-    ripcord = pkgs.callPackage (builtins.toPath ''${nixosConfigDir}/pkgs/ripcord'') { };
-    compton-tryone = pkgs.callPackage (builtins.toPath ''${nixosConfigDir}/pkgs/compton-tryone'') { };
+    ueberzug = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/ueberzug") { };
+    nudoku = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/nudoku") { };
+    ripcord = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/ripcord") { };
+    compton-tryone = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/compton-tryone") { };
 
     ncmpcpp = pkgs.ncmpcpp.override { visualizerSupport = true; };
   };

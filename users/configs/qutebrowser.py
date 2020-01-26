@@ -116,7 +116,7 @@ c.aliases['adblock-start'] = 'adblock-update;; reload'
 c.aliases['pywal'] = 'spawn --userscript updatecolors;; config-source ~/.config/qutebrowser/colorsconfig.py'
 config.bind('U', 'spawn --userscript configwithoutjblock;; config-source ~/.config/qutebrowser/configwithoutjblock.py')
 
-c.downloads.location.directory = '/home/iheb/downloads'
+c.downloads.location.directory = f'{HOME}/downloads'
 c.downloads.location.remember = False
 config.bind(',w', 'set downloads.location.directory ~/pix/wallpapers/;; hint links download')
 config.bind(',h', 'set downloads.location.directory ~/;; hint links download')
@@ -160,8 +160,8 @@ c.tabs.indicator.width = 0
 
 c.editor.command = ['kitty', '-e', 'nvim', '{}']
 
-c.url.default_page = 'file:///home/iheb/.config/homepage/index.html'
-c.url.start_pages = ['file:///home/iheb/.config/homepage/index.html']
+c.url.default_page = f'file://{HOME}/.config/homepage/index.html'
+c.url.start_pages = [f'file://{HOME}/.config/homepage/index.html']
 
 c.url.open_base_url = True
 c.url.searchengines = {"DEFAULT": "https://www.google.com/search?q={}","&git":"https://github.com/search?type=Code&q={}","&rbt":"https://archive.rebeccablacktech.com/g/search/text/{}/","&wf": "https://fr.wikipedia.org/wiki/Spécial:Recherche?search={}","&we": "https://en.wikipedia.org/wiki/Special:Search?search={}","&py": "https://docs.python.org/3/search.html?q={}&check_keywords=yes&area=default"}

@@ -22,6 +22,21 @@ if subprocess.run(['ping','-q','-c','1','1.1.1.1'],stdout=FNULL,stderr=FNULL).re
 def notify(account,newcount):
     subprocess.run(f'notify-send "Mailsync" "📬 {newcount} new mail(s) in {account} account."',shell=True)
 
+def getfrom(file):
+    FROM=subprocess.check_output(f'awk "/^From: / && ++n ==1,/^\<.*\>:/" "{file}"',shell=True,text=True)
+    FROM=subprocess.Popen('perl -CS -MEncode -ne \'print decode("MIME-Header", $_)\'',shell=True,text=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE).communicate(FROM)[0]
+    FROM=subprocess.Popen('awk \'{ $1=""; if (NF>=3)$NF=""; print $0 }\' ',shell=True,text=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE).communicate(FROM)[0]
+    FROM=subprocess.Popen('sed \'s/^[[:blank:]]*[\\"\'\\\'\'\\<]*//;s/[\\"\'\\\'\'\\>]*[[:blank:]]*$//\'',shell=True,text=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE).communicate(FROM)[0].strip('\n')
+    return FROM
+
+def getsubject(file):
+    SUBJECT=subprocess.check_output(f'awk "/^Subject: / && ++n == 1,/^\<.*\>: / && ++i == 2" "{file}" ',shell=True,text=True).split('\n')[0]
+    SUBJECT=subprocess.Popen('perl -CS -MEncode -ne \'print decode("MIME-Header", $_)\'',shell=True,text=True,stdin=subprocess.PIPE,stdout=subprocess.PIPE).communicate(SUBJECT)[0]
+    SUBJECT=re.sub('^Subject: ','',SUBJECT)
+    SUBJECT=re.sub('^{[[:blank:]]*[\"\'\'\'\<]*//;s/[\"\'\'\'\>]*[[:blank:]]*$','',SUBJECT).strip('\n')
+    return SUBJECT
+
+
 def syncandnotify(account):
     print('Syncing',account)
     subprocess.run(['mbsync',account],stdout=FNULL,stderr=FNULL)
@@ -30,12 +45,8 @@ def syncandnotify(account):
     if newcount > 0:
         notify(account,newcount)
         for file in new:
-            f=open(file,'r')
-            for line in f:
-                if re.match('^From',line,flags=re.M):
-                    FROM = re.sub('^From: (.+) <.+>$',r'\1',line).strip()
-                if re.match('^Subject',line,flags=re.M):
-                    SUBJECT = re.sub('^Subject: (.+)$',r'\1',line).strip()
+            FROM = getfrom(file)
+            SUBJECT = getsubject(file)
             subprocess.run(f'notify-send "📧 {FROM}" "{SUBJECT}"',shell=True,stdout=FNULL,stderr=FNULL)
 
 

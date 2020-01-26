@@ -1,5 +1,8 @@
 { config, lib, pkgs, ... }:
 
+let
+  inherit (import ../variables.nix) nixosConfigDir mainUser;
+in
 {
   #grub
   boot.loader.grub.enable = true;
@@ -37,10 +40,10 @@
   services.cron.enable = true;
   services.cron.systemCronJobs = [
     "0 22 * * * root updatedb"
-    "*/6 * * * * iheb i3-msg -s $(cat $HOME/.i3_socket) -- exec checklowbattery.sh"
-    "*/15 * * * * iheb i3-msg -s $(cat $HOME/.i3_socket) -- exec newsboat -x reload"
-    "*/10 * * * * iheb i3-msg -s $(cat $HOME/.i3_socket) -- exec mailsync"
-    "*/7 * * * * iheb i3-msg -s $(cat $HOME/.i3_socket) -- exec webdiff" ];
+    "*/6 * * * * ${mainUser} i3-msg -s $(cat $HOME/.i3_socket) -- exec checklowbattery.sh"
+    "*/15 * * * * ${mainUser} i3-msg -s $(cat $HOME/.i3_socket) -- exec newsboat -x reload"
+    "*/10 * * * * ${mainUser} i3-msg -s $(cat $HOME/.i3_socket) -- exec mailsync"
+    "*/7 * * * * ${mainUser} i3-msg -s $(cat $HOME/.i3_socket) -- exec webdiff" ];
 
   #lockscreen on sleep
   systemd.services.i3suspend = {
@@ -49,10 +52,10 @@
     description = "lockscreen on lid close";
     serviceConfig = {
       Type = "oneshot";
-      User = "iheb";
+      User = "${mainUser}";
       ExecStart = pkgs.writeScript "laptopsleepmode.sh" ''
         #! /bin/sh
-        ${pkgs.i3-gaps}/bin/i3-msg -s $(cat /home/iheb/.i3_socket) -- exec suspend.sh
+        ${pkgs.i3-gaps}/bin/i3-msg -s $(cat /home/${mainUser}/.i3_socket) -- exec suspend.sh
         sleep 2
         '';
       };

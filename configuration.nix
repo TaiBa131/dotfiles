@@ -9,7 +9,7 @@
       ./system/fonts.nix
 
       #users + home-manager
-      ./users/default.nix
+      ./users/users.nix
     ];
 
 

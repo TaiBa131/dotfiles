@@ -1,7 +1,7 @@
 separator_block_width=13
 
 [sounds]
-command=~/.local/bin/blocks/sounds.sh
+command=~/.local/bin/blocks/sounds
 signal=3
 interval=once
 

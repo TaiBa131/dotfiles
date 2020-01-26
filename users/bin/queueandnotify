@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-pgrep -f "tail -f /home/iheb/.local/share/newsboat/queue" > /dev/null && exit
+pgrep -f "tail -f $HOME/.local/share/newsboat/queue" > /dev/null && exit
 [ -f /tmp/inotifylock ] && exit
 cd $HOME/other/podcasts/
 queuefile="$HOME/.local/share/newsboat/queue"
