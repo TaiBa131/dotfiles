@@ -19,16 +19,15 @@
 
 
   #kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelParams = [ "pci=noaer" "mitigations=off" ];
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "sd_mod" "sr_mod" "rtsx_pci_sdmmc" ];
+  boot.kernelParams = [ "pci=noaer" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "sd_mod" "sr_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
   hardware.enableAllFirmware = true;
-  boot.extraModprobeConfig = ''
-    options rtl8723be fwlps=0
-  '';
+  boot.extraModprobeConfig = "options rtl8723be fwlps=0";
+  boot.kernel.sysctl = {"vm.swappiness" = 10;};
+
 
   # Enable sound.
   sound.enable = true;
@@ -41,9 +40,6 @@
     pulseaudio.package = pkgs.pulseaudioFull;
     pulseaudio.enable = true;
 
-    #Intel
-    cpu.intel.updateMicrocode = true;
-
     #graphics
     opengl = {
       driSupport32Bit = true;
@@ -55,10 +51,6 @@
         intel-media-driver # LIBVA_DRIVER_NAME=iHD to use this
       ];
     };
-    #bumblebee = {
-    #  enable = true;
-    #  driver = "nvidia";
-    #};
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
