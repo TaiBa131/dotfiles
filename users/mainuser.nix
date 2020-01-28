@@ -64,7 +64,12 @@ in
     "mutt-wizard".source = ./share/mutt-wizard;
     "qutebrowser/greasemonkey/4chanx.user.js".source = (builtins.fetchurl "https://www.4chan-x.net/builds/4chan-X.user.js");
     "qutebrowser/greasemonkey/ffz.user.js".source = (builtins.fetchurl "https://cdn.frankerfacez.com/static/ffz_injector.user.js");
-    "qutebrowser/userscripts".source = ./share/userscripts;
+    "qutebrowser/userscripts/changetogoogle".source = ./share/userscripts/changetogoogle;
+    "qutebrowser/userscripts/configwithhostblocking".source = ./share/userscripts/configwithhostblocking;
+    "qutebrowser/userscripts/configwithoutjblock".source = ./share/userscripts/configwithoutjblock;
+    "qutebrowser/userscripts/follow4chan".source = ./share/userscripts/follow4chan;
+    "qutebrowser/userscripts/updatecolors".source = ./share/userscripts/updatecolors;
+    "qutebrowser/userscripts/view_in_mpv".source = (builtins.toPath "${pkgs.qutebrowser}/share/qutebrowser/userscripts/view_in_mpv");
   };
 
   home.file = {
