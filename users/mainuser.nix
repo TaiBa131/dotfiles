@@ -69,7 +69,6 @@ in
     "qutebrowser/userscripts/configwithoutjblock".source = ./share/userscripts/configwithoutjblock;
     "qutebrowser/userscripts/follow4chan".source = ./share/userscripts/follow4chan;
     "qutebrowser/userscripts/updatecolors".source = ./share/userscripts/updatecolors;
-    "qutebrowser/userscripts/view_in_mpv".source = (builtins.toPath "${pkgs.qutebrowser}/share/qutebrowser/userscripts/view_in_mpv");
   };
 
   home.file = {
@@ -131,7 +130,6 @@ in
     ranger
     syncthing
     jmtpfs
-    keepassxc
     unrar
     zip
     unzip
@@ -152,6 +150,7 @@ in
     wget
     lynx
     weechat
+    keepassxc
     ####Torrenting Linux ISOs
     deluge
     ####mail
