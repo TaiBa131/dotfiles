@@ -14,21 +14,43 @@ def setuplogging():
     logging.addLevelName(logging.INFO, '\033[1;32mI')
 
 
-def extracolor(type):
-    rgb=list(int(background.strip('#')[i:i+2], 16) for i in (0, 2, 4))
+def extracolors(type):
+    rgb1=list(int(background.strip('#')[i:i+2], 16) for i in (0, 2, 4))
+    rgb2=list(int(background.strip('#')[i:i+2], 16) for i in (0, 2, 4))
     if type=='light':
         for i in range(0,3):
-            rgb[i]=rgb[i]-35
+            rgb1[i]='{:02x}'.format(rgb1[i]-35)
+            rgb2[i]='{:02x}'.format(rgb2[i]+35)
+            if len(rgb2[i])==1:
+                rgb2[i]='0'+rgb2[i]
+            elif '-' in rgb2[i]:
+                rgb2[i]='00'
     else:
         for i in range(0,3):
-            rgb[i]=rgb[i]+35
-    extra='#{:02x}{:02x}{:02x}'.format(rgb[0],rgb[1],rgb[2])
+            rgb1[i]='{:02x}'.format(rgb1[i]+35)
+            rgb2[i]='{:02x}'.format(rgb2[i]-35)
+            if len(rgb2[i])==1:
+                rgb2[i]='0'+rgb2[i]
+            elif '-' in rgb2[i]:
+                rgb2[i]='00'
+    extra1=f'#{rgb1[0]}{rgb1[1]}{rgb1[2]}'
+    extra2=f'#{rgb2[0]}{rgb2[1]}{rgb2[2]}'
     f=open(f'{HOME}/.cache/wal/colors.Xresources','a')
-    f.write(f'*lighter :{extra}\n')
+    f.write(f'*lighter :{extra1}\n')
     f.close()
     f=open(f'{HOME}/.cache/wal/colorspython.py','a')
-    f.write(f'color16=\'{extra}\'\n')
+    f.write(f'color16=\'{extra1}\'\n')
+    f.write(f'color17=\'{extra2}\'\n')
     f.close()
+    f=open(f'{HOME}/.cache/wal/colors.css','r')
+    contents=f.readlines()
+    f.close()
+    contents.insert(len(contents)-1,f'    --color16: {extra1};\n')
+    contents.insert(len(contents)-1,f'    --color17: {extra2};\n')
+    f=open(f'{HOME}/.cache/wal/colors.css','w')
+    f.writelines(contents)
+    f.close()
+
 
 
 setuplogging()
@@ -73,7 +95,7 @@ sys.path.append(f'{HOME}/.cache/wal')
 from colorspython import *
 
 
-extracolor(type)
+extracolors(type)
 
 f=open(f'{HOME}/.cache/wal/args','w')
 f.write(f'{args}\n')

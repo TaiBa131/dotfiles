@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 let
-  inherit (import ../variables.nix) nixosConfigDir;
+  inherit (import ../variables.nix) nixosConfigDir mainUser;
 in
 {
   imports = [
@@ -30,7 +30,7 @@ in
     "deluge/plugins/SequentialDownload-1.0-py2.7.egg".source= ./configs/delugesequential.egg;
     "dunst/dunstrc".source= ./configs/dunstrc;
     "homepage/index.html".source= ./configs/homepage.html;
-    "homepage/style.css".source= ./configs/homepage.css;
+    "homepage/style.css".text= builtins.replaceStrings ["mainuser"] ["${mainUser}"] (builtins.readFile ./configs/homepage.css);
     "i3/config".source = ./configs/i3config;
     "i3blocks/config".source = ./configs/i3blocksconfig;
     "kitty/kitty.conf".source = ./configs/kitty.conf;
