@@ -8,11 +8,10 @@ def extracolor():
     extra1=color16
     extra2=color17
     f=open(f'{HOME}/.cache/wal/colors.Xresources','a')
-    f.write(f'*lighter :{extra1}\n')
+    f.write(f'*lighter :{extra1}\n*darker :{extra2}\n')
     f.close()
     f=open(f'{HOME}/.cache/wal/colorspython.py','a')
-    f.write(f'color16=\'{extra1}\'\n')
-    f.write(f'color17=\'{extra2}\'\n')
+    f.write(f'color16=\'{extra1}\'\ncolor17=\'{extra2}\'\n')
     f.close()
     f=open(f'{HOME}/.cache/wal/colors.css','r')
     contents=f.readlines()

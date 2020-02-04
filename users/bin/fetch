@@ -1,9 +1,10 @@
 #!/usr/bin/env sh
 
 # user is already defined
+. /etc/os-release
 host="$(hostname)"
 kernel="$(uname --kernel-release)"
-os="NixOS $(nixos-version | awk '{print $2}' | sed 's/(//;s/)//')"
+os="$NAME $(echo $VERSION_CODENAME | sed 's/./\u&/')"
 uptime="$(uptime | awk -F, '{sub(".*up ",x,$1);print $1}' | sed -e 's/^[ \t]*//')"
 #packages="$(find /nix/store -maxdepth 1 -type d | wc -l)"
 packages=$(nix-store -q --requisites /run/current-system/sw ~/.nix-profile/ | wc -l)

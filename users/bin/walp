@@ -3,6 +3,7 @@ import sys, subprocess, os, logging, re
 
 FNULL = open(os.devnull, 'w')
 HOME=os.path.expanduser('~')
+wallpaper=None
 
 
 def setuplogging():
@@ -23,8 +24,8 @@ def extracolors(type):
             rgb2[i]='{:02x}'.format(rgb2[i]+35)
             if len(rgb2[i])==1:
                 rgb2[i]='0'+rgb2[i]
-            elif '-' in rgb2[i]:
-                rgb2[i]='00'
+            elif len(rgb2[i])==3:
+                rgb2[i]='ff'
     else:
         for i in range(0,3):
             rgb1[i]='{:02x}'.format(rgb1[i]+35)
@@ -36,11 +37,10 @@ def extracolors(type):
     extra1=f'#{rgb1[0]}{rgb1[1]}{rgb1[2]}'
     extra2=f'#{rgb2[0]}{rgb2[1]}{rgb2[2]}'
     f=open(f'{HOME}/.cache/wal/colors.Xresources','a')
-    f.write(f'*lighter :{extra1}\n')
+    f.write(f'*lighter :{extra1}\n*darker :{extra2}\n')
     f.close()
     f=open(f'{HOME}/.cache/wal/colorspython.py','a')
-    f.write(f'color16=\'{extra1}\'\n')
-    f.write(f'color17=\'{extra2}\'\n')
+    f.write(f'color16=\'{extra1}\'\ncolor17=\'{extra2}\'\n')
     f.close()
     f=open(f'{HOME}/.cache/wal/colors.css','r')
     contents=f.readlines()
@@ -50,7 +50,6 @@ def extracolors(type):
     f=open(f'{HOME}/.cache/wal/colors.css','w')
     f.writelines(contents)
     f.close()
-
 
 
 setuplogging()
@@ -64,6 +63,14 @@ if '-l' in cmd:
 else:
     args=''
     type='dark'
+
+if '--choose-wallpaper' in cmd:
+    cmd.remove('--choose-wallpaper')
+    wallpaper=subprocess.check_output('sxiv -obqft ~/pix/wallpapers/*',shell=True,text=True).strip().split('\n')[0]
+    if wallpaper == '':
+        logging.info('No wallpaper set')
+        exit()
+
 if '--theme' in cmd:
     theme=cmd[cmd.index('--theme')+1]
     if theme is None:
@@ -80,14 +87,25 @@ elif '-r' in cmd:
 elif len(cmd) > 0:
     wallpaper=cmd[0]
     args=f'-i {wallpaper} '+args
-else:
-    wallpaper=subprocess.check_output('sxiv -obqft ~/pix/wallpapers/*',shell=True,text=True).strip().split()[0]
-    if wallpaper is None:
+elif wallpaper is not None:
+    process=subprocess.Popen(['feh','--bg-fill',wallpaper])
+    logging.info('Changed wallpaper')
+    exit()
+elif wallpaper is None:
+    wallpaper=subprocess.check_output('sxiv -obqft ~/pix/wallpapers/*',shell=True,text=True).strip().split('\n')[0]
+    if wallpaper == '':
         logging.info('No wallpaper set')
         exit()
     args=f'-i {wallpaper} '+args
+else:
+    logging.info('Nothing to do')
+    exit()
 
-process=subprocess.run(f'wal -e {args}',shell=True)
+
+if wallpaper is not None:
+    process=subprocess.Popen(['feh','--bg-fill',wallpaper])
+    logging.info('Changed wallpaper')
+process=subprocess.run(f'wal -e -n {args}',shell=True)
 if process.returncode != 0:
     exit()
 

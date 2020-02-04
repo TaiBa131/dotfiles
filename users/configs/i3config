@@ -27,6 +27,7 @@ set_from_resource $color5 i3wm.color5 #f0f0f0
 set_from_resource $color6 i3wm.color6 #f0f0f0
 set_from_resource $color7 i3wm.color7 #f0f0f0
 set_from_resource $lighter i3wm.lighter #f0f0f0
+set_from_resource $darker i3wm.darker #f0f0f0
 
 # class        border  backgr. text indicator child_border
 client.focused $lighter $lighter $foreground $lighter $lighter

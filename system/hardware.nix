@@ -25,7 +25,6 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
   hardware.enableAllFirmware = true;
-  boot.extraModprobeConfig = "options rtl8723be fwlps=0";
   boot.kernel.sysctl = {"vm.swappiness" = 10;};
 
 
