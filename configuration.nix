@@ -6,6 +6,7 @@
       ./system/hardware.nix
       ./system/general-options.nix
       ./system/packages.nix
+      ./system/services.nix
       ./system/fonts.nix
 
       #users + home-manager

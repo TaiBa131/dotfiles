@@ -41,7 +41,7 @@ pkgs.neovim.override {
       autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
       " Goyo
-      map <leader>f :Goyo<CR> :colorscheme desert<CR>
+      map <leader>g :Goyo<CR> :colorscheme desert<CR>
 
       " Spell-check set to <leader>o, 'o' for 'orthography':
       map <leader>o :setlocal spell! spelllang=fr,en<CR>
@@ -65,8 +65,9 @@ pkgs.neovim.override {
 
       " open up vim.nix
         map <leader>v <Esc>:vsplit /etc/nixos/pkgs/overrides/vim.nix<Enter>
-      	inoremap <leader>v <Esc>:vsplit /etc/nixos/pkgs/overrides/vim.nix<Enter>
-      	vnoremap <leader>v <Esc>:vsplit /etc/nixos/pkgs/overrides/vim.nix<Enter>
+
+      " open up ranger
+        map <leader>f <Esc>:RangerVSplit<Enter>
 
       " set nohlsearch
       	nnoremap <Esc> :noh<return><Esc>
@@ -77,7 +78,6 @@ pkgs.neovim.override {
           source ~/.extravimrc
         endif
       endif
-
 
       """LATEX
         " Compile document, be it groff/LaTeX/markdown/etc.
@@ -146,6 +146,7 @@ pkgs.neovim.override {
         vim-nix
         supertab
         wal-vim
+        ranger-vim
       ];
       opt = [ ];
     };

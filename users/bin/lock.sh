@@ -3,9 +3,7 @@
 lockcommand() {\
 	touch /tmp/lockscreen.lock
 	pulsemixer --mute
-	maim -u -m 5 /tmp/screen.jpg
-	convert /tmp/screen.jpg -scale 10% -scale 1000% /tmp/screen.jpg
-	convert /tmp/screen.jpg ${HOME}/.config/i3/lockicon.png -gravity center -composite -matte -resize 1366x768 RGB:- | i3lock --raw 1366x768:rgb --image /dev/stdin -e -f
+	i3lock-fancy
 	sleep 1
 	xset dpms force off
 	xidlehook \
@@ -20,18 +18,15 @@ lockcommand() {\
 	    '' &
 	while true; do
 		sleep 1
-		if ! pgrep i3lock > /dev/null; then pkill -n xidlehook && break; fi
+		if ! pgrep i3lock-fancy > /dev/null; then pkill -n xidlehook && break; fi
 	done
-	rm /tmp/screen.jpg
 	sleep 5
 	rm /tmp/lockscreen.lock
 	}
 
 bypass() {\
 	pulsemixer --mute
-	maim -u /tmp/screen.jpg
-	convert /tmp/screen.jpg -scale 10% -scale 1000% /tmp/screen.jpg
-	convert /tmp/screen.jpg ${HOME}/.config/i3/lockicon.png -gravity center -composite -matte -resize 1366x768 RGB:- | i3lock --raw 1366x768:rgb --image /dev/stdin -e -f
+	i3lock-fancy
 	sleep 1
 	xset dpms force off
 	xidlehook \
@@ -46,9 +41,8 @@ bypass() {\
 	    '' &
 	while true; do
 		sleep 1
-		if ! pgrep i3lock > /dev/null; then pkill -n xidlehook && break; fi
+		if ! pgrep i3lock-fancy > /dev/null; then pkill -n xidlehook && break; fi
 	done
-	rm /tmp/screen.jpg
 	}
 
 

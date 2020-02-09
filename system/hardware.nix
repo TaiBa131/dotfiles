@@ -5,8 +5,6 @@
     [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
     ];
 
-
-
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/42cdbf35-3300-450f-bb0f-d941906cd77e";
       fsType = "ext4";
@@ -16,8 +14,6 @@
     [ { device = "/dev/disk/by-uuid/796a75e3-4533-4d06-9303-0a20ddd8e66b"; }
     ];
 
-
-
   #kernel
   boot.kernelParams = [ "pci=noaer" ];
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "sd_mod" "sr_mod" "rtsx_pci_sdmmc" ];
@@ -26,7 +22,6 @@
   boot.extraModulePackages = [ ];
   hardware.enableAllFirmware = true;
   boot.kernel.sysctl = {"vm.swappiness" = 10;};
-
 
   # Enable sound.
   sound.enable = true;
@@ -55,7 +50,6 @@
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
   };
-
 
   #Graphics drivers and screen tear fix
   services.xserver = {

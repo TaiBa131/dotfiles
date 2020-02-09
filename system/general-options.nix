@@ -20,47 +20,10 @@ in
     defaultLocale = "en_US.UTF-8";
   };
 
-  services.xserver = {
-    layout = "fr";
-    xkbOptions = "caps:swapescape";
-  };
   #time zone.
   time.timeZone = "Africa/Tunis";
 
-  #Login prompt
-  services.mingetty.helpLine = "If you're not Iheb, Please leave this computer alone";
   documentation.doc.enable = false;
-
-  # Maybe this one day will be useful
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-  services.printing.drivers = with pkgs; [ gutenprint ];
-
-  #for scripts running in the background
-  services.cron.enable = true;
-  services.cron.systemCronJobs = [
-    "0 22 * * * root updatedb"
-    "*/6 * * * * ${mainUser} i3-msg -s $(cat $HOME/.i3_socket) -- exec checklowbattery.sh"
-    "*/15 * * * * ${mainUser} i3-msg -s $(cat $HOME/.i3_socket) -- exec newsboat -x reload"
-    "*/10 * * * * ${mainUser} i3-msg -s $(cat $HOME/.i3_socket) -- exec mailsync"
-    "*/7 * * * * ${mainUser} i3-msg -s $(cat $HOME/.i3_socket) -- exec webdiff" ];
-
-  #lockscreen on sleep
-  systemd.services.i3suspend = {
-    enable = true;
-    before = [ "sleep.target" "suspend.target" ];
-    description = "lockscreen on lid close";
-    serviceConfig = {
-      Type = "oneshot";
-      User = "${mainUser}";
-      ExecStart = pkgs.writeScript "laptopsleepmode.sh" ''
-        #! /bin/sh
-        ${pkgs.i3-gaps}/bin/i3-msg -s $(cat /home/${mainUser}/.i3_socket) -- exec suspend.sh
-        sleep 2
-        '';
-      };
-    wantedBy = [ "sleep.target" "suspend.target" ];
-  };
 
   #sudoers file
   security.sudo.extraConfig = ''

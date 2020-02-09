@@ -3,8 +3,7 @@
 lockcommand() {\
 	touch /tmp/lockscreen.lock
 	pulsemixer --mute
-	#i3lock -i ${HOME}/.config/i3/suspendscreen.jpg -e -f
-	convert ${HOME}/.config/i3/suspendscreen.jpg RGB:- | i3lock --raw 1366x768:rgb --image /dev/stdin -e -f
+	i3lock-fancy -p
 	xidlehook \
 	  --timer normal 10 \
 	    'xset dpms force off' \
@@ -21,7 +20,7 @@ lockcommand() {\
 
 bypass() {\
 	pulsemixer --mute
-	i3lock -i ${HOME}/.config/i3/suspendscreen.png -e -f
+	i3lock-fancy -p
 	xidlehook \
 	  --timer normal 10 \
 	    'xset dpms force off' \

@@ -64,6 +64,7 @@ in
     "mutt-wizard".source = ./share/mutt-wizard;
     "qutebrowser/greasemonkey/4chanx.user.js".source = builtins.fetchurl "https://www.4chan-x.net/builds/4chan-X.user.js";
     "qutebrowser/greasemonkey/ffz.user.js".source = builtins.fetchurl "https://cdn.frankerfacez.com/static/ffz_injector.user.js";
+    "qutebrowser/greasemonkey/4chancss.user.js".source = ./share/userscripts/4chancssuserscript;
     "qutebrowser/userscripts/changetogoogle".source = ./share/userscripts/changetogoogle;
     "qutebrowser/userscripts/configwithhostblocking".source = ./share/userscripts/configwithhostblocking;
     "qutebrowser/userscripts/configwithoutjblock".source = ./share/userscripts/configwithoutjblock;
@@ -96,6 +97,8 @@ in
     gawk
     jq
     python3
+    go
+    gcc
     ####audio
     pavucontrol
     pulsemixer
@@ -175,7 +178,8 @@ in
     ##i3
     bemenu
     i3blocks
-    i3lock
+    personalblocks
+    i3lock-fancy
     dunst
     maim
     redshift

@@ -1,58 +1,58 @@
 separator_block_width=13
 
 [sounds]
-command=~/.local/bin/blocks/sounds
+command=personalblocks sounds
 signal=3
 interval=once
 
 [music]
-command=~/.local/bin/blocks/music
+command=personalblocks music
 label=
 interval=once
 signal=11
 
 [volume]
-command=~/.local/bin/blocks/volume
+command=personalblocks volume
 interval=once
 signal=10
 
 [screenawake]
-command=~/.local/bin/blocks/screenawake
+command=personalblocks screenawake
 interval=once
 signal=4
 
 [screencast]
-command=~/.local/bin/blocks/screencast
+command=personalblocks screencast
 interval=once
 signal=2
 
 [mail]
-command=~/.local/bin/blocks/mail
+command=personalblocks mail
 interval=15
 signal=12
 
 [torrent]
-command=~/.local/bin/blocks/torrent
+command=personalblocks torrent
 interval=30
 
 [news]
-command=~/.local/bin/blocks/news
+command=personalblocks news
 interval=15
 
 [disk]
-command=~/.local/bin/blocks/root
+command=personalblocks root
 interval=60
 
 [battery]
-command=~/.local/bin/blocks/battery
+command=personalblocks battery
 interval=60
 signal=8
 
 [time]
-command=~/.local/bin/blocks/dateblock
+command=personalblocks time
 interval=18
 
 [nmblocks]
-command=~/.local/bin/blocks/nmblocks
+command=personalblocks nmblocks
 interval=once
 signal=5

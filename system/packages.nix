@@ -19,15 +19,6 @@
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-kde ];
 
-  services.xserver = {
-    windowManager.i3 = {
-      enable = true;
-      package = pkgs.i3-gaps;
-    };
-    displayManager.startx.enable = true;
-  };
-
-
   #bash options and bash_profile
   programs.bash.enableCompletion = true;
 
@@ -37,9 +28,6 @@
   programs.gnupg.agent = {
    enable = true;
   };
-
-  #brightness control
-  services.illum.enable = true;
 
   #weechat IRC client
   programs.screen.screenrc = ''

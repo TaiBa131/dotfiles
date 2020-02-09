@@ -1,0 +1,71 @@
+// ==UserScript==
+// @name          4Chan custom css
+// @namespace     http://userstyles.org
+// @include       http://4channel.org/*
+// @include       https://4channel.org/*
+// @include       http://*.4channel.org/*
+// @include       https://*.4channel.org/*
+// @include       http://4chan.org/*
+// @include       https://4chan.org/*
+// @include       http://*.4chan.org/*
+// @include       https://*.4chan.org/*
+// @run-at        document-start
+// ==/UserScript==
+(function() {var css = [
+	"div.post blockquote.postMessage{",
+	"    margin:0.5em;",
+	"}",
+	"div.sideArrows{",
+	"    display:none;",
+	"}",
+	"div.backlink{",
+	"    display:block!important;",
+	"}",
+	"s, s a:not(:hover){",
+	"    color:#ffffff!important;",
+	"}",
+	".party-hat{",
+	"    display:none;",
+	"}",
+	"div.reply div.post{",
+	"    padding:1px;",
+	"  margin:0;",
+	"}",
+	"#qrFile{",
+	"    width:100%;",
+	"}",
+	".extended-small .thread{",
+	"  max-height:9999px!important;",
+	"}",
+	"#bannerCnt{",
+	"    display: none;",
+	"}",
+	"#blotter{",
+	"    display: none;",
+	"}",
+	".banner{",
+	"    display: none;",
+	"}",
+	".middlead{",
+	"    display: none;",
+	"}"
+].join("\n");
+if (typeof GM_addStyle != "undefined") {
+	GM_addStyle(css);
+} else if (typeof PRO_addStyle != "undefined") {
+	PRO_addStyle(css);
+} else if (typeof addStyle != "undefined") {
+	addStyle(css);
+} else {
+	var node = document.createElement("style");
+	node.type = "text/css";
+	node.appendChild(document.createTextNode(css));
+	var heads = document.getElementsByTagName("head");
+	if (heads.length > 0) {
+		heads[0].appendChild(node);
+	} else {
+		// no head yet, stick it whereever
+		document.documentElement.appendChild(node);
+	}
+}
+})();

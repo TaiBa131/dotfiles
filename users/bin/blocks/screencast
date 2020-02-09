@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-[ -z "$BLOCK_BUTTON" ] && pgrep -f "ffmpeg -f x11grab" > /dev/null && echo ''
-case $BLOCK_BUTTON in
-    1) pkill -f "ffmpeg -f x11grab" && notify-send ' Killed Screencast';;
-    3) pkill -f "ffmpeg -f x11grab" && notify-send ' Killed Screencast';;
-esac

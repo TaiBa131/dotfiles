@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-case $BLOCK_BUTTON in
-    1) rm /tmp/lockscreen.lock && notify-send ' Automatic screenlock is now enabled';;
-    3) rm /tmp/lockscreen.lock && notify-send ' Automatic screenlock is now enabled';;
-esac
-[ -f /tmp/lockscreen.lock ] && echo ''

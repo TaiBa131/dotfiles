@@ -218,7 +218,7 @@ bindsym $mod+m bar mode toggle
 
 #Take screenshot
 bindsym $mod+shift+F11 exec maimmenu
-bindsym $mod+F11 exec maim -u "$(date '+%Y-%m-%d-%H:%M:%S')-full".png
+bindsym $mod+F11 exec maim -u "$(date '+%Y-%m-%d-%s')-full".png
 
 #lock screen / suspend
 bindsym $mod+F12 exec keepscreenawake.sh

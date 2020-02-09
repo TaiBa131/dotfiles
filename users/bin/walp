@@ -144,7 +144,3 @@ if wallpaper == 'None':
     f=open(f'{HOME}/.cache/wal/colorspython.py','a')
     f.write(f'wallpaper=\'{wallpaper}\'\n')
     f.close()
-else:
-    imagemagickcommand = f'convert {wallpaper} -resize "1366^x768" -crop 1366x768+0+0 {HOME}/.config/i3/lockicon.png -gravity center -composite -matte {HOME}/.config/i3/suspendscreen.jpg'
-    subprocess.run(imagemagickcommand,shell=True)
-    logging.info('Reloaded suspend screen')
