@@ -16,6 +16,7 @@ in
     zathura-poppler-only = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/overrides/zathurapoppler.nix") { };
 
 
+    mutt-wizard = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/mutt-wizard") { };
     personalblocks = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/personalblocks") { };
     ueberzug = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/ueberzug") { };
     nudoku = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/nudoku") { };

@@ -117,17 +117,17 @@ c.aliases['pywal'] = 'spawn --userscript updatecolors;; config-source ~/.config/
 config.bind('U', 'spawn --userscript configwithoutjblock;; config-source ~/.config/qutebrowser/configwithoutjblock.py')
 
 c.downloads.location.directory = f'{HOME}/downloads'
-c.downloads.location.remember = False
-config.bind(',w', 'set downloads.location.directory ~/pix/wallpapers/;; hint links download')
+c.downloads.location.remember = True
+config.bind(',w', 'set downloads.location.directory ~/pix/wallpapers/;; hint images download')
 config.bind(',h', 'set downloads.location.directory ~/;; hint links download')
 config.bind(',d', 'set downloads.location.directory ~/downloads/;; hint links download')
-config.bind(',o', 'set downloads.location.directory ~/pix/other/;; hint links download')
-config.bind(',d', 'set downloads.location.directory ~/downloads/;; hint links download')
+config.bind(',o', 'set downloads.location.directory ~/pix/other/;; hint images download')
 config.bind(',v', 'set downloads.location.directory ~/videos/Other;; hint links download')
 config.bind(',p', 'set downloads.location.directory ~/other/podcasts/;; download')
 
 config.bind('sh', 'spawn thumbnailfilepicker')
 config.bind(',m', 'spawn --userscript view_in_mpv')
+config.bind(',i', 'hint images run open -t {hint-url}')
 config.bind(',g', 'spawn --userscript changetogoogle')
 config.bind('C', 'tab-clone -w;; tab-close')
 config.bind(',y', 'hint links yank')

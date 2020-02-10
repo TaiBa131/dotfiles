@@ -21,7 +21,15 @@ in
     source ${nixosConfigDir}/users/configs/zshrc
   '';
 
-  xdg.userDirs.download = "\$HOME/downloads";
+  xdg.userDirs = {
+    download = "\$HOME/downloads";
+    desktop = "\$HOME";
+    documents = "\$HOME/dox";
+    music = "\$HOME/music";
+    pictures = "\$HOME/pix";
+    templates = "\$HOME";
+    videos = "\$HOME/videos";
+  };
 
   xdg.configFile = {
     "compton/compton.conf".source= ./configs/compton.conf;
@@ -34,6 +42,7 @@ in
     "i3/config".source = ./configs/i3config;
     "i3blocks/config".source = ./configs/i3blocksconfig;
     "kitty/kitty.conf".source = ./configs/kitty.conf;
+    "mutt/mutt-wizard.muttrc".source = (builtins.toPath "${pkgs.mutt-wizard}/share/mutt-wizard.muttrc");
     "mpd/mpd.conf".source = ./configs/mpd.conf;
     "mpv/mpv.conf".source = ./configs/mpv.conf;
     "mpv/input.conf".source = ./configs/mpvinput.conf;
@@ -61,7 +70,6 @@ in
 
   xdg.dataFile = {
     "applications".source = ./share/applications;
-    "mutt-wizard".source = ./share/mutt-wizard;
     "qutebrowser/greasemonkey/4chanx.user.js".source = builtins.fetchurl "https://www.4chan-x.net/builds/4chan-X.user.js";
     "qutebrowser/greasemonkey/ffz.user.js".source = builtins.fetchurl "https://cdn.frankerfacez.com/static/ffz_injector.user.js";
     "qutebrowser/greasemonkey/4chancss.user.js".source = ./share/userscripts/4chancssuserscript;
@@ -151,18 +159,19 @@ in
     qutebrowser
     youtube-dl
     wget
-    lynx
     weechat
     keepassxc
     ####Torrenting Linux ISOs
     deluge
-    ####mail
+    ####neomutt extras
+    mutt-wizard
     neomutt
     isync
     msmtp
     pass
     gnupg
     notmuch
+    lynx
     ####gaymen
     wineWowPackages.staging
     winetricks
