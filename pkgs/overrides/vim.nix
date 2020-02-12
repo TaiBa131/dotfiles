@@ -28,6 +28,10 @@ pkgs.neovim.override {
       set clipboard=unnamedplus
       set encoding=utf-8
 
+      "vimwiki
+      let g:vimwiki_list = [{'path': '~/vimwiki/',
+              \ 'syntax': 'markdown', 'ext': '.md'}]
+
       "airline
       let g:airline_theme='base16color'
 
@@ -81,10 +85,10 @@ pkgs.neovim.override {
 
       """LATEX
         " Compile document, be it groff/LaTeX/markdown/etc.
-        autocmd FileType tex map <leader>c :w! \| !compilelatex <c-r>%<CR>
+        autocmd FileType tex,md,go,py,vimwiki map <leader>c :w! \| !compiler <c-r>%<CR>
 
         " Open corresponding .pdf/.html or preview
-        autocmd FileType tex map <leader>p :!openpreview <c-r>%<CR><CR>
+        autocmd FileType tex,md,vimwiki map <leader>p :!openpreview <c-r>%<CR><CR>
 
         " Runs a script that cleans out tex build files whenever I close out of a .tex file.
       	autocmd VimLeave *.tex !texclear %
@@ -147,6 +151,7 @@ pkgs.neovim.override {
         supertab
         wal-vim
         ranger-vim
+        vimwiki
       ];
       opt = [ ];
     };

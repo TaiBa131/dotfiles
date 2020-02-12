@@ -17,6 +17,7 @@ in
 
 
     mutt-wizard = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/mutt-wizard") { };
+    diary = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/diary") { };
     personalblocks = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/personalblocks") { };
     ueberzug = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/ueberzug") { };
     nudoku = pkgs.callPackage (builtins.toPath "${nixosConfigDir}/pkgs/nudoku") { };

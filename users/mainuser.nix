@@ -33,6 +33,7 @@ in
 
   xdg.configFile = {
     "compton/compton.conf".source= ./configs/compton.conf;
+    "css-collection/markdown.css".source= ./configs/cssmarkdown;
     "deluge/blocklist.conf".source= ./configs/delugeblocklist;
     "deluge/plugins/Pieces-0.5-py2.7.egg".source= ./configs/delugepieces.egg;
     "deluge/plugins/SequentialDownload-1.0-py2.7.egg".source= ./configs/delugesequential.egg;
@@ -178,6 +179,7 @@ in
     nudoku
     ripcord
     ####misc
+    diary
     tty-clock
     calcurse
     newsboat

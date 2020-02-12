@@ -4,4 +4,5 @@ basename="$(echo "$*" | sed 's/\.[^\/.]*$//')"
 
 case "$*" in
 	*.tex) setsid zathura-poppler-only "$basename.pdf" >/dev/null 2>&1 & ;;
+	*.md) setsid $BROWSER "$basename.html" >/dev/null 2>&1 & ;;
 esac

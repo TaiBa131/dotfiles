@@ -47,9 +47,9 @@ in
       Type = "oneshot";
       User = "${mainUser}";
       ExecStart = pkgs.writeScript "laptopsleepmode.sh" ''
-        #! /bin/sh
+        #!${pkgs.stdenv.shell}
         ${pkgs.i3-gaps}/bin/i3-msg -s $(cat /home/${mainUser}/.i3_socket) -- exec suspend.sh
-        sleep 2
+        sleep 5
         '';
       };
     wantedBy = [ "sleep.target" "suspend.target" ];
