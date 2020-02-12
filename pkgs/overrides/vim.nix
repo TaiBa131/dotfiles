@@ -45,7 +45,7 @@ pkgs.neovim.override {
       autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
       " Goyo
-      map <leader>g :Goyo<CR> :colorscheme desert<CR>
+      map <leader>g :Goyo<CR> :colorscheme wal<CR>
 
       " Spell-check set to <leader>o, 'o' for 'orthography':
       map <leader>o :setlocal spell! spelllang=fr,en<CR>
