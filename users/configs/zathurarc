@@ -9,6 +9,5 @@ map ,u feedkeys "o<BackSpace><BackSpace><BackSpace><BackSpace><BackSpace>exec up
 map r recolor
 map <C-r> rotate
 set selection-clipboard clipboard
-set font "Terminus 12"
 set statusbar-home-tilde true
 set window-title-home-tilde true

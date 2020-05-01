@@ -7,6 +7,6 @@ Also hardware.nix will probably not work if you don't use the same hardware as m
 
 I save my secrets in the users/private directory with a file called secrets.nix (not in this repo for obvious reasons). This file is then imported into my user file which is mainuser.nix.
 
-I use the nixos stable channel
+I use the nixos stable channel 20.03
 
 ![screenshot](rice.png)

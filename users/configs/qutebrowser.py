@@ -125,6 +125,7 @@ config.bind(',o', 'set downloads.location.directory ~/pix/other/;; hint links do
 config.bind(',v', 'set downloads.location.directory ~/videos/Other;; hint links download')
 config.bind(',p', 'set downloads.location.directory ~/other/podcasts/;; download')
 
+config.bind(',ar', 'open -t file:///home/iheb/.config/transliteration/transliteration.html')
 config.bind('sh', 'spawn thumbnailfilepicker')
 config.bind(',m', 'spawn --userscript view_in_mpv')
 config.bind(',i', 'hint images run open -t {hint-url}')
@@ -145,9 +146,10 @@ config.bind(',D', 'hint all delete')
 
 #Other Options {{{
 c.fonts.downloads = '9pt DejaVu Sans'
+c.fonts.prompts = '10pt DejaVu Sans'
 c.fonts.tabs = '9pt DejaVu Sans'
-c.fonts.monospace = 'Terminus'
-c.fonts.statusbar = '10pt monospace'
+c.fonts.default_family = 'monospace'
+c.fonts.default_size = '11pt'
 
 c.fonts.hints = '11pt DejaVu Sans Bold'
 c.hints.border = '1px solid ' + foreground
@@ -155,6 +157,9 @@ c.hints.border = '1px solid ' + foreground
 c.completion.web_history.max_items = 0
 
 c.content.cookies.store = True
+
+c.input.insert_mode.auto_load = False
+c.input.insert_mode.leave_on_load = False
 
 c.tabs.indicator.width = 0
 

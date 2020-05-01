@@ -5,7 +5,7 @@ let
 in
 {
   services = {
-  #Login prompt
+    #Login prompt
     mingetty.helpLine = "If you're not Iheb, Please leave this computer alone";
 
     xserver = {
@@ -34,8 +34,7 @@ in
       "0 22 * * * root updatedb"
       "*/6 * * * * ${mainUser} i3-msg -s $(cat $HOME/.i3_socket) -- exec checklowbattery.sh"
       "*/15 * * * * ${mainUser} i3-msg -s $(cat $HOME/.i3_socket) -- exec newsboat -x reload"
-      "*/10 * * * * ${mainUser} i3-msg -s $(cat $HOME/.i3_socket) -- exec mailsync"
-      "*/7 * * * * ${mainUser} i3-msg -s $(cat $HOME/.i3_socket) -- exec webdiff" ];
+      "*/10 * * * * ${mainUser} i3-msg -s $(cat $HOME/.i3_socket) -- exec mailsync" ];
   };
 
   #lockscreen on sleep

@@ -14,11 +14,12 @@ in
   networking.hostName = "hera"; #hostname.
   networking.networkmanager.enable = true; #networking via networkmanager
 
-  i18n = {
-    consoleFont = "Lat2-Terminus16";
-    consoleUseXkbConfig = true;
-    defaultLocale = "en_US.UTF-8";
+  console = {
+    font = "Lat2-Terminus16";
+    useXkbConfig = true;
   };
+
+  i18n.defaultLocale = "en_US.UTF-8";
 
   #time zone.
   time.timeZone = "Africa/Tunis";

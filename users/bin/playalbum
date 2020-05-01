@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+
+. $HOME/.cache/wal/colors.sh
+alias bemenu='bemenu --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b -i --scrollbar always'
+
+
+chosen=$(mpc -q update
+mpc listall -f "[%albumartist% – ][%album%]" |\
+awk '!seen[$0]++' |\
+bemenu -p 'choose an album: ' -l 20)
+
+
+[ -z "$chosen" ] && exit
+
+albumartist=$(echo "$chosen" | sed -e 's/\(.*\) – .*/\1/;s/"/\\"/g')
+album=$(echo "$chosen" | sed -e 's/.* – \(.*\)/\1/;s/"/\\"/g')
+phrase="mpc find albumartist \"$albumartist\" album \"$album\""
+echo $phrase
+mpc -q random off
+mpc -q clear
+eval "$phrase" | mpc -q add
+mpc -q play

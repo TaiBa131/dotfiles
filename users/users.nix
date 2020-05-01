@@ -2,7 +2,7 @@
 
 let
   inherit (import ../variables.nix) mainUser;
-  home-manager = import ( builtins.fetchTarball "https://github.com/rycee/home-manager/archive/release-19.09.tar.gz" )  { };
+  home-manager = import ( builtins.fetchTarball "https://github.com/rycee/home-manager/archive/release-20.03.tar.gz" )  { };
 in
 
 {

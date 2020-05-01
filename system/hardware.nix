@@ -69,7 +69,5 @@
   powerManagement = {
     cpuFreqGovernor = lib.mkDefault "powersave";
     powertop.enable = true;
-    cpufreq.max = 3700000;
-    cpufreq.min = 400000;
   };
 }

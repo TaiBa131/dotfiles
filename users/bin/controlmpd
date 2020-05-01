@@ -1,11 +1,12 @@
-#!/bin/sh
-
-# MPD daemon start (if no other user instance exists)
+#!/usr/bin/env sh
 
 while [ ! -z "$DISPLAY" ]; do
 	pgrep -x "mpd" > /dev/null || mpd
-	mpc idle
-	pkill -RTMIN+11 i3blocks
-	pkill -RTMIN+3 i3blocks
+	mpc idleloop | while read; do
+		pid=$(pgrep -f "personalblocks music" | sed "1q")
+		if [ ! -z $pid ]; then tail --pid=$pid -f /dev/null; fi
+		pkill -RTMIN+11 i3blocks
+		pkill -RTMIN+3 i3blocks
+	done
 done
 

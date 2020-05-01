@@ -58,6 +58,7 @@ in
     "ranger/rc.conf".source = ./configs/rangerrc.conf;
     "ranger/rifle.conf".source = ./configs/rangerrifle.conf;
     "ranger/scope.sh".source = ./configs/rangerscope.sh;
+    "transliteration/transliteration.html".source = ./configs/transliteration.html;
     "zathura/zathurarc".source = ./configs/zathurarc;
     "wal/templates/colorskitty.conf".source = ./share/templates/pywalkittytemplate;
     "wal/templates/colorspython.py".source = ./share/templates/pywalpythontemplate.py;
@@ -148,6 +149,7 @@ in
     fzf
     ffmpeg
     appimage-run
+    ark
     ####Ranger utils
     atool
     libarchive
@@ -174,10 +176,8 @@ in
     notmuch
     lynx
     ####gaymen
-    wineWowPackages.staging
-    winetricks
     nudoku
-    ripcord
+    openjdk
     ####misc
     diary
     tty-clock
