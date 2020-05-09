@@ -118,6 +118,7 @@ in
     mpc_cli
     ncmpcpp
     easytag
+    spotify
     ####video
     mpv
     kdenlive

@@ -2,7 +2,7 @@
 . "${HOME}/.cache/wal/colors.sh"
 alias bemenu='bemenu --tf "$background" --fb "$background" --hf "$background" --nb "$background" --sb "$background" --scb "$background" --tb "$foreground" --ff "$foreground"  --nf "$foreground"  --hb "$foreground"  --sf "$foreground"  --scf "$foreground" --fn "sans 9.5" -b --scrollbar always'
 
-case "$(printf "a selected area\\ncurrent window\\nfull screen\\na selected area (copy)\\ncurrent window (copy)\\nfull screen (copy)" | bemenu -l 6 -i -p "Screenshot which area?")" in
+case "$(printf "a selected area\\ncurrent window\\nfull screen\\na selected area (copy)\\ncurrent window (copy)\\nfull screen (copy)\\n" | bemenu -l 6 -i -p "Screenshot which area?")" in
 	"a selected area") maim -u -s -o "$(date '+%Y-%m-%d-%s')-selected.png" ;;
 	"current window") maim -u -i "$(xdotool getactivewindow)" "$(date '+%Y-%m-%d-%s')-window.png" ;;
 	"full screen") maim -u "$(date '+%Y-%m-%d-%s')-full.png" ;;

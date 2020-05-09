@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import sys, subprocess, os, logging, re
+import sys, subprocess, os, logging, re, random
 
 FNULL = open(os.devnull, 'w')
 HOME=os.path.expanduser('~')
@@ -64,6 +64,8 @@ else:
     args=''
     type='dark'
 
+
+
 if '--choose-wallpaper' in cmd:
     cmd.remove('--choose-wallpaper')
     wallpaper=subprocess.check_output('sxiv -obqft ~/pix/wallpapers/*',shell=True,text=True).strip().split('\n')[0]
@@ -71,7 +73,15 @@ if '--choose-wallpaper' in cmd:
         logging.info('No wallpaper set')
         exit()
 
-if '--theme' in cmd:
+if '--random' in cmd:
+    cmd.remove('--random')
+    randomwallpaper=random.choice(os.listdir(f'{HOME}/pix/wallpapers'))
+    wallpaper=f'{HOME}/pix/wallpapers/{randomwallpaper}'
+    if type=='light':
+        args=f'-l -i {wallpaper}'
+    else:
+        args=f'-i {wallpaper}'
+elif '--theme' in cmd:
     theme=cmd[cmd.index('--theme')+1]
     if theme is None:
         logging.info('No theme set')
